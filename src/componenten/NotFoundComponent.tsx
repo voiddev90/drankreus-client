@@ -10,10 +10,10 @@ export default class NotFoundComponent extends React.Component<Props, State>{
 
     render(){
         return (
-            <section className="404-not-found">
+            <div className="404-not-found">
                 <h1 className="post-title">Is de drank nu al op?</h1>
                 <p className="404-text">Sorry, de pagina die je zoekt kunnen wij niet (meer) vinden. Misschien helpt <label htmlFor="search">zoeken</label>?</p>
-            </section>
+            </div>
         )
     }
 }

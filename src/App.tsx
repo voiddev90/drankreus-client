@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
-import Base from './componenten/Base'
+import BaseComponent from './componenten/BaseComponent'
 import LoginComponent from './componenten/LoginComponent';
 import NotFoundComponent from './componenten/NotFoundComponent'
 
@@ -11,16 +11,16 @@ class App extends React.Component {
         <Switch>
           <Route path="/login" render={() => {
             return (
-              <Base>
+              <BaseComponent>
                 <LoginComponent />
-              </Base>
+              </BaseComponent>
             )
           }} />
           <Route render={() => {
             return (
-              <Base>
+              <BaseComponent>
                 <NotFoundComponent />
-              </Base>
+              </BaseComponent>
             )
           }} />
         </Switch>

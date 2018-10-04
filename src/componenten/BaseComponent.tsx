@@ -1,9 +1,10 @@
 import * as React from 'react'
+import HeaderComponent from './HeaderComponent';
 
 type Props = {}
 type State = {}
 
-export default class Base extends React.Component<Props, State>{
+export default class BaseComponent extends React.Component<Props, State>{
     constructor(props: Props){
         super(props)
     }
@@ -11,6 +12,7 @@ export default class Base extends React.Component<Props, State>{
     render() {
         return (
             <>
+                <HeaderComponent />
                 <section className="content">
                     {this.props.children}
                 </section>
