@@ -14,6 +14,8 @@ export default class MainMenuComponent extends React.Component<Props, State> {
             <nav className="main-menu">
                 <ul className="menu">
                     <MenuItemComponent to="/" name="Contact" />
+                    <MenuItemComponent to="/" name="Klantenservice" />
+                    <MenuItemComponent to="/login" name="Inloggen" />
                 </ul>
             </nav>
         )
