@@ -17,7 +17,7 @@ class App extends React.Component {
               </BaseComponent>
             )
           }} />
-          <Route path="/" render={() => {
+          <Route exact={true} path="/" render={() => {
             return (
               <BaseComponent>
                 <HomeComponent />

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { NavLink } from 'react-router-dom';
 
 type Props = {}
 type State = {
@@ -72,7 +73,7 @@ export default class LoginComponent extends React.Component<Props, State> {
                         <input type="password" name="pass" id="pass" placeholder="password" value={this.state.pass} onChange={this.handlePassChange} />
                     </p>
                     <button type="submit" className="btn btn-submit btn-primary">Log in!</button>
-                    <button type="link" className="btn btn-link btn-primary">Registreer</button>
+                    <NavLink to="/register" className="btn btn-link btn-primary">Registreer</NavLink>
                 </form>
             </div>
         )
