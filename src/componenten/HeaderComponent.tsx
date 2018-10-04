@@ -1,5 +1,6 @@
 import * as React from 'react'
 import MainMenuComponent from './MainMenuComponent';
+import { NavLink } from 'react-router-dom';
 
 type Props = {}
 type State = {}
@@ -14,7 +15,7 @@ export default class HeaderComponent extends React.Component<Props, State>{
             <header className="site-header">
                 <div className="site-header-wrapper">
                     <div className="site-title-wrapper">
-                        <h2 className="site-title">DrankReus</h2>
+                        <h2 className="site-title"><NavLink to="/">DrankReus</NavLink></h2>
                     </div>
                     <div className="search-wrapper">
                         <form className="search-form">

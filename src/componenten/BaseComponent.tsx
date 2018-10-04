@@ -13,9 +13,9 @@ export default class BaseComponent extends React.Component<Props, State>{
         return (
             <>
                 <HeaderComponent />
-                <section className="content">
+                <main className="content">
                     {this.props.children}
-                </section>
+                </main>
             </>
         )
     }

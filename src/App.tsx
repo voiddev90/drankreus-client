@@ -10,17 +10,17 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/" render={() => {
-            return (
-              <BaseComponent>
-                <HomeComponent />
-              </BaseComponent>
-            )
-          }} />
           <Route path="/login" render={() => {
             return (
               <BaseComponent>
                 <LoginComponent />
+              </BaseComponent>
+            )
+          }} />
+          <Route path="/" render={() => {
+            return (
+              <BaseComponent>
+                <HomeComponent />
               </BaseComponent>
             )
           }} />
