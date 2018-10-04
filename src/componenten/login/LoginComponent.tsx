@@ -57,10 +57,10 @@ export default class LoginComponent extends React.Component<Props, State> {
 
     render(){
         return (
-            <div className="login-form">
+            <div className="login-form-wrapper">
                 <h2>Inloggen</h2>
                 <p>Inloggen of een profiel aanmaken.</p>
-                <div className="fields">
+                <form className="login-form">
                     <p className="field field-email">
                         <small>{(this.state.emailIsvalidated && this.state.emailIsValid) ? "Email adres is valide."
                             : (this.state.emailIsvalidated && !this.state.emailIsValid) ? "Email adres is invalide" : null}</small>
@@ -73,7 +73,7 @@ export default class LoginComponent extends React.Component<Props, State> {
                     </p>
                     <button type="submit" className="btn btn-submit btn-primary">Log in!</button>
                     <button type="link" className="btn btn-link btn-primary">Registreer</button>
-                </div>
+                </form>
             </div>
         )
     }
