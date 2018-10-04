@@ -1,6 +1,7 @@
 import * as React from 'react';
-import LoginComponent from './componenten/login/LoginComponent';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import LoginComponent from './componenten/LoginComponent';
+import NotFoundComponent from './componenten/NotFoundComponent'
 
 class App extends React.Component {
   public render() {
@@ -8,6 +9,7 @@ class App extends React.Component {
       <BrowserRouter>
         <Switch>
           <Route path="/login" component={LoginComponent} />
+          <Route component={NotFoundComponent} />
         </Switch>
       </BrowserRouter>
     );
