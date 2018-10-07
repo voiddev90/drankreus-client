@@ -11,7 +11,7 @@ type State = {
     pass: string
     passconfirm: string
     postalcodeletters: string
-    postalcodenumbers: string
+    postalcodenumbers: string | undefined
     housenumber: string
     street: string
     city: string
@@ -33,7 +33,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
             pass: "",
             passconfirm: "",
             postalcodeletters: "",
-            postalcodenumbers: "",
+            postalcodenumbers: undefined,
             housenumber: "",
             street: "",
             city: "",
