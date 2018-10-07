@@ -1,4 +1,6 @@
-export class User {
+import Axios, {AxiosResponse} from 'axios'
+
+export type User = {
     Id?: number
     Email: string
     Password: string
@@ -11,4 +13,14 @@ export class User {
     Admin: boolean
 }
 
-export default { User }
+export type WithDataState<T> = 
+    | {
+        type: "loading"
+    }
+    | {
+        type: "loaded"
+        data: AxiosResponse<T>
+    }
+    | {
+        type: "error"
+    }
