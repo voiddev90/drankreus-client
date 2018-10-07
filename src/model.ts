@@ -1,4 +1,4 @@
-type User = {
+export class User {
     Id?: number
     Email: string
     Password: string
@@ -10,3 +10,5 @@ type User = {
     Area?: string
     Admin: boolean
 }
+
+export default { User }
