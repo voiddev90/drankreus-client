@@ -13,14 +13,24 @@ export type User = {
     Admin: boolean
 }
 
+export type Option<T> = 
+    | {
+        kind: "none"
+    }
+    | {
+        kind: "some"
+        value: T
+    }
+
 export type WithDataState<T> = 
     | {
         type: "loading"
     }
     | {
         type: "loaded"
-        data: AxiosResponse<T>
+        data: Option<T>
     }
     | {
         type: "error"
+        error: string
     }
