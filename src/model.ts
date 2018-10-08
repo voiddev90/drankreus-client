@@ -19,7 +19,7 @@ export type Option<T> =
     }
     | {
         kind: "some"
-        value: T
+        value: AxiosResponse<T>
     }
 
 export type WithDataState<T> = 
