@@ -1,6 +1,8 @@
-import {AxiosResponse} from 'axios'
+import Axios, {AxiosResponse} from 'axios'
 
-export type User = {
+const https = require('https')
+
+export class User {
     Id?: number
     Email: string
     Password: string
@@ -34,3 +36,9 @@ export type WithDataState<T> =
         type: "error"
         error: string
     }
+
+export const client = Axios.create({
+    httpsAgent: new https.Agent({  
+        rejectUnauthorized: false
+      })
+})

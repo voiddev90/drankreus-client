@@ -4,6 +4,7 @@ import BaseComponent from './componenten/BaseComponent'
 import LoginComponent from './componenten/LoginComponent';
 import NotFoundComponent from './componenten/NotFoundComponent'
 import HomeComponent from './componenten/HomeComponent';
+import SignUpComponent from './componenten/SignUpComponent';
 
 class App extends React.Component {
   public render() {
@@ -14,6 +15,13 @@ class App extends React.Component {
             return (
               <BaseComponent>
                 <LoginComponent />
+              </BaseComponent>
+            )
+          }} />
+          <Route path="/register" render={() => {
+            return (
+              <BaseComponent>
+                <SignUpComponent />
               </BaseComponent>
             )
           }} />

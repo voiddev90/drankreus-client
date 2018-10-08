@@ -1,22 +1,22 @@
 import * as React from 'react';
+import { User } from '../model';
+import Axios, { AxiosResponse } from 'axios';
 
 type Props = {}
 type State = {
     name: string
     surname: string
     email: string
-    age : string
-    gender: string
     emailconfirm: string
     pass: string
     passconfirm: string
-    postalcodeletters: string
-    postalcodenumbers: string | undefined
-    housenumber: string
-    street: string
-    city: string
     passcheck: boolean
     passIsChecked: boolean
+    emailCheck: boolean
+    emailIsChecked: boolean
+    registered: boolean
+    alreadyRegistered: boolean
+    error: string
 }
 
 export default class SignUpComponent extends React.Component<Props, State> {
@@ -24,21 +24,19 @@ export default class SignUpComponent extends React.Component<Props, State> {
         super(props)
         
         this.state = {
-            name: "",
-            surname: "",
-            age: "",
-            gender: "",
-            email: "",
-            emailconfirm: "",
-            pass: "",
-            passconfirm: "",
-            postalcodeletters: "",
-            postalcodenumbers: undefined,
-            housenumber: "",
-            street: "",
-            city: "",
-            passcheck: false,
-            passIsChecked: false
+            name: "Allon",
+            surname: "de Veen",
+            email: "allondeveen@gmail.com",
+            emailconfirm: "allondeveen@gmail.com",
+            pass: "Pisvinger5",
+            passconfirm: "Pisvinger5",
+            passcheck: true,
+            passIsChecked: true,
+            emailCheck: true,
+            emailIsChecked: true,
+            registered: false,
+            alreadyRegistered: false,
+            error: ""
         }
 
         this.handleEmailChange = this.handleEmailChange.bind(this)
@@ -47,12 +45,9 @@ export default class SignUpComponent extends React.Component<Props, State> {
         this.handleSurnameChange = this.handleSurnameChange.bind(this)
         this.handlePassChange = this.handlePassChange.bind(this)
         this.handlePassConfirmChange = this.handlePassConfirmChange.bind(this)
-        this.handlePostalcodeLettersChange = this.handlePostalcodeLettersChange.bind(this)
-        this.handlePostalcodeNumbersChange = this.handlePostalcodeNumbersChange.bind(this)
-        this.handleStreetChange = this.handleStreetChange.bind(this)
-        this.handleCityChange = this.handleCityChange.bind(this)
-        this.handleAgeChange = this.handleAgeChange.bind(this)
         this.checkPasswords = this.checkPasswords.bind(this)
+        this.checkEmail = this.checkEmail.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
     }
 
     handleNameChange(event: React.ChangeEvent<HTMLInputElement>){
@@ -80,48 +75,6 @@ export default class SignUpComponent extends React.Component<Props, State> {
         this.setState({
             ...this.state,
             passconfirm: event.target.value
-        })
-    }
-
-    handlePostalcodeNumbersChange(event: React.ChangeEvent<HTMLInputElement>){
-        this.setState({
-            ...this.state,
-            postalcodenumbers: event.target.value
-        })
-    }
-
-    handlePostalcodeLettersChange(event: React.ChangeEvent<HTMLInputElement>){
-        this.setState({
-            ...this.state,
-            postalcodeletters: event.target.value
-        })
-    }
-
-    handleStreetChange(event: React.ChangeEvent<HTMLInputElement>){
-        this.setState({
-            ...this.state,
-            street: event.target.value
-        })
-    }
-
-    handleCityChange(event: React.ChangeEvent<HTMLInputElement>){
-        this.setState({
-            ...this.state,
-            city: event.target.value
-        })
-    }
-
-    handleAgeChange(event: React.ChangeEvent<HTMLInputElement>){
-        this.setState({
-            ...this.state,
-            age: event.target.value
-        })
-    }
-
-    handleHousenumberChange(event: React.ChangeEvent<HTMLInputElement>){
-        this.setState({
-            ...this.state,
-            housenumber: event.target.value
         })
     }
 
@@ -156,11 +109,75 @@ export default class SignUpComponent extends React.Component<Props, State> {
         }
     }
 
+    checkEmail() {
+        if (this.state.email === this.state.emailconfirm) {
+            this.setState({
+                ...this.state,
+                emailCheck: true,
+                emailIsChecked: true
+            })
+        } else {
+            {
+                this.setState({
+                    ...this.state,
+                    emailCheck: false,
+                    emailIsChecked: true
+                })
+            }
+        }
+    }
+
+    onSubmit() {
+        if ((this.state.email === "" || this.state.emailCheck) || (this.state.pass === "" || this.state.passcheck) || this.state.name === "" || this.state.surname === "") {
+            if (this.state.passcheck && this.state.email === this.state.emailconfirm) {
+                const user: User = {
+                    Email: this.state.email,
+                    Password: this.state.pass,
+                    FirstName: this.state.name,
+                    LastName: this.state.surname,
+                    Admin: false
+                }
+
+                console.log("Request verstuurd met body: " + JSON.stringify(user))
+
+                const request = Axios.post("http://localhost:5000/auth/register", user)
+
+                request
+                    .then((value: AxiosResponse) => {
+                        this.setState({
+                            ...this.state,
+                            registered: true
+                        })
+                    })
+                    .catch((reason) => {
+                        this.setState({
+                            ...this.state,
+                            error: "Er is iets foutgegegaan bij het registeren: " + JSON.stringify(reason)
+                        })
+                        console.log(JSON.stringify(reason))
+                    })
+            } else{
+                this.setState({
+                    ...this.state,
+                    error: "Niet alle velden zijn ingevuld."
+                })
+            }
+        } else {
+            this.setState({
+                ...this.state,
+                error: "Sommige velden zijn nog leeg of kloppen niet."
+            })
+        }
+    }
+
     render(){
         return (
             <div className="signup-form">
                 <h2>Registreren</h2>
                 <p>Vul hier jouw gegevens in, zodat wij een account voor je kunnen maken.</p>
+                {this.state.registered && <small>Gebruiker geregistreerd!</small>}
+                {this.state.alreadyRegistered && <small>Gebruiker is al geregistreerd.</small>}
+                {this.state.error !== "" && <small>{this.state.error}</small>}
                     <div className="fields-signup">
                         <p className="signup-name">
                             <label htmlFor="name">Voornaam</label>
@@ -176,7 +193,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
                         </p>
                         <p className="signup-emailconfirm">
                             <label htmlFor="emailconfirm">Herhaal jouw e-mailadres</label>
-                            <input type="emailconfirm" name="emailconfirm" id="emailconfirm" placeholder="" value={this.state.emailconfirm} onChange={this.handleEmailConfirmChange}/>
+                            <input type="emailconfirm" name="emailconfirm" id="emailconfirm" placeholder="" value={this.state.emailconfirm} onChange={this.handleEmailConfirmChange} onBlur={this.checkEmail}/>
                         </p>
                         <p className="signup-pass">
                             <label htmlFor="pass">Wachtwoord (minimaal één hoofdletter en één cijfer)</label>
@@ -186,36 +203,11 @@ export default class SignUpComponent extends React.Component<Props, State> {
                             <label htmlFor="passconfirm">Herhaal je wachtwoord</label>
                             <input type="password" name="passconfirm" id="passconfirm" placeholder="" value={this.state.passconfirm} onChange={this.handlePassConfirmChange} onBlur={this.checkPasswords}/>
                         </p>
-                        
-                        <p className="singup-postalcodenumbers">
-                            <label htmlFor="postalcodenumbers">Postcode</label>
-                            <input type="postalcodenumbers" name="postalcodenumbers" id="postalcodenumbers" placeholder="1234" value={this.state.postalcodenumbers} onChange={this.handlePostalcodeNumbersChange}/>
-                            <input type="postalcodeletters" name="postalcodeletters" id="postalcodeletters" placeholder="AB" value={this.state.postalcodeletters} onChange={this.handlePostalcodeLettersChange}/>
-                        </p>
-                        <p className="singup-postalcodeletters">
-                            <label htmlFor="postalcodeletters"/>
-                        </p>
-                        <p className="singup-housenumber">
-                            <label htmlFor="housenumber">Huisnummer</label>
-                            <input type="housenumber" name="housenumber" id="housenumber" placeholder="" value={this.state.housenumber} onChange={this.handleHousenumberChange}/>
-                        </p>
-                        <p className="singup-street">
-                            <label htmlFor="street">Straat</label>
-                            <input type="street" name="street" id="street" placeholder="" value={this.state.street} onChange={this.handleStreetChange}/>
-                        </p>
-                        <p className="singup-city">
-                            <label htmlFor="city">Stad/dorp</label>
-                            <input type="city" name="city" id="city" placeholder="" value={this.state.city} onChange={this.handleCityChange}/>
-                        </p>
-                        <p className="singup-age">
-                            <label htmlFor="age">Leeftijd </label>
-                            <input type="age" name="age" id="age" placeholder="DD/MM/JJJJ" value={this.state.age} onChange={this.handleAgeChange}/>
-                        </p>
 
 
                     </div>
                 <div>
-                    <button className="submit">Verzenden</button>
+                    <button className="submit" onClick={this.onSubmit}>Verzenden</button>
                 </div>
             </div>
         )
