@@ -1,0 +1,22 @@
+nav.main-menu .menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    list-style-type: none;
+}
+
+nav.main-menu .menu .menu-item a:link,
+nav.main-menu .menu .menu-item a:visited {
+    padding: 5px 10px;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+nav.main-menu .menu .menu-item a:hover {
+    color: #CC6329;
+}
+
+nav.main-menu .menu .menu-item a:active
+nav.main-menu .menu .menu-item a.active {
+    color: #CC6329;
+}
