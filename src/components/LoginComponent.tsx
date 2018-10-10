@@ -58,6 +58,7 @@ export default class LoginComponent extends React.Component<Props, State> {
   }
 
   render() {
+    document.title = "Drankreus - Inloggen"
     return (
       <div className="login">
         <h2>Inloggen</h2>

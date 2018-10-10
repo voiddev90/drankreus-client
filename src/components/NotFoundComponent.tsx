@@ -9,6 +9,7 @@ export default class NotFoundComponent extends React.Component<Props, State>{
     }
 
     render(){
+        document.title = "Drankreus - Pagina niet gevonden"
         return (
             <div className="404-not-found">
                 <h1 className="post-title">Is de drank nu al op?</h1>

@@ -205,6 +205,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
     }
 
     render(){
+        document.title = "Drankreus - Registreren"
         return (
             <div className="signup-form">
                 <h2>Registreren</h2>
