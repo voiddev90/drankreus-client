@@ -7,6 +7,7 @@ export class User {
     Email: string
     Password: string
     FirstName: string
+    Prefix: string
     LastName: string
     Street?: string
     BuildingNumber?: string

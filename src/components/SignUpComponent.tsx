@@ -4,12 +4,8 @@ import Axios, { AxiosResponse, AxiosError } from 'axios';
 import * as EmailValidator from 'email-validator'
 
 type Props = {}
-type State = {
-    name: string
-    surname: string
-    email: string
+type State = User & {
     emailconfirm: string
-    pass: string
     passconfirm: string
     passcheck: boolean
     passIsChecked: boolean
@@ -25,11 +21,12 @@ export default class SignUpComponent extends React.Component<Props, State> {
         super(props)
         
         this.state = {
-            name: "",
-            surname: "",
-            email: "",
+            FirstName: "",
+            LastName: "",
+            Prefix: "",
+            Email: "",
             emailconfirm: "",
-            pass: "",
+            Password: "",
             passconfirm: "",
             passcheck: false,
             passIsChecked: false,
@@ -37,12 +34,14 @@ export default class SignUpComponent extends React.Component<Props, State> {
             emailIsChecked: false,
             registered: false,
             alreadyRegistered: false,
-            error: ""
+            error: "",
+            Admin: false
         }
 
         this.handleEmailChange = this.handleEmailChange.bind(this)
         this.handleEmailConfirmChange = this.handleEmailConfirmChange.bind(this)
         this.handleNameChange = this.handleNameChange.bind(this)
+        this.handlePrefixChange = this.handlePrefixChange.bind(this)
         this.handleSurnameChange = this.handleSurnameChange.bind(this)
         this.handlePassChange = this.handlePassChange.bind(this)
         this.handlePassConfirmChange = this.handlePassConfirmChange.bind(this)
@@ -55,11 +54,12 @@ export default class SignUpComponent extends React.Component<Props, State> {
     resetForm() {
         this.setState({
             ...this.state,
-            name: "",
-            surname: "",
-            email: "",
+            FirstName: "",
+            Prefix: "",
+            LastName: "",
+            Email: "",
             emailconfirm: "",
-            pass: "",
+            Password: "",
             passconfirm: "",
             passcheck: false,
             passIsChecked: false,
@@ -71,21 +71,28 @@ export default class SignUpComponent extends React.Component<Props, State> {
     handleNameChange(event: React.ChangeEvent<HTMLInputElement>){
         this.setState({
             ...this.state,
-            name: event.target.value
+            FirstName: event.target.value
+        })
+    }
+
+    handlePrefixChange(event: React.ChangeEvent<HTMLInputElement>){
+        this.setState({
+            ...this.state,
+            Prefix: event.target.value
         })
     }
 
     handleSurnameChange(event: React.ChangeEvent<HTMLInputElement>){
         this.setState({
             ...this.state,
-            surname: event.target.value
+            LastName: event.target.value
         })
     }
 
     handlePassChange(event: React.ChangeEvent<HTMLInputElement>){
         this.setState({
             ...this.state,
-            pass: event.target.value
+            Password: event.target.value
         })
     }
     
@@ -99,7 +106,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
     handleEmailChange(event: React.ChangeEvent<HTMLInputElement>){
         this.setState({
             ...this.state,
-            email: event.target.value
+            Email: event.target.value
         })
     }
 
@@ -111,7 +118,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
     }
 
     checkPasswords() {
-        if (this.state.pass === this.state.passconfirm) {
+        if (this.state.Password === this.state.passconfirm) {
             this.setState({
                 ...this.state,
                 passcheck: true,
@@ -128,7 +135,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
     }
 
     checkEmail() {
-        if (this.state.email === this.state.emailconfirm) {
+        if (this.state.Email === this.state.emailconfirm) {
             this.setState({
                 ...this.state,
                 emailCheck: true,
@@ -146,23 +153,22 @@ export default class SignUpComponent extends React.Component<Props, State> {
     }
 
     onSubmit() {
-        if (this.state.email === "" || this.state.pass === "" || this.state.name === "" || this.state.surname === "") {
+        if (this.state.Email === "" || this.state.Password === "" || this.state.FirstName === "" || this.state.Prefix === "" || this.state.LastName === "") {
             this.setState({
                 ...this.state,
                 registered: false,
                 error: "Sommige velden zijn nog leeg."
             })
         } else {
-            if (this.state.passcheck && this.state.emailCheck && EmailValidator.validate(this.state.email)) {
+            if (this.state.passcheck && this.state.emailCheck && EmailValidator.validate(this.state.Email)) {
                 const user: User = {
-                    Email: this.state.email,
-                    Password: this.state.pass,
-                    FirstName: this.state.name,
-                    LastName: this.state.surname,
+                    Email: this.state.Email,
+                    Password: this.state.Password,
+                    FirstName: this.state.FirstName,
+                    Prefix: this.state.Prefix,
+                    LastName: this.state.LastName,
                     Admin: false
                 }
-
-                console.log("Request verstuurd met body: " + JSON.stringify(user))
 
                 const request = Axios.post("http://localhost:5000/auth/register", user)
 
@@ -216,23 +222,27 @@ export default class SignUpComponent extends React.Component<Props, State> {
                     <div className="fields-signup">
                         <p className="signup-name">
                             <label htmlFor="name">Voornaam</label>
-                            <input type="name" name="name" id="name" placeholder="" value={this.state.name} onChange={this.handleNameChange}/>
+                            <input type="text" name="name" id="name" placeholder="" value={this.state.FirstName} onChange={this.handleNameChange}/>
+                        </p>
+                        <p className="signup-prefix">
+                            <label htmlFor="name">Tussenvoegsel</label>
+                            <input type="text" name="prefix" id="prefix" placeholder="" value={this.state.Prefix} onChange={this.handlePrefixChange}/>
                         </p>
                         <p className="signup-surname">
                             <label htmlFor="surname">Achternaam</label>
-                            <input type="surname" name="surname" id="surname" placeholder="" value={this.state.surname} onChange={this.handleSurnameChange}/>
+                            <input type="text" name="surname" id="surname" placeholder="" value={this.state.LastName} onChange={this.handleSurnameChange}/>
                         </p>
                         <p className="signup-email">
                             <label htmlFor="email">E-mailadres</label>
-                            <input type="email" name="email" id="email" placeholder="voorbeeld@voorbeeld.nl" value={this.state.email} onChange={this.handleEmailChange}/>
+                            <input type="email" name="email" id="email" placeholder="voorbeeld@voorbeeld.nl" value={this.state.Email} onChange={this.handleEmailChange}/>
                         </p>
                         <p className="signup-emailconfirm">
                             <label htmlFor="emailconfirm">Herhaal jouw e-mailadres</label>
-                            <input type="emailconfirm" name="emailconfirm" id="emailconfirm" placeholder="" value={this.state.emailconfirm} onChange={this.handleEmailConfirmChange} onBlur={this.checkEmail}/>
+                            <input type="email" name="emailconfirm" id="emailconfirm" placeholder="voorbeeld@voorbeeld.nl" value={this.state.emailconfirm} onChange={this.handleEmailConfirmChange} onBlur={this.checkEmail}/>
                         </p>
                         <p className="signup-pass">
                             <label htmlFor="pass">Wachtwoord (minimaal één hoofdletter en één cijfer)</label>
-                            <input type="password" name="pass" id="pass" placeholder="" value={this.state.pass} onChange={this.handlePassChange}/>
+                            <input type="password" name="pass" id="pass" placeholder="" value={this.state.Password} onChange={this.handlePassChange}/>
                         </p>
                         <p className="signup-passconfirm">
                             <label htmlFor="passconfirm">Herhaal je wachtwoord</label>
