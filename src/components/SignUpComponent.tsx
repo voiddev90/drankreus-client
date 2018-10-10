@@ -25,12 +25,12 @@ export default class SignUpComponent extends React.Component<Props, State> {
         super(props)
         
         this.state = {
-            name: "Allon",
-            surname: "de Veen",
-            email: "allondeveen@gmail.com",
-            emailconfirm: "allondeveen@gmail.com",
-            pass: "bla",
-            passconfirm: "bla",
+            name: "",
+            surname: "",
+            email: "",
+            emailconfirm: "",
+            pass: "",
+            passconfirm: "",
             passcheck: true,
             passIsChecked: true,
             emailCheck: true,
