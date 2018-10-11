@@ -1,5 +1,5 @@
 import * as React from 'react'
-import HeaderComponent from './HeaderComponent';
+import HeaderComponent from './HeaderComponent'
 
 type Props = {}
 type State = {}

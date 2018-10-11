@@ -1,6 +1,6 @@
 import * as React from 'react'
-import MainMenuComponent from './MainMenuComponent';
-import { NavLink } from 'react-router-dom';
+import MainMenuComponent from './MainMenuComponent'
+import { NavLink } from 'react-router-dom'
 import '../css/header.css'
 
 type Props = {}

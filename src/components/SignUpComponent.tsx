@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { User } from '../model';
-import Axios, { AxiosResponse, AxiosError } from 'axios';
+import * as React from 'react'
+import { User } from '../model'
+import Axios, { AxiosResponse, AxiosError } from 'axios'
 import * as EmailValidator from 'email-validator'
 
 type Props = {}
@@ -183,12 +183,12 @@ export default class SignUpComponent extends React.Component<Props, State> {
                     })
                     .catch((reason: AxiosError) => {
                         console.log(JSON.stringify(reason))
-                        let error = "";
+                        let error = ""
                         if (reason.response) {
                             switch (reason.response.status) {
                                 case 409:
                                     error = "Gebruiker bestaat al."
-                                    break;
+                                    break
                                 default:
                                     error = "Er is iets foutgegaan bij het registreren."
                             }
