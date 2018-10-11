@@ -153,7 +153,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
     }
 
     onSubmit() {
-        if (this.state.Email === "" || this.state.Password === "" || this.state.FirstName === "" || this.state.Prefix === "" || this.state.LastName === "") {
+        if (this.state.Email === "" || this.state.Password === "" || this.state.FirstName === "" || this.state.LastName === "") {
             this.setState({
                 ...this.state,
                 registered: false,
@@ -165,10 +165,11 @@ export default class SignUpComponent extends React.Component<Props, State> {
                     Email: this.state.Email,
                     Password: this.state.Password,
                     FirstName: this.state.FirstName,
-                    Prefix: this.state.Prefix,
                     LastName: this.state.LastName,
                     Admin: false
                 }
+                if (this.state.Prefix !== "") user.Prefix = this.state.Prefix
+
 
                 const request = Axios.post("http://localhost:5000/auth/register", user)
 
