@@ -1,7 +1,5 @@
 import {AxiosResponse} from 'axios'
 
-// const https = require('https');
-
 export class User {
     Id?: number
     Email: string
@@ -37,9 +35,3 @@ export type WithDataState<T> =
         type: "error"
         error: string
     }
-
-// export const client = Axios.create({
-//     httpsAgent: new https.Agent({  
-//         rejectUnauthorized: false
-//       })
-// })
