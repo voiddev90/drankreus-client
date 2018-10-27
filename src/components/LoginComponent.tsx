@@ -1,14 +1,18 @@
 import * as React from "react"
 import { NavLink } from "react-router-dom"
 import "../css/LoginComponent.css"
-import * as EmailValidator from 'email-validator'
+import * as EmailValidator from "email-validator"
 
-type Props = {}
+type Props = {
+  loginHandler(username: string, password: string): void
+}
 type State = {
   email: string
   pass: string
-  emailIsvalidated: boolean
+  emailIsValidated: boolean
   emailIsValid: boolean
+  passwordIsValidated: boolean
+  passwordIsValid: boolean
 }
 
 export default class LoginComponent extends React.Component<Props, State> {
@@ -18,8 +22,10 @@ export default class LoginComponent extends React.Component<Props, State> {
     this.state = {
       email: "",
       pass: "",
-      emailIsvalidated: false,
-      emailIsValid: false
+      emailIsValidated: false,
+      emailIsValid: false,
+      passwordIsValidated: false,
+      passwordIsValid: false
     }
 
     this.handleEmailChange = this.handleEmailChange.bind(this)
@@ -38,13 +44,13 @@ export default class LoginComponent extends React.Component<Props, State> {
     if (EmailValidator.validate(this.state.email)) {
       this.setState({
         ...this.state,
-        emailIsvalidated: true,
+        emailIsValidated: true,
         emailIsValid: true
       })
     } else {
       this.setState({
         ...this.state,
-        emailIsvalidated: true,
+        emailIsValidated: true,
         emailIsValid: false
       })
     }
@@ -63,7 +69,13 @@ export default class LoginComponent extends React.Component<Props, State> {
       <div className="login">
         <h2>Inloggen</h2>
         <p>Inloggen of een profiel aanmaken.</p>
-        <form className="e-mail_en_Wachtwoord">
+        <form
+          className="e-mail_en_Wachtwoord"
+          onSubmit={e => {
+            e.preventDefault()
+            this.props.loginHandler(this.state.email, this.state.pass)
+          }}
+        >
           <p className="validText">
             <label htmlFor="email">
               <p>Vul hier uw e-mailadres in </p>
@@ -78,11 +90,11 @@ export default class LoginComponent extends React.Component<Props, State> {
               onBlur={this.validateEmail}
             />
             <small>
-              {this.state.emailIsvalidated && this.state.emailIsValid ? (
+              {this.state.emailIsValidated && this.state.emailIsValid ? (
                 <p>
                   <i>Email adres is valide.</i>
                 </p>
-              ) : this.state.emailIsvalidated && !this.state.emailIsValid ? (
+              ) : this.state.emailIsValidated && !this.state.emailIsValid ? (
                 <p>
                   <i>Email adres is invalide.</i>
                 </p>

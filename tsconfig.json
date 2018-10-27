@@ -12,5 +12,8 @@
     },
     "include": [
         "./src/**/*", "webpack.prod.js --config webpack.prod.js"
+    ],
+    "exclude": [
+        "node_modules"
     ]
 }
