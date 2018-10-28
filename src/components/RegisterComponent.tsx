@@ -16,7 +16,7 @@ type State = User & {
   error: string
 }
 
-export default class SignUpComponent extends React.Component<Props, State> {
+export default class RegisterComponent extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 

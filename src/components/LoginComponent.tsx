@@ -68,10 +68,10 @@ export default class LoginComponent extends React.Component<Props, State> {
     })
   }
 
-  handleLogin(email: string, password: string) {
+  handleLogin() {
     Axios.post("http://localhost:5000/auth/login", {
-      email: email,
-      password: password
+      email: this.state.email,
+      password: this.state.pass
     })
       .then((response: AxiosResponse<LoginResponse>) => {
         localStorage.setItem("user", JSON.stringify(response.data.user))
@@ -93,7 +93,7 @@ export default class LoginComponent extends React.Component<Props, State> {
           className="e-mail_en_Wachtwoord"
           onSubmit={e => {
             e.preventDefault()
-            this.handleLogin(this.state.email, this.state.pass)
+            this.handleLogin()
           }}
         >
           {this.state.error && (
@@ -106,7 +106,7 @@ export default class LoginComponent extends React.Component<Props, State> {
               </small>
             </p>
           )}
-          {this.state.redirect && <Redirect to={{pathname: '/'}} />}
+          {this.state.redirect && <Redirect to={{ pathname: "/" }} />}
           <p className="validText">
             <label htmlFor="email">
               <p>Vul hier uw e-mailadres in </p>
