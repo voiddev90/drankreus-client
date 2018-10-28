@@ -1,11 +1,11 @@
 import * as React from "react"
-import { NavLink } from "react-router-dom"
+import { NavLink, Redirect } from "react-router-dom"
 import "../css/LoginComponent.css"
 import * as EmailValidator from "email-validator"
+import Axios, { AxiosResponse, AxiosError } from "axios"
+import { LoginResponse } from "../model"
 
-type Props = {
-  loginHandler(username: string, password: string): void
-}
+type Props = {}
 type State = {
   email: string
   pass: string
@@ -13,6 +13,8 @@ type State = {
   emailIsValid: boolean
   passwordIsValidated: boolean
   passwordIsValid: boolean
+  error: boolean
+  redirect: boolean
 }
 
 export default class LoginComponent extends React.Component<Props, State> {
@@ -25,12 +27,15 @@ export default class LoginComponent extends React.Component<Props, State> {
       emailIsValidated: false,
       emailIsValid: false,
       passwordIsValidated: false,
-      passwordIsValid: false
+      passwordIsValid: false,
+      error: false,
+      redirect: false
     }
 
     this.handleEmailChange = this.handleEmailChange.bind(this)
     this.handlePassChange = this.handlePassChange.bind(this)
     this.validateEmail = this.validateEmail.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
   }
 
   handleEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -63,6 +68,21 @@ export default class LoginComponent extends React.Component<Props, State> {
     })
   }
 
+  handleLogin(email: string, password: string) {
+    Axios.post("http://localhost:5000/auth/login", {
+      email: email,
+      password: password
+    })
+      .then((response: AxiosResponse<LoginResponse>) => {
+        localStorage.setItem("user", JSON.stringify(response.data.user))
+        localStorage.setItem("token", response.data.access_token)
+        this.setState({ ...this.state, redirect: true })
+      })
+      .catch((response: AxiosError) => {
+        this.setState({ ...this.state, error: true })
+      })
+  }
+
   render() {
     document.title = "Drankreus - Inloggen"
     return (
@@ -73,9 +93,20 @@ export default class LoginComponent extends React.Component<Props, State> {
           className="e-mail_en_Wachtwoord"
           onSubmit={e => {
             e.preventDefault()
-            this.props.loginHandler(this.state.email, this.state.pass)
+            this.handleLogin(this.state.email, this.state.pass)
           }}
         >
+          {this.state.error && (
+            <p>
+              <small>
+                <i>
+                  De inloggegevens zijn incorrect of de gebruiker is nog niet
+                  geregistreerd.
+                </i>
+              </small>
+            </p>
+          )}
+          {this.state.redirect && <Redirect to={{pathname: '/'}} />}
           <p className="validText">
             <label htmlFor="email">
               <p>Vul hier uw e-mailadres in </p>
@@ -89,17 +120,6 @@ export default class LoginComponent extends React.Component<Props, State> {
               onChange={this.handleEmailChange}
               onBlur={this.validateEmail}
             />
-            <small>
-              {this.state.emailIsValidated && this.state.emailIsValid ? (
-                <p>
-                  <i>Email adres is valide.</i>
-                </p>
-              ) : this.state.emailIsValidated && !this.state.emailIsValid ? (
-                <p>
-                  <i>Email adres is invalide.</i>
-                </p>
-              ) : null}
-            </small>
           </p>
           <p className="field field-pass">
             <label htmlFor="pass">

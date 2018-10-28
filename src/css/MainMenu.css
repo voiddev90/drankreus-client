@@ -5,6 +5,7 @@ nav.main-menu .menu {
     list-style-type: none;
 }
 
+nav.main-menu .menu .menu-item,
 nav.main-menu .menu .menu-item a:link,
 nav.main-menu .menu .menu-item a:visited {
     padding: 5px 10px;

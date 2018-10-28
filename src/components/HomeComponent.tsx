@@ -1,9 +1,6 @@
 import * as React from "react"
-import { UserLoginState } from "../model";
 
-type Props = {
-    loggedInState: UserLoginState
-}
+type Props = {}
 type State = {}
 
 export default class HomeComponent extends React.Component<Props, State> {

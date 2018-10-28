@@ -3,42 +3,21 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"
 import BaseComponent from "./components/BaseComponent"
 import HomeComponent from "./components/HomeComponent"
 import { PageLoaderComponent } from "./components/PageLoaderComponent"
-import { WithDataState, User, UserLoginState, LoginResponse } from "./model"
-import Axios, { AxiosResponse, AxiosError } from "axios"
 import SignUpComponent from "./components/SignUpComponent"
+import { isLoggedIn, getLoggedInuser } from "./helpers"
 
 export type ClientProps = {}
-export type ClientState = UserLoginState
+export type ClientState = {}
 
 export default class Client extends React.Component<ClientProps, ClientState> {
+
   constructor(props: ClientProps) {
     super(props)
-
-    this.state = {
-      type: "notLoggedIn"
-    }
-
-    this.handleLogin = this.handleLogin.bind(this)
   }
 
-  handleLogin(email: string, password: string) {
-    console.log(email, password)
-    Axios.post("http://localhost:5000/auth/login", {
-      email: email,
-      password: password
-    })
-      .then((value: AxiosResponse<LoginResponse>) => {
-        console.log(value)
-        this.setState({
-          type: "loggedIn",
-          JWT: value.data.access_token,
-          user: value.data.user
-        })
-      })
-      .catch((error: AxiosError) => {
-        console.log(error)
-        this.setState({ type: "error", message: error.message })
-      })
+  componentDidMount() {
+    console.log(isLoggedIn())
+    console.log(getLoggedInuser())
   }
 
   render() {
@@ -51,7 +30,7 @@ export default class Client extends React.Component<ClientProps, ClientState> {
             render={() => {
               return (
                 <BaseComponent>
-                  <HomeComponent loggedInState={this.state} />
+                  <HomeComponent />
                 </BaseComponent>
               )
             }}
@@ -61,10 +40,10 @@ export default class Client extends React.Component<ClientProps, ClientState> {
             render={() => {
               return (
                 <BaseComponent>
-                  {this.state.type == "loggedIn" ? (
+                  {isLoggedIn() ? (
                     <Redirect to={{ pathname: "/" }} />
                   ) : (
-                    <SignUpComponent loggedInState={this.state} />
+                    <SignUpComponent />
                   )}
                 </BaseComponent>
               )
@@ -75,11 +54,7 @@ export default class Client extends React.Component<ClientProps, ClientState> {
             render={props => {
               return (
                 <BaseComponent>
-                  <PageLoaderComponent
-                    {...props}
-                    loggedInState={this.state}
-                    loginHandler={this.handleLogin}
-                  />
+                  <PageLoaderComponent {...props} />
                 </BaseComponent>
               )
             }}

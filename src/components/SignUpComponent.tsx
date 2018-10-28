@@ -1,11 +1,9 @@
 import * as React from "react"
-import { User, UserLoginState } from "../model"
+import { User } from "../model"
 import Axios, { AxiosResponse, AxiosError } from "axios"
 import * as EmailValidator from "email-validator"
 
-type Props = {
-  loggedInState: UserLoginState
-}
+type Props = {}
 type State = User & {
   emailconfirm: string
   passconfirm: string
@@ -23,12 +21,12 @@ export default class SignUpComponent extends React.Component<Props, State> {
     super(props)
 
     this.state = {
-      FirstName: "",
-      LastName: "",
-      Prefix: "",
-      Email: "",
+      firstName: "",
+      lastName: "",
+      prefix: "",
+      email: "",
       emailconfirm: "",
-      Password: "",
+      password: "",
       passconfirm: "",
       passcheck: false,
       passIsChecked: false,
@@ -37,7 +35,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
       registered: false,
       alreadyRegistered: false,
       error: "",
-      Admin: false
+      admin: false
     }
 
     this.handleEmailChange = this.handleEmailChange.bind(this)
@@ -56,12 +54,12 @@ export default class SignUpComponent extends React.Component<Props, State> {
   resetForm() {
     this.setState({
       ...this.state,
-      FirstName: "",
-      Prefix: "",
-      LastName: "",
-      Email: "",
+      firstName: "",
+      prefix: "",
+      lastName: "",
+      email: "",
       emailconfirm: "",
-      Password: "",
+      password: "",
       passconfirm: "",
       passcheck: false,
       passIsChecked: false,
@@ -73,28 +71,28 @@ export default class SignUpComponent extends React.Component<Props, State> {
   handleNameChange(event: React.ChangeEvent<HTMLInputElement>) {
     this.setState({
       ...this.state,
-      FirstName: event.target.value
+      firstName: event.target.value
     })
   }
 
   handlePrefixChange(event: React.ChangeEvent<HTMLInputElement>) {
     this.setState({
       ...this.state,
-      Prefix: event.target.value
+      prefix: event.target.value
     })
   }
 
   handleSurnameChange(event: React.ChangeEvent<HTMLInputElement>) {
     this.setState({
       ...this.state,
-      LastName: event.target.value
+      lastName: event.target.value
     })
   }
 
   handlePassChange(event: React.ChangeEvent<HTMLInputElement>) {
     this.setState({
       ...this.state,
-      Password: event.target.value
+      password: event.target.value
     })
   }
 
@@ -108,7 +106,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
   handleEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
     this.setState({
       ...this.state,
-      Email: event.target.value
+      email: event.target.value
     })
   }
 
@@ -120,7 +118,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
   }
 
   checkPasswords() {
-    if (this.state.Password === this.state.passconfirm) {
+    if (this.state.password === this.state.passconfirm) {
       this.setState({
         ...this.state,
         passcheck: true,
@@ -136,7 +134,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
   }
 
   checkEmail() {
-    if (this.state.Email === this.state.emailconfirm) {
+    if (this.state.email === this.state.emailconfirm) {
       this.setState({
         ...this.state,
         emailCheck: true,
@@ -155,10 +153,10 @@ export default class SignUpComponent extends React.Component<Props, State> {
 
   onSubmit() {
     if (
-      this.state.Email === "" ||
-      this.state.Password === "" ||
-      this.state.FirstName === "" ||
-      this.state.LastName === ""
+      this.state.email === "" ||
+      this.state.password === "" ||
+      this.state.firstName === "" ||
+      this.state.lastName === ""
     ) {
       this.setState({
         ...this.state,
@@ -169,16 +167,16 @@ export default class SignUpComponent extends React.Component<Props, State> {
       if (
         this.state.passcheck &&
         this.state.emailCheck &&
-        EmailValidator.validate(this.state.Email)
+        EmailValidator.validate(this.state.email)
       ) {
         const user: User = {
-          Email: this.state.Email,
-          Password: this.state.Password,
-          FirstName: this.state.FirstName,
-          LastName: this.state.LastName,
-          Admin: false
+          email: this.state.email,
+          password: this.state.password,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          admin: false
         }
-        if (this.state.Prefix !== "") user.Prefix = this.state.Prefix
+        if (this.state.prefix !== "") user.prefix = this.state.prefix
 
         const request = Axios.post("http://localhost:5000/auth/register", user)
 
@@ -240,7 +238,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
               name="name"
               id="name"
               placeholder=""
-              value={this.state.FirstName}
+              value={this.state.firstName}
               onChange={this.handleNameChange}
             />
           </p>
@@ -251,7 +249,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
               name="prefix"
               id="prefix"
               placeholder=""
-              value={this.state.Prefix}
+              value={this.state.prefix}
               onChange={this.handlePrefixChange}
             />
           </p>
@@ -262,7 +260,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
               name="surname"
               id="surname"
               placeholder=""
-              value={this.state.LastName}
+              value={this.state.lastName}
               onChange={this.handleSurnameChange}
             />
           </p>
@@ -273,7 +271,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
               name="email"
               id="email"
               placeholder="voorbeeld@voorbeeld.nl"
-              value={this.state.Email}
+              value={this.state.email}
               onChange={this.handleEmailChange}
             />
           </p>
@@ -298,7 +296,7 @@ export default class SignUpComponent extends React.Component<Props, State> {
               name="pass"
               id="pass"
               placeholder=""
-              value={this.state.Password}
+              value={this.state.password}
               onChange={this.handlePassChange}
             />
           </p>

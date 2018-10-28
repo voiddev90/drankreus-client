@@ -1,17 +1,17 @@
 import { AxiosResponse } from "axios"
 
 export class User {
-  Id?: number
-  Email: string
-  Password: string
-  FirstName: string
-  Prefix?: string
-  LastName: string
-  Street?: string
-  BuildingNumber?: string
-  PostalCode?: string
-  Area?: string
-  Admin: boolean
+  id?: number
+  email: string
+  password: string
+  firstName: string
+  prefix?: string
+  lastName: string
+  street?: string
+  buildingNumber?: string
+  postalCode?: string
+  area?: string
+  admin: boolean
 }
 
 export type Option<T> =
@@ -34,20 +34,6 @@ export type WithDataState<T> =
   | {
       type: "error"
       error: string
-    }
-
-export type UserLoginState =
-  | {
-      type: "notLoggedIn"
-    }
-  | {
-      type: "loggedIn"
-      user: Option<User>
-      JWT: string
-    }
-  | {
-      type: "error"
-      message: string
     }
 
 export type LoginResponse = {
