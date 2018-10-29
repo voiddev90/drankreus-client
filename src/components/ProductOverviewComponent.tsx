@@ -1,5 +1,13 @@
 import * as React from "react"
-import { WithDataState, Page, Product, Filter, Option, Tag, ProductResponse } from "../model"
+import {
+  WithDataState,
+  Page,
+  Product,
+  Filter,
+  Option,
+  Tag,
+  ProductResponse
+} from "../model"
 import Axios, { AxiosResponse, AxiosError } from "axios"
 import { Map, List } from "immutable"
 import { string } from "prop-types"
@@ -29,9 +37,24 @@ export default class ProductOverviewComponent extends React.Component<
   }
 
   componentDidMount() {
-    Axios.get(`http://localhost:5000/api/products/?page=${this.state.page}&perpage=${this.state.perPage}`)
+    Axios.get(
+      `http://localhost:5000/api/products/?page=${this.state.page}&perpage=${
+        this.state.perPage
+      }`
+    )
       .then((value: AxiosResponse<ProductResponse>) => {
-        this.setState({...this.state, type:'loaded', data: Option(value.data)})
+        this.setState({
+          ...this.state,
+          type: "loaded",
+          data: Option(value.data)
+        })
+      })
+      .catch((value: AxiosError) => {
+        this.setState({
+          ...this.state,
+          type: "error",
+          reason: value.response.status
+        })
       })
   }
 
@@ -42,7 +65,9 @@ export default class ProductOverviewComponent extends React.Component<
           case "none":
             return <>geen producten</>
           case "some":
-            return <>producten</>
+            return this.state.data.value.products.items.map(
+              (value: Product) => <>{value.name}</>
+            )
         }
       case "loading":
         return <>loading</>
