@@ -65,8 +65,12 @@ export default class ProductOverviewComponent extends React.Component<
           case "none":
             return <>geen producten</>
           case "some":
-            return this.state.data.value.products.items.map(
-              (value: Product) => <>{value.name}</>
+            return (
+              <section className="product-overview">
+                {this.state.data.value.products.items.map(() => {
+                  
+                })}
+              </section>
             )
         }
       case "loading":
