@@ -14,9 +14,12 @@ type State = User & {
   registered: boolean
   alreadyRegistered: boolean
   error: string
+  correctpass: boolean
 }
 
 export default class RegisterComponent extends React.Component<Props, State> {
+  regexChar = /[A-Z]/
+  regexNum = /[0-9]/
   constructor(props: Props) {
     super(props)
 
@@ -35,7 +38,8 @@ export default class RegisterComponent extends React.Component<Props, State> {
       registered: false,
       alreadyRegistered: false,
       error: "",
-      admin: false
+      admin: false,
+      correctpass: false
     }
 
     this.handleEmailChange = this.handleEmailChange.bind(this)
@@ -49,6 +53,22 @@ export default class RegisterComponent extends React.Component<Props, State> {
     this.checkEmail = this.checkEmail.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.resetForm = this.resetForm.bind(this)
+    this.correctPass = this.correctPass.bind(this)
+  }
+
+  correctPass() {
+    if (this.regexChar.test(this.state.password) && this.regexNum.test(this.state.password)){
+      this.setState({
+        ...this.state,
+        correctpass: true
+      })
+    
+    }
+    else {
+      this.setState({
+        ...this.state,
+        correctpass: false
+      }) }
   }
 
   resetForm() {
@@ -67,6 +87,8 @@ export default class RegisterComponent extends React.Component<Props, State> {
       emailIsChecked: false
     })
   }
+
+  
 
   handleNameChange(event: React.ChangeEvent<HTMLInputElement>) {
     this.setState({
@@ -219,6 +241,10 @@ export default class RegisterComponent extends React.Component<Props, State> {
 
   render() {
     document.title = "Drankreus - Registreren"
+    let wrongpass = null
+    if (!this.state.correctpass && this.state.password !== "") {
+      wrongpass = <div className="wrongpass-txt">Het wachtwoord dat je hebt opgegeven voldoet niet aan de eisen.</div>
+    }
     return (
       <div className="signup-form">
         <h2>Registreren</h2>
@@ -287,6 +313,9 @@ export default class RegisterComponent extends React.Component<Props, State> {
               onBlur={this.checkEmail}
             />
           </p>
+          <p>
+            {wrongpass}
+          </p>
           <p className="signup-pass">
             <label htmlFor="pass">
               Wachtwoord (minimaal één hoofdletter en één cijfer)
@@ -297,7 +326,8 @@ export default class RegisterComponent extends React.Component<Props, State> {
               id="pass"
               placeholder=""
               value={this.state.password}
-              onChange={this.handlePassChange}
+              onChange={this.handlePassChange} 
+              onBlur={this.correctPass}
             />
           </p>
           <p className="signup-passconfirm">
