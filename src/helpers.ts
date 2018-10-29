@@ -1,4 +1,4 @@
-import { User } from "./model"
+import { User, Option } from "./model"
 
 const isLoggedIn = () => {
   return (
@@ -16,4 +16,8 @@ const logOut = () => {
   localStorage.clear()
 }
 
-export { isLoggedIn, getLoggedInuser, logOut }
+function OptionIsSome<T>(value: Option<T>) : boolean {
+  return value.type == "some"
+}
+
+export { isLoggedIn, getLoggedInuser, logOut, OptionIsSome }
