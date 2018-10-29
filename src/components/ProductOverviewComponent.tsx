@@ -27,7 +27,19 @@ export default class ProductOverviewComponent extends React.Component<
     super(props)
 
     this.state = {
-      type: "loading",
+      type: "loaded",
+      data: {
+        type: 'some',
+        value: {
+          products: {
+            itemsPerPage: 20,
+            totalPages: 1,
+            index: 1,
+            items: List<Product>()
+          },
+          filterables: null
+        }
+      },
       filters: {
         type: "none"
       },
@@ -37,25 +49,25 @@ export default class ProductOverviewComponent extends React.Component<
   }
 
   componentDidMount() {
-    Axios.get(
-      `http://localhost:5000/api/products/?page=${this.state.page}&perpage=${
-        this.state.perPage
-      }`
-    )
-      .then((value: AxiosResponse<ProductResponse>) => {
-        this.setState({
-          ...this.state,
-          type: "loaded",
-          data: Option(value.data)
-        })
-      })
-      .catch((value: AxiosError) => {
-        this.setState({
-          ...this.state,
-          type: "error",
-          reason: value.response.status
-        })
-      })
+    // Axios.get(
+    //   `http://localhost:5000/api/products/?page=${this.state.page}&perpage=${
+    //     this.state.perPage
+    //   }`
+    // )
+    //   .then((value: AxiosResponse<ProductResponse>) => {
+    //     this.setState({
+    //       ...this.state,
+    //       type: "loaded",
+    //       data: Option(value.data)
+    //     })
+    //   })
+    //   .catch((value: AxiosError) => {
+    //     this.setState({
+    //       ...this.state,
+    //       type: "error",
+    //       reason: value.response.status
+    //     })
+    //   })
   }
 
   render() {
@@ -67,8 +79,8 @@ export default class ProductOverviewComponent extends React.Component<
           case "some":
             return (
               <section className="product-overview">
-                {this.state.data.value.products.items.map(() => {
-                  
+                {this.state.data.value.products.items.map((value: Product) => {
+                  <>{value.name}</>
                 })}
               </section>
             )
