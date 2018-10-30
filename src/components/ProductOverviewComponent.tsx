@@ -35,7 +35,31 @@ export default class ProductOverviewComponent extends React.Component<
             itemsPerPage: 20,
             totalPages: 1,
             index: 1,
-            items: List<Product>()
+            items: List<Product>(
+              [
+                {id: 1, name: 'Smirnoff Vodka', price: 12.50, volume: 0.7, alcoholpercentage: 40.0},
+                {id: 2, name: 'Absolut Vodka', price: 16.00, volume: 0.7, alcoholpercentage: 40.0},
+                {id: 3, name: 'Sonnema Berenburg', price: 14.00, volume: 0.7, alcoholpercentage: 35.0},
+                {id: 4, name: 'Cato Negro Chardonnay', price: 3.50, volume: 0.7, alcoholpercentage: 12.5},
+                {id: 5, name: 'Heineken Pilsener Krat', price: 15.00, volume: 7.2, alcoholpercentage: 5.0},
+                {id: 6, name: 'Grey Goose Vodka', price: 37.50, volume: 1.0, alcoholpercentage: 40.0},
+                {id: 7, name: 'Belvedere Vodka', price: 36.50, volume: 0.7, alcoholpercentage: 40.0},
+                {id: 8, name: 'Bacardi Carta Blanca', price: 15.99, volume: 1.0, alcoholpercentage: 37.50},
+                {id: 9, name: 'Rocketshot', price: 9.99, volume: 0.7, alcoholpercentage: 14.0},
+                {id: 10, name: 'Jägermeister', price: 17.99, volume: 0.7, alcoholpercentage: 37.5},
+                {id: 11, name: 'Sierra Tequila', price: 15.99, volume: 1.0, alcoholpercentage: 40.0},
+                {id: 12, name: 'Bols Gold Strike', price: 14.99, volume: 0.5, alcoholpercentage: 30.0},
+                {id: 13, name: 'Fireman', price: 12.00, volume: 0.7, alcoholpercentage: 40},
+                {id: 14, name: 'Stroh 80', price: 19.99, volume: 0.7, alcoholpercentage: 80.0},
+                {id: 15, name: 'Johnny Walker Red Label', price: 21.99, volume: 0.7, alcoholpercentage: 37.5},
+                {id: 16, name: 'Johnny Walker Black Label', price: 23.00, volume: 0.7, alcoholpercentage: 40.0},
+                {id: 17, name: 'Bacardi Razz', price: 15.99, volume:  0.7, alcoholpercentage: 37.5},
+                {id: 18, name: 'Gordons Dry Gin', price: 17.99, volume: 1.0, alcoholpercentage: 40},
+                {id: 19, name: 'Famous Grouse Scottish Whiskey', price: 22.50, volume: 1.0, alcoholpercentage: 40},
+                {id: 20, name: 'Jillz Red', price: 4.50, volume: 0.7, alcoholpercentage: 5.0},
+
+              ] 
+            )
           },
           filterables: null
         }
@@ -80,7 +104,7 @@ export default class ProductOverviewComponent extends React.Component<
             return (
               <section className="product-overview">
                 {this.state.data.value.products.items.map((value: Product) => {
-                  <>{value.name}</>
+                  <h1 className="product-name">{value.name}</h1>
                 })}
               </section>
             )
