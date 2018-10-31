@@ -2,6 +2,9 @@
   color: rgb(0, 0, 0);
   text-align: center;
 }
+.signup-form .fields-signup p label {
+  display: block;
+}
 .signup-form .fields-signup .signup-name {
   color: rgb(0, 0, 0);
   position: relative;
