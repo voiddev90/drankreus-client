@@ -20,10 +20,11 @@ export class Product {
   description: string
   price: number
   volume: number
-  alcoholpercentage: number
-  brand: List<Tag>
-  category: List<Tag>
-  country: List<Tag>
+  alcoholPercentage: number
+  url: string
+  brandId: number
+  categoryId: number
+  countryId: number
 }
 
 export class Tag {
@@ -39,7 +40,6 @@ export class Country extends Tag {}
 
 export class Page<T> {
   index: number
-  itemsPerPage: number
   totalPages: number
   items: List<T>
 }
@@ -78,9 +78,7 @@ export type LoginResponse = {
   user: User
 }
 
-export type ProductResponse = {
-  products: Page<Product>
-  filterables: Map<string, List<Tag | number | string>>
-}
+export type ProductResponse = Page<Product>
+
 
 export type Filter<T = any> = Map<string, T>

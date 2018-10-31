@@ -2,6 +2,7 @@ import * as React from "react"
 import { User } from "../model"
 import Axios, { AxiosResponse, AxiosError } from "axios"
 import * as EmailValidator from "email-validator"
+import '../css/SignUp.css'
 
 type Props = {}
 type State = User & {
