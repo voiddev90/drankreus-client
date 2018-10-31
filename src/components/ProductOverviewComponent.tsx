@@ -103,8 +103,15 @@ export default class ProductOverviewComponent extends React.Component<
           case "some":
             return (
               <section className="product-overview">
-                {this.state.data.value.products.items.map((value: Product) => {
-                  <h1 className="product-name">{value.name}</h1>
+                {this.state.data.value.products.items.map((value: Product ) => {
+                  return(
+                  <div className="product-container">
+                    <h1 className="product-name">{value.name}</h1>
+                    <p className="product-price">€{value.price}</p>
+                    <p className="product-volume">{value.volume} liter</p>
+                    <p className="product-alcoholpercentage">{value.alcoholpercentage}%</p>
+                  </div>
+                  )
                 })}
               </section>
             )
