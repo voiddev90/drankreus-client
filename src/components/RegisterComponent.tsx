@@ -1,14 +1,7 @@
-<<<<<<< HEAD
 import * as React from "react"
 import { User } from "../model"
 import Axios, { AxiosResponse, AxiosError } from "axios"
 import * as EmailValidator from "email-validator"
-=======
-import * as React from 'react'
-import { User } from '../model'
-import Axios, { AxiosResponse, AxiosError } from 'axios'
-import * as EmailValidator from 'email-validator'
->>>>>>> 637c116b7163ecedcabcbddf7d6cd774d373c4dc
 import '../css/SignUp.css'
 
 type Props = {}
