@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 import {
   WithDataState,
   Page,
@@ -7,14 +7,11 @@ import {
   Option,
   Tag,
   ProductResponse
-} from "../model"
-import Axios, { AxiosResponse, AxiosError } from "axios"
-import { Map, List } from "immutable"
-import { string } from "prop-types"
+} from '../model'
+import Axios, { AxiosResponse, AxiosError } from 'axios'
 
 type ProductOverviewProps = {}
 type ProductOverviewState = WithDataState<ProductResponse> & {
-  filters: Option<Filter<List<number | string>>>
   perPage: number
   page: number
 }
@@ -27,32 +24,25 @@ export default class ProductOverviewComponent extends React.Component<
     super(props)
 
     this.state = {
-      type: "loading",
-      filters: {
-        type: "none"
-      },
+      type: 'loading',
       perPage: 20,
       page: 1
     }
   }
 
   componentDidMount() {
-    Axios.get(
-      `http://localhost:5000/api/product/products?index=${this.state.page}&size=${
-        this.state.perPage
-      }`
-    )
+    Axios.get(`http://localhost:5000/api/product/products?index=${this.state.page}&size=${this.state.perPage}`)
       .then((value: AxiosResponse<ProductResponse>) => {
         this.setState({
           ...this.state,
-          type: "loaded",
+          type: 'loaded',
           data: Option(value.data)
         })
       })
       .catch((value: AxiosError) => {
         this.setState({
           ...this.state,
-          type: "error",
+          type: 'error',
           reason: value.response.status
         })
       })
@@ -60,29 +50,31 @@ export default class ProductOverviewComponent extends React.Component<
 
   render() {
     switch (this.state.type) {
-      case "loaded":
+      case 'loaded':
         switch (this.state.data.type) {
-          case "none":
+          case 'none':
             return <>geen producten</>
-          case "some":
+          case 'some':
             return (
               <section className="product-overview">
-                {this.state.data.value.items.map((value: Product ) => {
-                  return(
-                  <div className="product-container">
-                    <h1 className="product-name">{value.name}</h1>
-                    <p className="product-price">€{value.price}</p>
-                    <p className="product-volume">{value.volume} liter</p>
-                    <p className="product-alcoholpercentage">{value.alcoholPercentage}%</p>
-                  </div>
+                {this.state.data.value.items.map((value: Product) => {
+                  return (
+                    <div className="product-container">
+                      <h1 className="product-name">{value.name}</h1>
+                      <p className="product-price">€{value.price}</p>
+                      <p className="product-volume">{value.volume} liter</p>
+                      <p className="product-alcoholpercentage">
+                        {value.alcoholPercentage}%
+                      </p>
+                    </div>
                   )
                 })}
               </section>
             )
         }
-      case "loading":
+      case 'loading':
         return <>loading</>
-      case "error":
+      case 'error':
       default:
         return <>error</>
     }
