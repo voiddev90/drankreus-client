@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 import * as React from "react"
 import { User } from "../model"
 import Axios, { AxiosResponse, AxiosError } from "axios"
 import * as EmailValidator from "email-validator"
+=======
+import * as React from 'react'
+import { User } from '../model'
+import Axios, { AxiosResponse, AxiosError } from 'axios'
+import * as EmailValidator from 'email-validator'
+>>>>>>> 637c116b7163ecedcabcbddf7d6cd774d373c4dc
 import '../css/SignUp.css'
 
 type Props = {}
@@ -25,20 +32,20 @@ export default class RegisterComponent extends React.Component<Props, State> {
     super(props)
 
     this.state = {
-      firstName: "",
-      lastName: "",
-      prefix: "",
-      email: "",
-      emailconfirm: "",
-      password: "",
-      passconfirm: "",
+      firstName: '',
+      lastName: '',
+      prefix: '',
+      email: '',
+      emailconfirm: '',
+      password: '',
+      passconfirm: '',
       passcheck: false,
       passIsChecked: false,
       emailCheck: false,
       emailIsChecked: false,
       registered: false,
       alreadyRegistered: false,
-      error: "",
+      error: '',
       admin: false,
       correctpass: false
     }
@@ -58,38 +65,38 @@ export default class RegisterComponent extends React.Component<Props, State> {
   }
 
   correctPass() {
-    if (this.regexChar.test(this.state.password) && this.regexNum.test(this.state.password)){
+    if (
+      this.regexChar.test(this.state.password) &&
+      this.regexNum.test(this.state.password)
+    ) {
       this.setState({
         ...this.state,
         correctpass: true
       })
-    
-    }
-    else {
+    } else {
       this.setState({
         ...this.state,
         correctpass: false
-      }) }
+      })
+    }
   }
 
   resetForm() {
     this.setState({
       ...this.state,
-      firstName: "",
-      prefix: "",
-      lastName: "",
-      email: "",
-      emailconfirm: "",
-      password: "",
-      passconfirm: "",
+      firstName: '',
+      prefix: '',
+      lastName: '',
+      email: '',
+      emailconfirm: '',
+      password: '',
+      passconfirm: '',
       passcheck: false,
       passIsChecked: false,
       emailCheck: false,
       emailIsChecked: false
     })
   }
-
-  
 
   handleNameChange(event: React.ChangeEvent<HTMLInputElement>) {
     this.setState({
@@ -176,15 +183,15 @@ export default class RegisterComponent extends React.Component<Props, State> {
 
   onSubmit() {
     if (
-      this.state.email === "" ||
-      this.state.password === "" ||
-      this.state.firstName === "" ||
-      this.state.lastName === ""
+      this.state.email === '' ||
+      this.state.password === '' ||
+      this.state.firstName === '' ||
+      this.state.lastName === ''
     ) {
       this.setState({
         ...this.state,
         registered: false,
-        error: "Sommige velden zijn nog leeg."
+        error: 'Sommige velden zijn nog leeg.'
       })
     } else {
       if (
@@ -199,9 +206,9 @@ export default class RegisterComponent extends React.Component<Props, State> {
           lastName: this.state.lastName,
           admin: false
         }
-        if (this.state.prefix !== "") user.prefix = this.state.prefix
+        if (this.state.prefix !== '') user.prefix = this.state.prefix
 
-        const request = Axios.post("http://localhost:5000/auth/register", user)
+        const request = Axios.post('http://localhost:5000/auth/register', user)
 
         request
           .then((value: AxiosResponse) => {
@@ -212,17 +219,17 @@ export default class RegisterComponent extends React.Component<Props, State> {
             this.resetForm()
           })
           .catch((reason: AxiosError) => {
-            let error = ""
+            let error = ''
             if (reason.response) {
               switch (reason.response.status) {
                 case 409:
-                  error = "Gebruiker bestaat al."
+                  error = 'Gebruiker bestaat al.'
                   break
                 default:
-                  error = "Er is iets foutgegaan bij het registreren."
+                  error = 'Er is iets foutgegaan bij het registreren.'
               }
             } else {
-              error = "Er is iets foutgegaan bij het registreren."
+              error = 'Er is iets foutgegaan bij het registreren.'
             }
             this.setState({
               ...this.state,
@@ -234,29 +241,33 @@ export default class RegisterComponent extends React.Component<Props, State> {
         this.setState({
           ...this.state,
           registered: false,
-          error: "Email of wachtwoord kloppen niet of komen niet overeen."
+          error: 'Email of wachtwoord kloppen niet of komen niet overeen.'
         })
       }
     }
   }
 
   render() {
-    document.title = "Drankreus - Registreren"
+    document.title = 'Drankreus - Registreren'
     let wrongpass = null
-    if (!this.state.correctpass && this.state.password !== "") {
-      wrongpass = <div className="wrongpass-txt">Het wachtwoord dat je hebt opgegeven voldoet niet aan de eisen.</div>
+    if (!this.state.correctpass && this.state.password !== '') {
+      wrongpass = (
+        <div className="wrongpass-txt">
+          Het wachtwoord dat u heeft opgegeven voldoet niet aan de eisen.
+        </div>
+      )
     }
     return (
       <div className="signup-form">
         <h2>Registreren</h2>
         <p>
-          Vul hier jouw gegevens in, zodat wij een account voor je kunnen maken.
+          Vul hier uw gegevens in, zodat wij een account voor u kunnen maken.
         </p>
         {this.state.registered && <small>Gebruiker geregistreerd!</small>}
         {this.state.alreadyRegistered && (
           <small>Gebruiker is al geregistreerd.</small>
         )}
-        {this.state.error !== "" && <small>{this.state.error}</small>}
+        {this.state.error !== '' && <small>{this.state.error}</small>}
         <div className="fields-signup">
           <p className="signup-name">
             <label htmlFor="name">Voornaam</label>
@@ -303,7 +314,7 @@ export default class RegisterComponent extends React.Component<Props, State> {
             />
           </p>
           <p className="signup-emailconfirm">
-            <label htmlFor="emailconfirm">Herhaal jouw e-mailadres</label>
+            <label htmlFor="emailconfirm">Herhaal uw e-mailadres</label>
             <input
               type="email"
               name="emailconfirm"
@@ -314,9 +325,7 @@ export default class RegisterComponent extends React.Component<Props, State> {
               onBlur={this.checkEmail}
             />
           </p>
-          <p>
-            {wrongpass}
-          </p>
+          <p>{wrongpass}</p>
           <p className="signup-pass">
             <label htmlFor="pass">
               Wachtwoord (minimaal één hoofdletter en één cijfer)
@@ -327,12 +336,12 @@ export default class RegisterComponent extends React.Component<Props, State> {
               id="pass"
               placeholder=""
               value={this.state.password}
-              onChange={this.handlePassChange} 
+              onChange={this.handlePassChange}
               onBlur={this.correctPass}
             />
           </p>
           <p className="signup-passconfirm">
-            <label htmlFor="passconfirm">Herhaal je wachtwoord</label>
+            <label htmlFor="passconfirm">Herhaal uw wachtwoord</label>
             <input
               type="password"
               name="passconfirm"
