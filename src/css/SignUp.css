@@ -1,0 +1,45 @@
+.signup-form {
+  color: rgb(0, 0, 0);
+  text-align: center;
+}
+.signup-form .fields-signup .signup-name {
+  color: rgb(0, 0, 0);
+  position: relative;
+}
+.signup-form .fields-signup .signup-surname {
+  color: rgb(0, 0, 0);
+}
+.signup-form .fields-signup .signup-email {
+  color: rgb(0, 0, 0);
+}
+.signup-form .fields-signup .signup-emailconfirm {
+  color: rgb(0, 0, 0);
+}
+.signup-form .fields-signup .signup-pass {
+  color: rgb(0, 0, 0);
+}
+.signup-form .fields-signup .signup-passconfirm {
+  color: rgb(0, 0, 0);
+}
+.signup-form .submit {
+  background-color: #008cba;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 32px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 20px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.1s; /* Safari */
+  transition-duration: 0.3s;
+  width: 250px;
+  text-align: center;
+}
+.signup-form .submit:hover {
+  background-color: #bd5417;
+  color: white;
+  box-shadow: 0 9px 12px 0 rgba(34, 34, 34, 0.24),
+    0 15px 45px 0 rgba(0, 0, 0, 0.19);
+}
