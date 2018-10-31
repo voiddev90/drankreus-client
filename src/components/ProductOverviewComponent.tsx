@@ -110,6 +110,7 @@ export default class ProductOverviewComponent extends React.Component<
                     <p className="product-price">€{value.price}</p>
                     <p className="product-volume">{value.volume} liter</p>
                     <p className="product-alcoholpercentage">{value.alcoholpercentage}%</p>
+                    <button className="product-goto">Bekijk product</button>
                   </div>
                   )
                 })}
