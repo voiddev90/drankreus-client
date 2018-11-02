@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {
-  WithDataState,
+  WithGetState,
   Page,
   Product,
   Filter,
@@ -11,7 +11,7 @@ import {
 import Axios, { AxiosResponse, AxiosError } from 'axios'
 
 type ProductOverviewProps = {}
-type ProductOverviewState = WithDataState<ProductResponse> & {
+type ProductOverviewState = WithGetState<ProductResponse> & {
   perPage: number
   page: number
 }

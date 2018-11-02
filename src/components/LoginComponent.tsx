@@ -1,20 +1,19 @@
-import * as React from "react"
-import { NavLink, Redirect } from "react-router-dom"
-import "../css/LoginComponent.css"
-import * as EmailValidator from "email-validator"
-import Axios, { AxiosResponse, AxiosError } from "axios"
-import { LoginResponse } from "../model"
-import { handleFieldChange } from "../helpers";
+import * as React from 'react'
+import { NavLink, Redirect } from 'react-router-dom'
+import '../css/LoginComponent.css'
+import * as EmailValidator from 'email-validator'
+import Axios, { AxiosResponse, AxiosError } from 'axios'
+import { LoginResponse, WithPostState } from '../model'
+import { handleFieldChange } from '../helpers'
 
 type Props = {}
-type State = {
+type State = WithPostState & {
   email: string
   pass: string
   emailIsValidated: boolean
   emailIsValid: boolean
   passwordIsValidated: boolean
   passwordIsValid: boolean
-  error: boolean
   redirect: boolean
 }
 
@@ -25,54 +24,57 @@ export default class LoginComponent extends React.Component<Props, State> {
     super(props)
 
     this.state = {
-      email: "",
-      pass: "",
+      type: 'editing',
+      email: '',
+      pass: '',
       emailIsValidated: false,
       emailIsValid: false,
       passwordIsValidated: false,
       passwordIsValid: false,
-      error: false,
       redirect: false
     }
 
     this.handleFieldChange = handleFieldChange.bind(this)
     this.validateEmail = this.validateEmail.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
+    this.redirect = this.redirect.bind(this)
   }
 
   validateEmail() {
-    if (EmailValidator.validate(this.state.email)) {
-      this.setState({
-        ...this.state,
-        emailIsValidated: true,
-        emailIsValid: true
-      })
-    } else {
-      this.setState({
-        ...this.state,
-        emailIsValidated: true,
-        emailIsValid: false
-      })
-    }
+    this.setState({
+      ...this.state,
+      emailIsValidated: true,
+      emailIsValid: EmailValidator.validate(this.state.email)
+    })
   }
 
   handleLogin() {
-    Axios.post("http://localhost:5000/auth/login", {
+    this.setState({ type: 'validating' })
+    Axios.post('http://localhost:5000/auth/login', {
       email: this.state.email,
       password: this.state.pass
     })
       .then((response: AxiosResponse<LoginResponse>) => {
-        localStorage.setItem("user", JSON.stringify(response.data.user))
-        localStorage.setItem("token", response.data.access_token)
-        this.setState({ ...this.state, redirect: true })
+        localStorage.setItem('user', JSON.stringify(response.data.user))
+        localStorage.setItem('token', response.data.access_token)
+        window.setTimeout(this.redirect, 500)
+        this.setState({
+          ...this.state,
+          type: 'success',
+          message: 'Successvol ingelogd'
+        })
       })
       .catch((response: AxiosError) => {
-        this.setState({ ...this.state, error: true })
+        this.setState({ ...this.state, type: 'error', error: response.message })
       })
   }
 
+  redirect() {
+    this.setState({ ...this.state, redirect: true })
+  }
+
   render() {
-    document.title = "Drankreus - Inloggen"
+    document.title = 'Drankreus - Inloggen'
     return (
       <div className="login">
         <h2>Inloggen</h2>
@@ -84,17 +86,33 @@ export default class LoginComponent extends React.Component<Props, State> {
             this.handleLogin()
           }}
         >
-          {this.state.error && (
-            <p>
+          {this.state.type == 'error' &&
+            this.state.error && (
+              <p className={this.state.type}>
+                <small>
+                  <i>{this.state.error}</i>
+                </small>
+              </p>
+            )}
+          {this.state.type == 'success' &&
+            this.state.message && (
+              <p className={this.state.type}>
+                <small>
+                  <i>{this.state.message}</i>
+                </small>
+              </p>
+            )}
+          {this.state.type == 'validating' && (
+            <p className="info">
               <small>
                 <i>
-                  De inloggegevens zijn incorrect of de gebruiker is nog niet
-                  geregistreerd.
+                  Aan het inloggen
+                  <span>...</span>
                 </i>
               </small>
             </p>
           )}
-          {this.state.redirect && <Redirect to={{ pathname: "/" }} />}
+          {this.state.redirect && <Redirect to={{ pathname: '/' }} />}
           <p className="validText">
             <label htmlFor="email">
               <p>Vul hier uw e-mailadres in </p>
@@ -105,7 +123,9 @@ export default class LoginComponent extends React.Component<Props, State> {
               id="email"
               placeholder="E-mailadres"
               value={this.state.email}
-              onChange={(e : React.ChangeEvent<HTMLInputElement>) => this.handleFieldChange("email")(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                this.handleFieldChange('email')(e.target.value)
+              }
               onBlur={this.validateEmail}
             />
           </p>
@@ -119,7 +139,9 @@ export default class LoginComponent extends React.Component<Props, State> {
               id="pass"
               placeholder="Wachtwoord"
               value={this.state.pass}
-              onChange={(e : React.ChangeEvent<HTMLInputElement>) => this.handleFieldChange("pass")(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                this.handleFieldChange('pass')(e.target.value)
+              }
             />
           </p>
           <button type="submit" className="button">

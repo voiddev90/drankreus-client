@@ -1,47 +1,45 @@
 import * as React from 'react'
-import { User } from '../model'
+import { User, WithPostState } from '../model'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
 import * as EmailValidator from 'email-validator'
 import '../css/SignUp.css'
 import { handleFieldChange } from '../helpers'
 
 type Props = {}
-type State = User & {
-  emailconfirm: string
-  passconfirm: string
-  passcheck: boolean
-  passIsChecked: boolean
-  emailCheck: boolean
-  emailIsChecked: boolean
-  registered: boolean
-  alreadyRegistered: boolean
-  error: string
-  correctpass: boolean
-}
+type State = WithPostState &
+  User & {
+    emailconfirm: string
+    passconfirm: string
+    passcheck: boolean
+    passIsChecked: boolean
+    emailCheck: boolean
+    emailIsChecked: boolean
+    registered: boolean
+    correctpass: boolean
+  }
 
 export default class RegisterComponent extends React.Component<Props, State> {
   regexChar = /[A-Z]/
   regexNum = /[0-9]/
   handleFieldChange: <T>(field: string) => (value: T) => void
-  
+
   constructor(props: Props) {
     super(props)
 
     this.state = {
+      type: 'editing',
       firstName: '',
       lastName: '',
       prefix: '',
       email: '',
-      emailconfirm: '',
       password: '',
+      emailconfirm: '',
       passconfirm: '',
       passcheck: false,
       passIsChecked: false,
       emailCheck: false,
       emailIsChecked: false,
       registered: false,
-      alreadyRegistered: false,
-      error: '',
       admin: false,
       correctpass: false
     }
@@ -55,20 +53,12 @@ export default class RegisterComponent extends React.Component<Props, State> {
   }
 
   correctPass() {
-    if (
-      this.regexChar.test(this.state.password) &&
-      this.regexNum.test(this.state.password)
-    ) {
-      this.setState({
-        ...this.state,
-        correctpass: true
-      })
-    } else {
-      this.setState({
-        ...this.state,
-        correctpass: false
-      })
-    }
+    this.setState({
+      ...this.state,
+      correctpass:
+        this.regexChar.test(this.state.password) &&
+        this.regexNum.test(this.state.password)
+    })
   }
 
   resetForm() {
@@ -89,37 +79,19 @@ export default class RegisterComponent extends React.Component<Props, State> {
   }
 
   checkPasswords() {
-    if (this.state.password === this.state.passconfirm) {
-      this.setState({
-        ...this.state,
-        passcheck: true,
-        passIsChecked: true
-      })
-    } else {
-      this.setState({
-        ...this.state,
-        passcheck: false,
-        passIsChecked: true
-      })
-    }
+    this.setState({
+      ...this.state,
+      passcheck: true,
+      passIsChecked: this.state.password === this.state.passconfirm
+    })
   }
 
   checkEmail() {
-    if (this.state.email === this.state.emailconfirm) {
-      this.setState({
-        ...this.state,
-        emailCheck: true,
-        emailIsChecked: true
-      })
-    } else {
-      {
-        this.setState({
-          ...this.state,
-          emailCheck: false,
-          emailIsChecked: true
-        })
-      }
-    }
+    this.setState({
+      ...this.state,
+      emailCheck: true,
+      emailIsChecked: this.state.email === this.state.emailconfirm
+    })
   }
 
   onSubmit() {
@@ -151,10 +123,13 @@ export default class RegisterComponent extends React.Component<Props, State> {
 
         const request = Axios.post('http://localhost:5000/auth/register', user)
 
+        this.setState({...this.state, type: 'creating'})
+
         request
           .then((value: AxiosResponse) => {
             this.setState({
               ...this.state,
+              type: 'success',
               registered: true
             })
             this.resetForm()
@@ -174,6 +149,7 @@ export default class RegisterComponent extends React.Component<Props, State> {
             }
             this.setState({
               ...this.state,
+              type: 'error',
               registered: false,
               error: error
             })
@@ -181,6 +157,7 @@ export default class RegisterComponent extends React.Component<Props, State> {
       } else {
         this.setState({
           ...this.state,
+          type: 'error',
           registered: false,
           error: 'Email of wachtwoord kloppen niet of komen niet overeen.'
         })
@@ -205,10 +182,12 @@ export default class RegisterComponent extends React.Component<Props, State> {
           Vul hier uw gegevens in, zodat wij een account voor u kunnen maken.
         </p>
         {this.state.registered && <small>Gebruiker geregistreerd!</small>}
-        {this.state.alreadyRegistered && (
-          <small>Gebruiker is al geregistreerd.</small>
+        {this.state.type == 'error' && this.state.error && (
+          <small>{this.state.error}</small>
         )}
-        {this.state.error !== '' && <small>{this.state.error}</small>}
+        {this.state.type == 'success' && this.state.message && (
+          <small>{this.state.message}</small>
+        )}
         <div className="fields-signup">
           <p className="signup-name">
             <label htmlFor="name">Voornaam</label>
@@ -218,7 +197,9 @@ export default class RegisterComponent extends React.Component<Props, State> {
               id="name"
               placeholder=""
               value={this.state.firstName}
-              onChange={(e : React.ChangeEvent<HTMLInputElement>) => this.handleFieldChange("firstName")(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                this.handleFieldChange('firstName')(e.target.value)
+              }
             />
           </p>
           <p className="signup-prefix">
@@ -229,7 +210,9 @@ export default class RegisterComponent extends React.Component<Props, State> {
               id="prefix"
               placeholder=""
               value={this.state.prefix}
-              onChange={(e : React.ChangeEvent<HTMLInputElement>) => this.handleFieldChange("prefix")(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                this.handleFieldChange('prefix')(e.target.value)
+              }
             />
           </p>
           <p className="signup-surname">
@@ -240,7 +223,9 @@ export default class RegisterComponent extends React.Component<Props, State> {
               id="surname"
               placeholder=""
               value={this.state.lastName}
-              onChange={(e : React.ChangeEvent<HTMLInputElement>) => this.handleFieldChange("lastName")(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                this.handleFieldChange('lastName')(e.target.value)
+              }
             />
           </p>
           <p className="signup-email">
@@ -251,7 +236,9 @@ export default class RegisterComponent extends React.Component<Props, State> {
               id="email"
               placeholder="voorbeeld@voorbeeld.nl"
               value={this.state.email}
-              onChange={(e : React.ChangeEvent<HTMLInputElement>) => this.handleFieldChange("email")(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                this.handleFieldChange('email')(e.target.value)
+              }
             />
           </p>
           <p className="signup-emailconfirm">
@@ -262,7 +249,9 @@ export default class RegisterComponent extends React.Component<Props, State> {
               id="emailconfirm"
               placeholder="voorbeeld@voorbeeld.nl"
               value={this.state.emailconfirm}
-              onChange={(e : React.ChangeEvent<HTMLInputElement>) => this.handleFieldChange("emailconfirm")(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                this.handleFieldChange('emailconfirm')(e.target.value)
+              }
               onBlur={this.checkEmail}
             />
           </p>
@@ -277,7 +266,9 @@ export default class RegisterComponent extends React.Component<Props, State> {
               id="pass"
               placeholder=""
               value={this.state.password}
-              onChange={(e : React.ChangeEvent<HTMLInputElement>) => this.handleFieldChange("password")(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                this.handleFieldChange('password')(e.target.value)
+              }
               onBlur={this.correctPass}
             />
           </p>
@@ -289,7 +280,9 @@ export default class RegisterComponent extends React.Component<Props, State> {
               id="passconfirm"
               placeholder=""
               value={this.state.passconfirm}
-              onChange={(e : React.ChangeEvent<HTMLInputElement>) => this.handleFieldChange("passconfirm")(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                this.handleFieldChange('passconfirm')(e.target.value)
+              }
               onBlur={this.checkPasswords}
             />
           </p>

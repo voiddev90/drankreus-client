@@ -1,4 +1,4 @@
-import { Map, List } from "immutable"
+import { Map, List } from 'immutable'
 
 export class User {
   id?: number
@@ -45,31 +45,87 @@ export class Page<T> {
 }
 
 export function Option<T>(value: T): Option<T> {
-  if (!value) return { type: "none" }
-  return { type: "some", value: value }
+  if (!value) return { type: 'none' }
+  return { type: 'some', value: value }
 }
 
 export type Option<T> =
   | {
-      type: "none"
+      type: 'none'
     }
   | {
-      type: "some"
+      type: 'some'
       value: T
     }
 
-export type WithDataState<T> =
+export type WithGetState<T> =
   | {
-      type: "loading"
+      type: 'loading'
     }
   | {
-      type: "loaded"
+      type: 'loaded'
       data: Option<T>
     }
   | {
-      type: "error"
+      type: 'error'
       reason: number
     }
+
+export type WithPostState = 
+  | {
+    type: 'editing'
+  }
+  | {
+    type: 'creating' | 'validating'
+  }
+  | {
+    type: 'error'
+    error?: string
+  }
+  | {
+    type: 'success'
+    message?: string
+  }
+
+export type WithPutState<T> =
+  | {
+    type: 'loading'
+  }
+  | {
+    type: 'loaded' | 'editing'
+    data: Option<T>
+  }
+  | {
+    type: 'updating'
+  }
+  | {
+    type: 'error'
+    error?: string
+  }
+  | {
+    type: 'success'
+    message?: string
+  }
+
+export type WithDeleteState<T> = 
+| {
+  type: 'loading'
+}
+| {
+  type: 'loaded' | 'editing'
+  data: Option<T>
+}
+| {
+  type: 'removing'
+}
+| {
+  type: 'error'
+  error?: string
+}
+| {
+  type: 'success'
+  message?: string
+}
 
 export type LoginResponse = {
   token_type: string
@@ -79,6 +135,5 @@ export type LoginResponse = {
 }
 
 export type ProductResponse = Page<Product>
-
 
 export type Filter<T = any> = Map<string, T>
