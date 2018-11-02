@@ -27,8 +27,8 @@ export default class RegisterComponent extends React.Component<Props, State> {
   handleFieldChange: <T>(field: string) => (value: T) => void
   validateField: (
     field: string,
-    field2?: string
-  ) => (predicate: boolean, field2Value?: boolean) => void
+    extraField?: string
+  ) => (predicate: boolean, extraFieldValue?: boolean) => void
 
   constructor(props: Props) {
     super(props)

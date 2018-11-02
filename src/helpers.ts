@@ -26,9 +26,9 @@ function handleFieldChange<T>(field: string){
   }
 }
 
-function validateField(field: string, field2?: string){
-  return (predicate: boolean, field2Value?: boolean) => {
-    this.setState({...this.state, [field]: predicate, [field2]: field2Value})
+function validateField(field: string, extraField?: string){
+  return (predicate: boolean, extraFieldValue?: boolean) => {
+    this.setState({...this.state, [field]: predicate, [extraField]: extraFieldValue})
   }
 }
 

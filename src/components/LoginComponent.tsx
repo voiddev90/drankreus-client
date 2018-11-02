@@ -21,7 +21,7 @@ export default class LoginComponent extends React.Component<Props, State> {
   regexChar = /[A-Z]/
   regexNum = /[0-9]/
   handleFieldChange: <T>(field: string) => (value: T) => void
-  validateField: (field: string, field2?: string) => (predicate: boolean, field2Value?: boolean) => void
+  validateField: (field: string, extraField?: string) => (predicate: boolean, extraFieldValue?: boolean) => void
 
   constructor(props: Props) {
     super(props)
