@@ -4,6 +4,7 @@ import "../css/LoginComponent.css"
 import * as EmailValidator from "email-validator"
 import Axios, { AxiosResponse, AxiosError } from "axios"
 import { LoginResponse } from "../model"
+import { handleFieldChange } from "../helpers";
 
 type Props = {}
 type State = {
@@ -18,6 +19,8 @@ type State = {
 }
 
 export default class LoginComponent extends React.Component<Props, State> {
+  handleFieldChange: <T>(field: string) => (value: T) => void
+
   constructor(props: Props) {
     super(props)
 
@@ -32,17 +35,9 @@ export default class LoginComponent extends React.Component<Props, State> {
       redirect: false
     }
 
-    this.handleEmailChange = this.handleEmailChange.bind(this)
-    this.handlePassChange = this.handlePassChange.bind(this)
+    this.handleFieldChange = handleFieldChange.bind(this)
     this.validateEmail = this.validateEmail.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
-  }
-
-  handleEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({
-      ...this.state,
-      email: event.target.value
-    })
   }
 
   validateEmail() {
@@ -59,13 +54,6 @@ export default class LoginComponent extends React.Component<Props, State> {
         emailIsValid: false
       })
     }
-  }
-
-  handlePassChange(event: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({
-      ...this.state,
-      pass: event.target.value
-    })
   }
 
   handleLogin() {
@@ -117,7 +105,7 @@ export default class LoginComponent extends React.Component<Props, State> {
               id="email"
               placeholder="E-mailadres"
               value={this.state.email}
-              onChange={this.handleEmailChange}
+              onChange={(e : React.ChangeEvent<HTMLInputElement>) => this.handleFieldChange("email")(e.target.value)}
               onBlur={this.validateEmail}
             />
           </p>
@@ -131,7 +119,7 @@ export default class LoginComponent extends React.Component<Props, State> {
               id="pass"
               placeholder="Wachtwoord"
               value={this.state.pass}
-              onChange={this.handlePassChange}
+              onChange={(e : React.ChangeEvent<HTMLInputElement>) => this.handleFieldChange("pass")(e.target.value)}
             />
           </p>
           <button type="submit" className="button">

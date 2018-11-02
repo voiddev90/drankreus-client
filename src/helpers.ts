@@ -20,4 +20,10 @@ function OptionIsSome<T>(value: Option<T>) : boolean {
   return value.type == "some"
 }
 
-export { isLoggedIn, getLoggedInuser, logOut, OptionIsSome }
+function handleFieldChange<T>(field: string){
+  return (value: T) => {
+    this.setState({...this.state, [field]: value})
+  }
+}
+
+export { isLoggedIn, getLoggedInuser, logOut, OptionIsSome, handleFieldChange }
