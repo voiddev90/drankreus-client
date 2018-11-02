@@ -4,7 +4,7 @@ import '../css/LoginComponent.css'
 import * as EmailValidator from 'email-validator'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
 import { LoginResponse, WithPostState } from '../model'
-import { handleFieldChange } from '../helpers'
+import { handleFieldChange, validateField } from '../helpers'
 
 type Props = {}
 type State = WithPostState & {
@@ -18,7 +18,10 @@ type State = WithPostState & {
 }
 
 export default class LoginComponent extends React.Component<Props, State> {
+  regexChar = /[A-Z]/
+  regexNum = /[0-9]/
   handleFieldChange: <T>(field: string) => (value: T) => void
+  validateField: (field: string, field2?: string) => (predicate: boolean, field2Value?: boolean) => void
 
   constructor(props: Props) {
     super(props)
@@ -35,17 +38,9 @@ export default class LoginComponent extends React.Component<Props, State> {
     }
 
     this.handleFieldChange = handleFieldChange.bind(this)
-    this.validateEmail = this.validateEmail.bind(this)
+    this.validateField = validateField.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
     this.redirect = this.redirect.bind(this)
-  }
-
-  validateEmail() {
-    this.setState({
-      ...this.state,
-      emailIsValidated: true,
-      emailIsValid: EmailValidator.validate(this.state.email)
-    })
   }
 
   handleLogin() {
@@ -126,7 +121,7 @@ export default class LoginComponent extends React.Component<Props, State> {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('email')(e.target.value)
               }
-              onBlur={this.validateEmail}
+              onBlur={() => this.validateField("emailIsValid", 'emailIsValidated')(EmailValidator.validate(this.state.email), true)}
             />
           </p>
           <p className="field field-pass">
@@ -142,6 +137,9 @@ export default class LoginComponent extends React.Component<Props, State> {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('pass')(e.target.value)
               }
+              onBlur={() => this.validateField("passwordIsValid", "passwordIsValidated")(this.regexChar.test(this.state.pass) &&
+              this.regexNum.test(this.state.pass),
+            true)}
             />
           </p>
           <button type="submit" className="button">

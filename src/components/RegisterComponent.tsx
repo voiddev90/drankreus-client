@@ -3,25 +3,32 @@ import { User, WithPostState } from '../model'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
 import * as EmailValidator from 'email-validator'
 import '../css/SignUp.css'
-import { handleFieldChange } from '../helpers'
+import { handleFieldChange, validateField } from '../helpers'
 
 type Props = {}
 type State = WithPostState &
   User & {
     emailconfirm: string
+    emailIsValid: boolean
+    emailIsValidated: boolean
+    emailMatch: boolean
+    emailIsMatched: boolean
     passconfirm: string
-    passcheck: boolean
-    passIsChecked: boolean
-    emailCheck: boolean
-    emailIsChecked: boolean
+    passwordIsValid: boolean
+    passwordIsValidated: boolean
+    passwordMatch: boolean
+    passwordIsMatched: boolean
     registered: boolean
-    correctpass: boolean
   }
 
 export default class RegisterComponent extends React.Component<Props, State> {
   regexChar = /[A-Z]/
   regexNum = /[0-9]/
   handleFieldChange: <T>(field: string) => (value: T) => void
+  validateField: (
+    field: string,
+    field2?: string
+  ) => (predicate: boolean, field2Value?: boolean) => void
 
   constructor(props: Props) {
     super(props)
@@ -32,65 +39,46 @@ export default class RegisterComponent extends React.Component<Props, State> {
       lastName: '',
       prefix: '',
       email: '',
-      password: '',
       emailconfirm: '',
+      emailIsValid: false,
+      emailIsValidated: false,
+      emailMatch: false,
+      emailIsMatched: false,
+      password: '',
       passconfirm: '',
-      passcheck: false,
-      passIsChecked: false,
-      emailCheck: false,
-      emailIsChecked: false,
+      passwordIsValid: false,
+      passwordIsValidated: false,
+      passwordMatch: false,
+      passwordIsMatched: false,
       registered: false,
-      admin: false,
-      correctpass: false
+      admin: false
     }
 
     this.handleFieldChange = handleFieldChange.bind(this)
-    this.checkPasswords = this.checkPasswords.bind(this)
-    this.checkEmail = this.checkEmail.bind(this)
+    this.validateField = validateField.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.resetForm = this.resetForm.bind(this)
-    this.correctPass = this.correctPass.bind(this)
-  }
-
-  correctPass() {
-    this.setState({
-      ...this.state,
-      correctpass:
-        this.regexChar.test(this.state.password) &&
-        this.regexNum.test(this.state.password)
-    })
   }
 
   resetForm() {
     this.setState({
       ...this.state,
+      type: 'editing',
       firstName: '',
-      prefix: '',
       lastName: '',
+      prefix: '',
       email: '',
       emailconfirm: '',
+      emailIsValid: false,
+      emailIsValidated: false,
+      emailMatch: false,
+      emailIsMatched: false,
       password: '',
       passconfirm: '',
-      passcheck: false,
-      passIsChecked: false,
-      emailCheck: false,
-      emailIsChecked: false
-    })
-  }
-
-  checkPasswords() {
-    this.setState({
-      ...this.state,
-      passcheck: true,
-      passIsChecked: this.state.password === this.state.passconfirm
-    })
-  }
-
-  checkEmail() {
-    this.setState({
-      ...this.state,
-      emailCheck: true,
-      emailIsChecked: this.state.email === this.state.emailconfirm
+      passwordIsValid: false,
+      passwordIsValidated: false,
+      passwordMatch: false,
+      passwordIsMatched: false
     })
   }
 
@@ -108,8 +96,8 @@ export default class RegisterComponent extends React.Component<Props, State> {
       })
     } else {
       if (
-        this.state.passcheck &&
-        this.state.emailCheck &&
+        this.state.passwordIsValid &&
+        this.state.emailIsValid &&
         EmailValidator.validate(this.state.email)
       ) {
         const user: User = {
@@ -123,7 +111,7 @@ export default class RegisterComponent extends React.Component<Props, State> {
 
         const request = Axios.post('http://localhost:5000/auth/register', user)
 
-        this.setState({...this.state, type: 'creating'})
+        this.setState({ ...this.state, type: 'creating' })
 
         request
           .then((value: AxiosResponse) => {
@@ -167,14 +155,6 @@ export default class RegisterComponent extends React.Component<Props, State> {
 
   render() {
     document.title = 'Drankreus - Registreren'
-    let wrongpass = null
-    if (!this.state.correctpass && this.state.password !== '') {
-      wrongpass = (
-        <div className="wrongpass-txt">
-          Het wachtwoord dat u heeft opgegeven voldoet niet aan de eisen.
-        </div>
-      )
-    }
     return (
       <div className="signup-form">
         <h2>Registreren</h2>
@@ -182,12 +162,10 @@ export default class RegisterComponent extends React.Component<Props, State> {
           Vul hier uw gegevens in, zodat wij een account voor u kunnen maken.
         </p>
         {this.state.registered && <small>Gebruiker geregistreerd!</small>}
-        {this.state.type == 'error' && this.state.error && (
-          <small>{this.state.error}</small>
-        )}
-        {this.state.type == 'success' && this.state.message && (
-          <small>{this.state.message}</small>
-        )}
+        {this.state.type == 'error' &&
+          this.state.error && <small>{this.state.error}</small>}
+        {this.state.type == 'success' &&
+          this.state.message && <small>{this.state.message}</small>}
         <div className="fields-signup">
           <p className="signup-name">
             <label htmlFor="name">Voornaam</label>
@@ -239,6 +217,12 @@ export default class RegisterComponent extends React.Component<Props, State> {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('email')(e.target.value)
               }
+              onBlur={() =>
+                this.validateField('emailIsValid', 'emailIsValidated')(
+                  EmailValidator.validate(this.state.email),
+                  true
+                )
+              }
             />
           </p>
           <p className="signup-emailconfirm">
@@ -252,10 +236,14 @@ export default class RegisterComponent extends React.Component<Props, State> {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('emailconfirm')(e.target.value)
               }
-              onBlur={this.checkEmail}
+              onBlur={() =>
+                this.validateField('emailMatch', 'emailIsMatched')(
+                  this.state.email === this.state.emailconfirm,
+                  true
+                )
+              }
             />
           </p>
-          <p>{wrongpass}</p>
           <p className="signup-pass">
             <label htmlFor="pass">
               Wachtwoord (minimaal één hoofdletter en één cijfer)
@@ -269,7 +257,13 @@ export default class RegisterComponent extends React.Component<Props, State> {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('password')(e.target.value)
               }
-              onBlur={this.correctPass}
+              onBlur={() =>
+                this.validateField('passwordIsValid', 'passwordIsValidated')(
+                  this.regexChar.test(this.state.password) &&
+                    this.regexNum.test(this.state.password),
+                  true
+                )
+              }
             />
           </p>
           <p className="signup-passconfirm">
@@ -283,7 +277,12 @@ export default class RegisterComponent extends React.Component<Props, State> {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('passconfirm')(e.target.value)
               }
-              onBlur={this.checkPasswords}
+              onBlur={() =>
+                this.validateField('passwordMatch', 'passwordIsMatched')(
+                  this.state.password == this.state.passconfirm,
+                  true
+                )
+              }
             />
           </p>
         </div>

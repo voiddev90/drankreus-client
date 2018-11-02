@@ -26,4 +26,10 @@ function handleFieldChange<T>(field: string){
   }
 }
 
-export { isLoggedIn, getLoggedInuser, logOut, OptionIsSome, handleFieldChange }
+function validateField(field: string, field2?: string){
+  return (predicate: boolean, field2Value?: boolean) => {
+    this.setState({...this.state, [field]: predicate, [field2]: field2Value})
+  }
+}
+
+export { isLoggedIn, getLoggedInuser, logOut, OptionIsSome, handleFieldChange, validateField }
