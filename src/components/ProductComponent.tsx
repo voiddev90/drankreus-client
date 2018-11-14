@@ -16,7 +16,7 @@ export default class ProductComponent extends React.Component<Props, State> {
                 <li><img src={this.props.url}></img></li>
                 <li><h1 id="productname">{this.props.name}</h1></li>
                 <li><h1 id="productprice">{this.props.price}</h1></li>
-                <button>Bekijk product</button>
+                
 
             </ul>
             </div>

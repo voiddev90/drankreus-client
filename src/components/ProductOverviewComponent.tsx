@@ -9,6 +9,7 @@ import {
   ProductResponse
 } from '../model'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
+import '../css/productGrid.css'
 
 type ProductOverviewProps = {}
 type ProductOverviewState = WithGetState<ProductResponse> & {
@@ -61,11 +62,13 @@ export default class ProductOverviewComponent extends React.Component<
                   return (
                     <div className="product-container">
                       <h1 className="product-name">{value.name}</h1>
+                      <img src={value.url}></img>
                       <p className="product-price">€{value.price}</p>
                       <p className="product-volume">{value.volume} liter</p>
                       <p className="product-alcoholpercentage">
                         {value.alcoholPercentage}%
                       </p>
+                      <button className="product-button">Toevoegen</button>
                     </div>
                   )
                 })}
