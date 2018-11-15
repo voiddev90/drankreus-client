@@ -1,11 +1,12 @@
-import * as React from "react"
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"
-import BaseComponent from "./components/BaseComponent"
-import HomeComponent from "./components/HomeComponent"
-import { PageLoaderComponent } from "./components/PageLoaderComponent"
+import * as React from "react";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import BaseComponent from "./components/BaseComponent";
+import HomeComponent from "./components/HomeComponent";
+import { PageLoaderComponent } from "./components/PageLoaderComponent";
 import ProductOverviewComponent from "./components/ProductOverviewComponent";
+import { ProductDetailComponent } from "./components/ProductDetailComponent";
 
-export type ClientProps = {}
+export type ClientProps = {};
 
 export const Client: React.SFC<ClientProps> = () => {
   return (
@@ -19,7 +20,7 @@ export const Client: React.SFC<ClientProps> = () => {
               <BaseComponent>
                 <ProductOverviewComponent />
               </BaseComponent>
-            )
+            );
           }}
         />
         <Route
@@ -29,10 +30,20 @@ export const Client: React.SFC<ClientProps> = () => {
               <BaseComponent>
                 <PageLoaderComponent {...props} />
               </BaseComponent>
-            )
+            );
+          }}
+        />
+        <Route
+          path="/product/:slug"
+          render={props => {
+            return (
+              <BaseComponent>
+                <ProductDetailComponent {...props} />
+              </BaseComponent>
+            );
           }}
         />
       </Switch>
     </BrowserRouter>
-  )
-}
+  );
+};

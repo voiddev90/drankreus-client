@@ -1,25 +1,22 @@
 import * as React from 'react'
 import { Product } from '../model';
+import { Link } from 'react-router-dom';
 
 type Props = Product
-type State = {}
 
-export default class ProductComponent extends React.Component<Props, State> {
-    constructor(props: Props){
-        super(props)
-    }
-
-    render(){
-        return (
-            <div className="productcontainer" id="productcontainer">
-            <ul>
-                <li><img src={this.props.url}></img></li>
-                <li><h1 id="productname">{this.props.name}</h1></li>
-                <li><h1 id="productprice">{this.props.price}</h1></li>
-                <button>Bekijk product</button>
-
-            </ul>
-            </div>
-        )
-    }
+export const ProductComponent: React.SFC<Props> = (value: Props) => {
+    return (
+        <div className="product-container" key={value.id}>
+                      <Link to={`/product/${value.id}`}>
+                      <h1 className="product-name">{value.name}</h1>
+                      <img src={value.url}/>
+                      <p className="product-price">€{value.price}</p>
+                      <p className="product-volume">{value.volume} liter</p>
+                      <p className="product-alcoholpercentage">
+                        {value.alcoholPercentage}%
+                      </p>
+                      </Link>
+                      <button className="product-button">Toevoegen</button>
+                    </div>
+    )
 }

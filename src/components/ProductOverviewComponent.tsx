@@ -9,6 +9,10 @@ import {
   ProductResponse
 } from '../model'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
+import '../css/productGrid.css'
+import { Link } from 'react-router-dom';
+import { ProductComponent } from './ProductComponent';
+import { PaginationComponent } from './PaginationComponent';
 
 type ProductOverviewProps = {}
 type ProductOverviewState = WithGetState<ProductResponse> & {
@@ -28,9 +32,11 @@ export default class ProductOverviewComponent extends React.Component<
       perPage: 20,
       page: 1
     }
+
+    this.GetData = this.GetData.bind(this)
   }
 
-  componentDidMount() {
+  GetData() {
     Axios.get(`http://localhost:5000/api/product/products?index=${this.state.page}&size=${this.state.perPage}`)
       .then((value: AxiosResponse<ProductResponse>) => {
         this.setState({
@@ -48,6 +54,10 @@ export default class ProductOverviewComponent extends React.Component<
       })
   }
 
+  componentDidMount() {
+    this.GetData()
+  }
+
   render() {
     switch (this.state.type) {
       case 'loaded':
@@ -58,18 +68,14 @@ export default class ProductOverviewComponent extends React.Component<
             return (
               <section className="product-overview">
                 {this.state.data.value.items.map((value: Product) => {
-                  return (
-                    <div className="product-container">
-                      <h1 className="product-name">{value.name}</h1>
-                      <p className="product-price">€{value.price}</p>
-                      <p className="product-volume">{value.volume} liter</p>
-                      <p className="product-alcoholpercentage">
-                        {value.alcoholPercentage}%
-                      </p>
-                    </div>
-                  )
+                  return <ProductComponent {...value} />
                 })}
+                <PaginationComponent totalPages={this.state.data.value.totalPages} route="product" onClick={(page: number) => {
+                  this.setState({...this.state, page: page}, this.GetData)
+                  }} />
               </section>
+              
+              
             )
         }
       case 'loading':
@@ -77,6 +83,7 @@ export default class ProductOverviewComponent extends React.Component<
       case 'error':
       default:
         return <>error</>
+      
     }
   }
 }
