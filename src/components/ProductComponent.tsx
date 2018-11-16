@@ -11,7 +11,7 @@ type Props = {
 export const ProductComponent: React.SFC<Props> = (props: Props) => {
   return (
     <div className="product-container" key={props.product.id}>
-      <Link to={{ pathname: `/product/${props.product.id}`, state: props }}>
+      <Link to={{ pathname: `/product/${props.product.id}`, state: props.product }}>
         <h1 className="product-name">{props.product.name}</h1>
         <img src={props.product.url} />
         <p className="product-price">€{props.product.price}</p>
