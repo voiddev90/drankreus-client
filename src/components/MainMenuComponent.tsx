@@ -1,6 +1,7 @@
 import * as React from "react"
 import MenuItemComponent from "./Menu/MenuItemComponent"
 import { isLoggedIn, getLoggedInuser, logOut } from "../helpers"
+import ShoppingCartMenuItem from "./Menu/ShoppingCartMenuItem";
 
 type Props = {}
 type State = {}
@@ -30,6 +31,7 @@ export default class MainMenuComponent extends React.Component<Props, State> {
               />
             </>
           )}
+          <ShoppingCartMenuItem />
         </ul>
       </nav>
     )

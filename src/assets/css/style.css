@@ -113,6 +113,7 @@ header.site-header nav.main-menu .menu {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  align-items: center;
   list-style-type: none;
 }
 

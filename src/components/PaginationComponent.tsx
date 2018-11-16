@@ -11,7 +11,7 @@ export const PaginationComponent: React.SFC<Props> = (props: Props) => {
     return <div className="pagination-container">
         <ul>
             {numberArray.map((page: number) => {
-                return <li className="number"><button type='link' onClick={() =>  props.onClick(page +1)}>{page + 1}</button></li>
+                return <li className="number" key={page}><button type='link' onClick={() =>  props.onClick(page +1)}>{page + 1}</button></li>
             })}
         </ul>
     </div>
