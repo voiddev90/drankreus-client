@@ -9,7 +9,8 @@ type Props = ReactCookieProps & {
 }
 
 const ShoppingCartMenuItemComponent: React.SFC<Props> = (props: Props) => {
-  const amountOfCookies = Object.keys(props.allCookies).length
+  const cookies: number[] = props.cookies.get('shopping-cart') ? props.cookies.get('shopping-cart') : []
+  const amountOfCookies = cookies.length
   const liClasses = [
     "menu-item",
     "shoppinger-cart",
