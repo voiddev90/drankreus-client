@@ -27,7 +27,7 @@ export const Client: React.SFC<ClientProps> = () => {
         <Route
           path="/user-profile"
           render={() => {
-            return(
+            return (
               <BaseComponent>
                 <AccountComponent/>  
               </BaseComponent>
