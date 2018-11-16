@@ -1,6 +1,5 @@
 import * as React from "react"
 import MenuItemComponent from "./Menu/MenuItemComponent"
-import "../css/MainMenu.css"
 import { isLoggedIn, getLoggedInuser, logOut } from "../helpers"
 
 type Props = {}

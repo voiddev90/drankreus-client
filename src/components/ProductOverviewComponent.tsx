@@ -9,7 +9,6 @@ import {
   ProductResponse
 } from '../model'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
-import '../css/productGrid.css'
 import { Link } from 'react-router-dom'
 import { ProductComponent } from './ProductComponent'
 import { PaginationComponent } from './PaginationComponent'
