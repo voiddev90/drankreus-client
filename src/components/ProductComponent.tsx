@@ -7,7 +7,7 @@ type Props = Product
 export const ProductComponent: React.SFC<Props> = (value: Props) => {
     return (
         <div className="product-container" key={value.id}>
-                      <Link to={`/product/${value.id}`}>
+                      <Link to={{pathname: `/product/${value.id}`, state: value}}>
                       <h1 className="product-name">{value.name}</h1>
                       <img src={value.url}/>
                       <p className="product-price">€{value.price}</p>
