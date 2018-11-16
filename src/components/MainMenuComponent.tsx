@@ -21,9 +21,9 @@ export default class MainMenuComponent extends React.Component<Props, State> {
             <MenuItemComponent to="/login" name="Inloggen" />
           ) : (
             <>
-              <li className="menu-item">
-                Welkom, {getLoggedInuser().firstName}
-              </li>
+              <MenuItemComponent to="/user-profile" name="Jouw profiel"/> 
+                {/* Welkom, {getLoggedInuser().firstName} */}
+              
               <MenuItemComponent
                 to="/"
                 name="Uitloggen"

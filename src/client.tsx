@@ -5,6 +5,7 @@ import HomeComponent from "./components/HomeComponent";
 import { PageLoaderComponent } from "./components/PageLoaderComponent";
 import ProductOverviewComponent from "./components/ProductOverviewComponent";
 import { ProductDetailComponent } from "./components/ProductDetailComponent";
+import AccountComponent from "./components/AccountComponent";
 
 export type ClientProps = {};
 
@@ -23,6 +24,15 @@ export const Client: React.SFC<ClientProps> = () => {
             );
           }}
         />
+        <Route
+          path="/user-profile"
+          render={() => {
+            return(
+              <BaseComponent>
+                <AccountComponent/>  
+              </BaseComponent>
+            );}}
+          />
         <Route
           path="/:slug"
           render={props => {
