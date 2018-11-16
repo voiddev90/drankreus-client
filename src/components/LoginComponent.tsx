@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { NavLink, Redirect } from 'react-router-dom'
-import '../css/LoginComponent.css'
 import * as EmailValidator from 'email-validator'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
 import { LoginResponse, WithPostState } from '../model'

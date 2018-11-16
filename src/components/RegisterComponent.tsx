@@ -2,7 +2,6 @@ import * as React from 'react'
 import { User, WithPostState } from '../model'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
 import * as EmailValidator from 'email-validator'
-import '../css/SignUp.css'
 import { handleFieldChange, validateField } from '../helpers'
 
 type Props = {}
