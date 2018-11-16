@@ -30,7 +30,7 @@ export default class ProductOverviewComponent extends React.Component<
     this.state = {
       type: 'loading',
       perPage: 20,
-      page: 1
+      page: 0
     }
 
     this.GetData = this.GetData.bind(this)
@@ -73,6 +73,7 @@ export default class ProductOverviewComponent extends React.Component<
                 <PaginationComponent
                   totalPages={this.state.data.value.totalPages}
                   route='product'
+                  currentPage={this.state.page}
                   onClick={(page: number) => {
                     this.setState({ ...this.state, page: page }, this.GetData)
                   }}
