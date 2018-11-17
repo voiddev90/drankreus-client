@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ReactCookieProps, withCookies, Cookies } from 'react-cookie'
+import { ReactCookieProps, withCookies } from 'react-cookie'
 import { WithGetState, ProductResponse, Product, Option } from '../model'
 import { ShoppingCartItemComponent } from './ShoppingCart/ShoppingCartItemComponent'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
@@ -10,6 +10,7 @@ import {
   addToCart
 } from '../helpers'
 import ShoppingCartRecap from './ShoppingCart/ShoppingCartRecap'
+import { Link } from 'react-router-dom';
 
 type State = WithGetState<ProductResponse>
 
@@ -105,6 +106,7 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
           </p>
         </div>
         <ShoppingCartRecap />
+        <div className='order-button'><p><Link to='/checkout/order' className="button">Bestellen</Link></p></div>
       </section>
     )
   }

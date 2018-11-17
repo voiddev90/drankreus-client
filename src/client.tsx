@@ -5,6 +5,7 @@ import HomeComponent from "./components/HomeComponent";
 import { PageLoaderComponent } from "./components/PageLoaderComponent";
 import ProductOverviewComponent from "./components/ProductOverviewComponent";
 import { ProductDetailComponent } from "./components/Products/ProductDetailComponent";
+import { CheckoutLoaderComponent } from "./components/CheckoutLoaderComponent";
 
 export type ClientProps = {};
 
@@ -29,6 +30,16 @@ export const Client: React.SFC<ClientProps> = () => {
             return (
               <BaseComponent>
                 <ProductDetailComponent {...props} />
+              </BaseComponent>
+            );
+          }}
+        />
+        <Route
+          path="/checkout/:slug"
+          render={props => {
+            return (
+              <BaseComponent>
+                <CheckoutLoaderComponent {...props} />
               </BaseComponent>
             );
           }}
