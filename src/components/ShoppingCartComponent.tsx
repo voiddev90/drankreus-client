@@ -15,7 +15,6 @@ const deleteItemFromShoppingCart: (
     const shoppingCart: number[] = cookies.get('shopping-cart')
     const i: number = shoppingCart.indexOf(product)
     shoppingCart.splice(i, 1)
-    console.log(JSON.stringify(shoppingCart))
     cookies.set('shopping-cart', shoppingCart)
   }
 }
@@ -49,7 +48,6 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
           })
         })
         .catch((error: AxiosError) => {
-          console.log(error)
           this.setState({
             type: 'error'
           })

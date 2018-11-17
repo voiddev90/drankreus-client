@@ -57,7 +57,6 @@ class ProductOverviewComponent extends React.Component<
   }
 
   addToCart(productId: number) {
-    console.log('before adding: ', JSON.stringify(this.props.allCookies))
     if (this.props.cookies.get('shopping-cart')) {
       const shoppingCart: ShoppingCart = this.props.cookies.get('shopping-cart')
       const newShoppingcart: ShoppingCart = shoppingCart.concat([productId])
@@ -65,7 +64,6 @@ class ProductOverviewComponent extends React.Component<
     } else {
       this.props.cookies.set('shopping-cart', [productId])
     }
-    console.log('after adding: ', JSON.stringify(this.props.allCookies))
   }
 
   componentDidMount() {
