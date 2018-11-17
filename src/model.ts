@@ -137,3 +137,5 @@ export type LoginResponse = {
 export type ProductResponse = Page<Product>
 
 export type Filter<T = any> = Map<string, T>
+
+export type ShoppingCart = number[]
