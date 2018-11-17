@@ -10,6 +10,7 @@ import Axios, { AxiosResponse, AxiosError } from 'axios'
 import { ProductComponent } from './ProductComponent'
 import { PaginationComponent } from './PaginationComponent'
 import { ReactCookieProps, withCookies } from 'react-cookie'
+import { addToCart } from '../helpers'
 
 type ProductOverviewProps = ReactCookieProps
 type ProductOverviewState = WithGetState<ProductResponse> & {
@@ -31,7 +32,6 @@ class ProductOverviewComponent extends React.Component<
     }
 
     this.getData = this.getData.bind(this)
-    this.addToCart = this.addToCart.bind(this)
   }
 
   getData() {
@@ -56,16 +56,6 @@ class ProductOverviewComponent extends React.Component<
       })
   }
 
-  addToCart(productId: number) {
-    if (this.props.cookies.get('shopping-cart')) {
-      const shoppingCart: ShoppingCart = this.props.cookies.get('shopping-cart')
-      const newShoppingcart: ShoppingCart = shoppingCart.concat([productId])
-      this.props.cookies.set('shopping-cart', newShoppingcart)
-    } else {
-      this.props.cookies.set('shopping-cart', [productId])
-    }
-  }
-
   componentDidMount() {
     this.getData()
   }
@@ -78,19 +68,19 @@ class ProductOverviewComponent extends React.Component<
             return <>geen producten</>
           case 'some':
             return (
-              <section className="product-overview">
+              <section className='product-overview'>
                 {this.state.data.value.items.map((value: Product) => {
                   return (
                     <ProductComponent
                       product={value}
                       key={value.id}
-                      onAdd={this.addToCart}
+                      onAdd={addToCart(this.props.cookies)}
                     />
                   )
                 })}
                 <PaginationComponent
                   totalPages={this.state.data.value.totalPages}
-                  route="product"
+                  route='product'
                   onClick={(page: number) => {
                     this.setState({ ...this.state, page: page }, this.getData)
                   }}

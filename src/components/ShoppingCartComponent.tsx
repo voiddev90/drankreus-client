@@ -3,24 +3,7 @@ import { ReactCookieProps, withCookies, Cookies } from 'react-cookie'
 import { WithGetState, ProductResponse, Product, Option } from '../model'
 import { ShoppingCartItemComponent } from './ShoppingCartItemComponent'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
-
-const clearShoppingCart: (cookies: Cookies) => void = cookies => {
-  cookies.remove('shopping-cart')
-}
-
-const deleteItemFromShoppingCart: (
-  cookies: Cookies
-) => (product: number) => void = cookies => {
-  return (product: number) => {
-    const shoppingCart: number[] = cookies.get('shopping-cart')
-    const i: number = shoppingCart.indexOf(product)
-    shoppingCart.splice(i, 1)
-    cookies.set('shopping-cart', shoppingCart)
-  }
-}
-
-const distinct = (value: number, index: number, self: number[]) =>
-  self.indexOf(value) === index
+import { distinct, deleteItemFromShoppingCart, clearShoppingCart } from '../helpers'
 
 type State = WithGetState<ProductResponse>
 
