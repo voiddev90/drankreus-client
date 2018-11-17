@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router'
-import { Product } from '../model'
+import { Product } from '../../model'
 import { checkPropTypes } from 'prop-types'
 
 type Props = RouteComponentProps<{ slug: string }>

@@ -4,7 +4,7 @@ import BaseComponent from "./components/BaseComponent";
 import HomeComponent from "./components/HomeComponent";
 import { PageLoaderComponent } from "./components/PageLoaderComponent";
 import ProductOverviewComponent from "./components/ProductOverviewComponent";
-import { ProductDetailComponent } from "./components/ProductDetailComponent";
+import { ProductDetailComponent } from "./components/Products/ProductDetailComponent";
 
 export type ClientProps = {};
 

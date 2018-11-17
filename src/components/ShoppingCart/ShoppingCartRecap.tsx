@@ -44,10 +44,29 @@ class ShoppingCartRecap extends React.Component<Props, State> {
   }
 
   render() {
-    return this.state.type == 'loaded' && this.state.data.type == 'some' ? (
+    const shoppingCart: ShoppingCart = this.props.cookies.get('shopping-cart')
+    return shoppingCart && shoppingCart.length > 0 ? (
       <div className='recap'>
-        <p className='tax'>BTW (21%): €{this.state.data.value.tax.toFixed(2)}</p>
-        <p className='total'>Totaal: €{this.state.data.value.grandtotal.toFixed(2)}</p>
+        <p className='tax'>
+          BTW (21%): €
+          {this.state.type == 'loading' ? (
+            <>BTW ophalen..</>
+          ) : (
+            this.state.type == 'loaded' &&
+            this.state.data.type == 'some' &&
+            this.state.data.value.tax.toFixed(2)
+          )}
+        </p>
+        <p className='total'>
+          Totaal: €
+          {this.state.type == 'loading' ? (
+            <>Totaal ophalen..</>
+          ) : (
+            this.state.type == 'loaded' &&
+            this.state.data.type == 'some' &&
+            this.state.data.value.grandtotal.toFixed(2)
+          )}
+        </p>
       </div>
     ) : null
   }

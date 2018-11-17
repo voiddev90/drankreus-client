@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Product } from '../model'
+import { Product } from '../../model'
 import { Link } from 'react-router-dom'
 
 type Props = {

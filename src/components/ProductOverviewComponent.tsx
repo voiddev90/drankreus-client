@@ -6,7 +6,7 @@ import {
   ProductResponse
 } from '../model'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
-import { ProductComponent } from './ProductComponent'
+import { ProductComponent } from './Products/ProductComponent'
 import { PaginationComponent } from './PaginationComponent'
 import { ReactCookieProps, withCookies } from 'react-cookie'
 import { addToCart } from '../helpers'
