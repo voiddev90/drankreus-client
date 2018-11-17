@@ -40,7 +40,7 @@ function validateField(field: string, extraField?: string) {
 const distinct = (value: number, index: number, self: number[]) =>
   self.indexOf(value) === index
 
-const fillArray = <T>(amount: number, value: T) => {
+const fillArray = (amount: number) => <T>(value: T) => {
   const array: T[] = []
   for (let i = 0; i < amount; i++){
     array.push(value)

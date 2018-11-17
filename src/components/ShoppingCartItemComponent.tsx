@@ -52,7 +52,7 @@ export class ShoppingCartItemComponent extends React.Component<Props, State> {
             <button
               type='button'
               onClick={() =>
-                props.onAdd(fillArray(this.state.amountToAdd, props.id))
+                props.onAdd(fillArray(this.state.amountToAdd)(props.id))
               }
             >
               Toevoegen
