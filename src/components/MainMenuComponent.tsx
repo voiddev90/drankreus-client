@@ -1,7 +1,7 @@
-import * as React from "react"
-import MenuItemComponent from "./Menu/MenuItemComponent"
-import "../css/MainMenu.css"
-import { isLoggedIn, getLoggedInuser, logOut } from "../helpers"
+import * as React from 'react'
+import MenuItemComponent from './Menu/MenuItemComponent'
+import '../css/MainMenu.css'
+import { isLoggedIn, getLoggedInuser, logOut } from '../helpers'
 
 type Props = {}
 type State = {}
@@ -21,9 +21,7 @@ export default class MainMenuComponent extends React.Component<Props, State> {
             <MenuItemComponent to="/login" name="Inloggen" />
           ) : (
             <>
-              <MenuItemComponent to="/user-profile" name="Jouw profiel"/> 
-                {/* Welkom, {getLoggedInuser().firstName} */}
-              
+              <MenuItemComponent to="/profile" name="Jouw profiel" />
               <MenuItemComponent
                 to="/"
                 name="Uitloggen"

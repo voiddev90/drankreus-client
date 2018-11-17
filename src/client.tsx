@@ -25,30 +25,21 @@ export const Client: React.SFC<ClientProps> = () => {
           }}
         />
         <Route
-          path="/user-profile"
-          render={() => {
+          path="/product/:slug"
+          render={props => {
             return (
               <BaseComponent>
-                <AccountComponent/>  
+                <ProductDetailComponent {...props} />
               </BaseComponent>
-            );}}
-          />
+            );
+          }}
+        />
         <Route
           path="/:slug"
           render={props => {
             return (
               <BaseComponent>
                 <PageLoaderComponent {...props} />
-              </BaseComponent>
-            );
-          }}
-        />
-        <Route
-          path="/product/:slug"
-          render={props => {
-            return (
-              <BaseComponent>
-                <ProductDetailComponent {...props} />
               </BaseComponent>
             );
           }}
