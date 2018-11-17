@@ -1,0 +1,56 @@
+import * as React from 'react'
+import {
+  WithGetState,
+  CartResponse,
+  ShoppingCart,
+  Product,
+  Option
+} from '../../model'
+import Axios, { AxiosResponse, AxiosError } from 'axios'
+import { distinct } from '../../helpers'
+import { withCookies, ReactCookieProps } from 'react-cookie'
+
+type Props = ReactCookieProps
+
+type State = WithGetState<CartResponse>
+
+class ShoppingCartRecap extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      type: 'loading'
+    }
+  }
+
+  componentDidMount() {
+    const shoppingCart: ShoppingCart = this.props.cookies.get('shopping-cart')
+    if (shoppingCart && shoppingCart.length > 0) {
+      const requestBody = shoppingCart.filter(distinct).map(productId => {
+        return {
+          id: productId,
+          amount: shoppingCart.filter(product => product == productId).length
+        }
+      })
+
+      Axios.post('http://localhost:5000/api/cart', requestBody)
+        .then((response: AxiosResponse<CartResponse>) =>
+          this.setState({ type: 'loaded', data: Option(response.data) })
+        )
+        .catch((error: AxiosError) =>
+          this.setState({ type: 'error', reason: error.response.status })
+        )
+    }
+  }
+
+  render() {
+    return this.state.type == 'loaded' && this.state.data.type == 'some' ? (
+      <div className='recap'>
+        <p className='tax'>BTW (21%): €{this.state.data.value.tax.toFixed(2)}</p>
+        <p className='total'>Totaal: €{this.state.data.value.grandtotal.toFixed(2)}</p>
+      </div>
+    ) : null
+  }
+}
+
+export default withCookies(ShoppingCartRecap)

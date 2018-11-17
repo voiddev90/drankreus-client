@@ -15,8 +15,8 @@ export const ProductComponent: React.SFC<Props> = (props: Props) => {
       >
         <h1 className="product-name">{props.product.name}</h1>
         <img src={props.product.url} />
-        <p className="product-price">€{props.product.price}</p>
-        <p className="product-volume">{props.product.volume} liter</p>
+        <p className="product-price">€{props.product.price.toFixed(2)}</p>
+        <p className="product-volume">{props.product.volume}</p>
         <p className="product-alcoholpercentage">
           {props.product.alcoholPercentage}%
         </p>

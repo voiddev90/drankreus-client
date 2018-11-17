@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Product } from '../model'
-import { fillArray, handleFieldChange, validateField } from '../helpers'
+import { Product } from '../../model'
+import { fillArray, handleFieldChange, validateField } from '../../helpers'
 
 type Props = Product & {
   amount: number
@@ -14,10 +14,6 @@ type State = {
 
 export class ShoppingCartItemComponent extends React.Component<Props, State> {
   handleFieldChange: <T>(field: string) => (value: T) => void
-  validateField: (
-    field: string,
-    extraField?: string
-  ) => (predicate: boolean, extraFieldValue?: boolean) => void
 
   constructor(props: Props) {
     super(props)
@@ -27,7 +23,6 @@ export class ShoppingCartItemComponent extends React.Component<Props, State> {
     }
 
     this.handleFieldChange = handleFieldChange.bind(this)
-    this.validateField = validateField.bind(this)
   }
   render() {
     const props = this.props
@@ -38,16 +33,17 @@ export class ShoppingCartItemComponent extends React.Component<Props, State> {
         </header>
         <main className='content'>
           <h5 className='title'>{props.name}</h5>
-          <p>€{props.price}</p>
+          <p>€{props.price.toFixed(2)}</p>
           <p>Aantal: {props.amount}</p>
-          <p>Totaal: €{props.price * props.amount}</p>
+          <p>Totaal: €{(props.price * props.amount).toFixed(2)}</p>
           <p>
             <input
               type='number'
               value={this.state.amountToAdd}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                this.handleFieldChange('amountToAdd')(e.target.value)
-              }
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                const newValue = +e.target.value < 1 ? 1 : e.target.value
+                this.handleFieldChange('amountToAdd')(newValue)
+              }}
             />
             <button
               type='button'

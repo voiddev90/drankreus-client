@@ -1,9 +1,15 @@
 import * as React from 'react'
 import { ReactCookieProps, withCookies, Cookies } from 'react-cookie'
 import { WithGetState, ProductResponse, Product, Option } from '../model'
-import { ShoppingCartItemComponent } from './ShoppingCartItemComponent'
+import { ShoppingCartItemComponent } from './ShoppingCart/ShoppingCartItemComponent'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
-import { distinct, deleteItemFromShoppingCart, clearShoppingCart, addToCart } from '../helpers'
+import {
+  distinct,
+  deleteItemFromShoppingCart,
+  clearShoppingCart,
+  addToCart
+} from '../helpers'
+import ShoppingCartRecap from './ShoppingCart/ShoppingCartRecap'
 
 type State = WithGetState<ProductResponse>
 
@@ -53,9 +59,9 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
   render() {
     const shoppingCart: number[] = this.props.cookies.get('shopping-cart')
     return (
-      <section className="shopping-cart">
+      <section className='shopping-cart'>
         <h1>Winkelmand</h1>
-        <div className="cart-items">
+        <div className='cart-items'>
           {this.state.type == 'loading' ? (
             <>Loading</>
           ) : this.state.type == 'error' ? (
@@ -66,33 +72,39 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
             <>Winkelmandje is leeg</>
           ) : (
             this.state.data.type == 'some' &&
-            this.state.data.value &&
-            this.state.data.value.items
-              .filter(
-                (product: Product) => shoppingCart.indexOf(product.id) != -1
-              )
-              .map((product: Product) => (
-                <ShoppingCartItemComponent
-                  {...product}
-                  key={product.id}
-                  amount={
-                    shoppingCart.filter(value => value == product.id).length
-                  }
-                  onDel={deleteItemFromShoppingCart(this.props.cookies)}
-                  onAdd={addToCart(this.props.cookies)}
-                />
-              ))
+            this.state.data.value && (
+              <>
+                {this.state.data.value.items
+                  .filter(
+                    (product: Product) => shoppingCart.indexOf(product.id) != -1
+                  )
+                  .map((product: Product) => (
+                    <ShoppingCartItemComponent
+                      {...product}
+                      key={product.id}
+                      amount={
+                        shoppingCart.filter(value => value == product.id).length
+                      }
+                      onDel={deleteItemFromShoppingCart(this.props.cookies)}
+                      onAdd={addToCart(this.props.cookies)}
+                    />
+                  ))}
+              </>
+            )
           )}
         </div>
-        <div className="cart-controls">
-          <button
-            disabled={!shoppingCart || shoppingCart.length == 0}
-            type="button"
-            onClick={() => clearShoppingCart(this.props.cookies)}
-          >
-            Leegmaken
-          </button>
+        <div className='cart-controls'>
+          <p>
+            <button
+              disabled={!shoppingCart || shoppingCart.length == 0}
+              type='button'
+              onClick={() => clearShoppingCart(this.props.cookies)}
+            >
+              Leegmaken
+            </button>
+          </p>
         </div>
+        <ShoppingCartRecap />
       </section>
     )
   }
