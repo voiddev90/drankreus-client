@@ -40,6 +40,14 @@ function validateField(field: string, extraField?: string) {
 const distinct = (value: number, index: number, self: number[]) =>
   self.indexOf(value) === index
 
+const fillArray = <T>(amount: number, value: T) => {
+  const array: T[] = []
+  for (let i = 0; i < amount; i++){
+    array.push(value)
+  }
+  return array
+}
+
 const clearShoppingCart: (cookies: Cookies) => void = cookies => {
   cookies.remove('shopping-cart')
 }
@@ -51,13 +59,13 @@ const deleteItemFromShoppingCart = (cookies: Cookies) => (product: number) => {
   cookies.set('shopping-cart', shoppingCart)
 }
 
-const addToCart = (cookies: Cookies) => (productId: number) => {
+const addToCart = (cookies: Cookies) => (products: number[]) => {
   if (cookies.get('shopping-cart')) {
     const shoppingCart: ShoppingCart = cookies.get('shopping-cart')
-    const newShoppingcart: ShoppingCart = shoppingCart.concat([productId])
+    const newShoppingcart: ShoppingCart = shoppingCart.concat(products)
     cookies.set('shopping-cart', newShoppingcart)
   } else {
-    cookies.set('shopping-cart', [productId])
+    cookies.set('shopping-cart', products)
   }
 }
 
@@ -71,5 +79,6 @@ export {
   clearShoppingCart,
   deleteItemFromShoppingCart,
   distinct,
-  addToCart
+  addToCart,
+  fillArray
 }

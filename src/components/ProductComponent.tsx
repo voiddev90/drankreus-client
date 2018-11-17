@@ -1,11 +1,10 @@
 import * as React from 'react'
-import { Product, ShoppingCart } from '../model'
+import { Product } from '../model'
 import { Link } from 'react-router-dom'
-import { withCookies, ReactCookieProps, Cookies } from 'react-cookie'
 
 type Props = {
   product: Product
-  onAdd: (productId: number) => void
+  onAdd: (products: number[]) => void
 }
 
 export const ProductComponent: React.SFC<Props> = (props: Props) => {
@@ -24,7 +23,7 @@ export const ProductComponent: React.SFC<Props> = (props: Props) => {
       </Link>
       <button
         className="product-button"
-        onClick={() => props.onAdd(props.product.id)}
+        onClick={() => props.onAdd([props.product.id])}
       >
         Toevoegen
       </button>

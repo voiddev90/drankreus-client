@@ -3,7 +3,7 @@ import { ReactCookieProps, withCookies, Cookies } from 'react-cookie'
 import { WithGetState, ProductResponse, Product, Option } from '../model'
 import { ShoppingCartItemComponent } from './ShoppingCartItemComponent'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
-import { distinct, deleteItemFromShoppingCart, clearShoppingCart } from '../helpers'
+import { distinct, deleteItemFromShoppingCart, clearShoppingCart, addToCart } from '../helpers'
 
 type State = WithGetState<ProductResponse>
 
@@ -79,6 +79,7 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
                     shoppingCart.filter(value => value == product.id).length
                   }
                   onDel={deleteItemFromShoppingCart(this.props.cookies)}
+                  onAdd={addToCart(this.props.cookies)}
                 />
               ))
           )}

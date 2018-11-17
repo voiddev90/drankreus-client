@@ -20,7 +20,10 @@ export default class LoginComponent extends React.Component<Props, State> {
   regexChar = /[A-Z]/
   regexNum = /[0-9]/
   handleFieldChange: <T>(field: string) => (value: T) => void
-  validateField: (field: string, extraField?: string) => (predicate: boolean, extraFieldValue?: boolean) => void
+  validateField: (
+    field: string,
+    extraField?: string
+  ) => (predicate: boolean, extraFieldValue?: boolean) => void
 
   constructor(props: Props) {
     super(props)
@@ -70,34 +73,32 @@ export default class LoginComponent extends React.Component<Props, State> {
   render() {
     document.title = 'Drankreus - Inloggen'
     return (
-      <div className="login">
+      <div className='login'>
         <h2>Inloggen</h2>
         <p>Inloggen of een profiel aanmaken.</p>
         <form
-          className="e-mail_en_Wachtwoord"
+          className='e-mail_en_Wachtwoord'
           onSubmit={e => {
             e.preventDefault()
             this.handleLogin()
           }}
         >
-          {this.state.type == 'error' &&
-            this.state.error && (
-              <p className={this.state.type}>
-                <small>
-                  <i>{this.state.error}</i>
-                </small>
-              </p>
-            )}
-          {this.state.type == 'success' &&
-            this.state.message && (
-              <p className={this.state.type}>
-                <small>
-                  <i>{this.state.message}</i>
-                </small>
-              </p>
-            )}
+          {this.state.type == 'error' && this.state.error && (
+            <p className={this.state.type}>
+              <small>
+                <i>{this.state.error}</i>
+              </small>
+            </p>
+          )}
+          {this.state.type == 'success' && this.state.message && (
+            <p className={this.state.type}>
+              <small>
+                <i>{this.state.message}</i>
+              </small>
+            </p>
+          )}
           {this.state.type == 'validating' && (
-            <p className="info">
+            <p className='info'>
               <small>
                 <i>
                   Aan het inloggen
@@ -107,44 +108,53 @@ export default class LoginComponent extends React.Component<Props, State> {
             </p>
           )}
           {this.state.redirect && <Redirect to={{ pathname: '/' }} />}
-          <p className="validText">
-            <label htmlFor="email">
+          <p className='validText'>
+            <label htmlFor='email'>
               <p>Vul hier uw e-mailadres in </p>
             </label>
             <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="E-mailadres"
+              type='email'
+              name='email'
+              id='email'
+              placeholder='E-mailadres'
               value={this.state.email}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('email')(e.target.value)
               }
-              onBlur={() => this.validateField("emailIsValid", 'emailIsValidated')(EmailValidator.validate(this.state.email), true)}
+              onBlur={() =>
+                this.validateField('emailIsValid', 'emailIsValidated')(
+                  EmailValidator.validate(this.state.email),
+                  true
+                )
+              }
             />
           </p>
-          <p className="field field-pass">
-            <label htmlFor="pass">
+          <p className='field field-pass'>
+            <label htmlFor='pass'>
               <p>Vul hier uw wachtwoord in </p>
             </label>
             <input
-              type="password"
-              name="pass"
-              id="pass"
-              placeholder="Wachtwoord"
+              type='password'
+              name='pass'
+              id='pass'
+              placeholder='Wachtwoord'
               value={this.state.pass}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('pass')(e.target.value)
               }
-              onBlur={() => this.validateField("passwordIsValid", "passwordIsValidated")(this.regexChar.test(this.state.pass) &&
-              this.regexNum.test(this.state.pass),
-            true)}
+              onBlur={() =>
+                this.validateField('passwordIsValid', 'passwordIsValidated')(
+                  this.regexChar.test(this.state.pass) &&
+                    this.regexNum.test(this.state.pass),
+                  true
+                )
+              }
             />
           </p>
-          <button type="submit" className="button">
+          <button type='submit' className='button'>
             Log in!
           </button>
-          <NavLink to="/register" className="button">
+          <NavLink to='/register' className='button'>
             Registreer
           </NavLink>
         </form>

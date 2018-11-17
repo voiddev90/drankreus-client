@@ -3,8 +3,7 @@ import {
   WithGetState,
   Product,
   Option,
-  ProductResponse,
-  ShoppingCart
+  ProductResponse
 } from '../model'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
 import { ProductComponent } from './ProductComponent'
