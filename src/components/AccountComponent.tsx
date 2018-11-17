@@ -10,7 +10,7 @@ export default class BaseComponent extends React.Component<Props, State>{
     }
         
     render() {
-        
+        document.title = 'DrankReus - Account'
         return (
             <div className="account-container">
                 <div className="user-info">

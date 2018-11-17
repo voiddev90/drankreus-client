@@ -5,7 +5,6 @@ import HomeComponent from "./components/HomeComponent";
 import { PageLoaderComponent } from "./components/PageLoaderComponent";
 import ProductOverviewComponent from "./components/ProductOverviewComponent";
 import { ProductDetailComponent } from "./components/ProductDetailComponent";
-import AccountComponent from "./components/AccountComponent";
 
 export type ClientProps = {};
 
