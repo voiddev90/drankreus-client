@@ -4,9 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-type Props = ReactCookieProps & {
-  navLinkProps?: React.AnchorHTMLAttributes<HTMLAnchorElement>
-}
+type Props = ReactCookieProps
 
 const ShoppingCartMenuItemComponent: React.SFC<Props> = (props: Props) => {
   const cookies: number[] = props.cookies.get('shopping-cart') ? props.cookies.get('shopping-cart') : []
@@ -18,7 +16,7 @@ const ShoppingCartMenuItemComponent: React.SFC<Props> = (props: Props) => {
   ]
   return (
     <li className={liClasses.join(' ')}>
-      <NavLink {...props.navLinkProps} to="/cart">
+      <NavLink to="/cart">
         <span className="">{amountOfCookies}</span>
         <FontAwesomeIcon icon={faShoppingCart} size='2x' />
       </NavLink>

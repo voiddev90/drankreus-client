@@ -62,7 +62,7 @@ class ProductOverviewComponent extends React.Component<
       const shoppingCart: ShoppingCart = this.props.cookies.get('shopping-cart')
       const newShoppingcart: ShoppingCart = shoppingCart.concat([productId])
       this.props.cookies.set('shopping-cart', newShoppingcart)
-    } else{
+    } else {
       this.props.cookies.set('shopping-cart', [productId])
     }
     console.log('after adding: ', JSON.stringify(this.props.allCookies))
