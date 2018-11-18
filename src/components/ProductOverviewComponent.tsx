@@ -27,7 +27,7 @@ class ProductOverviewComponent extends React.Component<
     this.state = {
       type: 'loading',
       perPage: 20,
-      page: 1
+      page: 0
     }
 
     this.getData = this.getData.bind(this)
@@ -80,6 +80,7 @@ class ProductOverviewComponent extends React.Component<
                 <PaginationComponent
                   totalPages={this.state.data.value.totalPages}
                   route='product'
+                  currentPage={this.state.page}
                   onClick={(page: number) => {
                     this.setState({ ...this.state, page: page }, this.getData)
                   }}

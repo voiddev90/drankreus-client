@@ -108,7 +108,7 @@ export default class RegisterComponent extends React.Component<Props, State> {
         }
         if (this.state.prefix !== '') user.prefix = this.state.prefix
 
-        const request = Axios.post('http://localhost:5000/auth/register', user)
+        const request = Axios.post('http://localhost:5000/api/users/', user)
 
         this.setState({ ...this.state, type: 'creating' })
 
@@ -123,14 +123,8 @@ export default class RegisterComponent extends React.Component<Props, State> {
           })
           .catch((reason: AxiosError) => {
             let error = ''
-            if (reason.response) {
-              switch (reason.response.status) {
-                case 409:
-                  error = 'Gebruiker bestaat al.'
-                  break
-                default:
-                  error = 'Er is iets foutgegaan bij het registreren.'
-              }
+            if (reason.response.data) {
+              error = reason.response.data;
             } else {
               error = 'Er is iets foutgegaan bij het registreren.'
             }
