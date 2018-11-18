@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { NavLink, Redirect } from 'react-router-dom'
-import '../css/LoginComponent.css'
 import * as EmailValidator from 'email-validator'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
 import { LoginResponse, WithPostState } from '../model'
@@ -45,7 +44,7 @@ export default class LoginComponent extends React.Component<Props, State> {
 
   handleLogin() {
     this.setState({ type: 'validating' })
-    Axios.post('http://localhost:5000/auth/login', {
+    Axios.post('http://localhost:5000/api/users/login', {
       email: this.state.email,
       password: this.state.pass
     })
@@ -60,7 +59,7 @@ export default class LoginComponent extends React.Component<Props, State> {
         })
       })
       .catch((response: AxiosError) => {
-        this.setState({ ...this.state, type: 'error', error: response.message })
+        this.setState({ ...this.state, type: 'error', error: response.response.data })
       })
   }
 

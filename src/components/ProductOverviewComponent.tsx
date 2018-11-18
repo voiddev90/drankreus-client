@@ -1,26 +1,23 @@
 import * as React from 'react'
 import {
   WithGetState,
-  Page,
   Product,
-  Filter,
   Option,
-  Tag,
-  ProductResponse
+  ProductResponse,
+  ShoppingCart
 } from '../model'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
-import '../css/productGrid.css'
-import { Link } from 'react-router-dom';
-import { ProductComponent } from './ProductComponent';
-import { PaginationComponent } from './PaginationComponent';
+import { ProductComponent } from './ProductComponent'
+import { PaginationComponent } from './PaginationComponent'
+import { ReactCookieProps, withCookies } from 'react-cookie'
 
-type ProductOverviewProps = {}
+type ProductOverviewProps = ReactCookieProps
 type ProductOverviewState = WithGetState<ProductResponse> & {
   perPage: number
   page: number
 }
 
-export default class ProductOverviewComponent extends React.Component<
+class ProductOverviewComponent extends React.Component<
   ProductOverviewProps,
   ProductOverviewState
 > {
@@ -30,14 +27,19 @@ export default class ProductOverviewComponent extends React.Component<
     this.state = {
       type: 'loading',
       perPage: 20,
-      page: 1
+      page: 0
     }
 
-    this.GetData = this.GetData.bind(this)
+    this.getData = this.getData.bind(this)
+    this.addToCart = this.addToCart.bind(this)
   }
 
-  GetData() {
-    Axios.get(`http://localhost:5000/api/product/?index=${this.state.page}&size=${this.state.perPage}`)
+  getData() {
+    Axios.get(
+      `http://localhost:5000/api/product/?index=${this.state.page}&size=${
+        this.state.perPage
+      }`
+    )
       .then((value: AxiosResponse<ProductResponse>) => {
         this.setState({
           ...this.state,
@@ -54,8 +56,18 @@ export default class ProductOverviewComponent extends React.Component<
       })
   }
 
+  addToCart(productId: number) {
+    if (this.props.cookies.get('shopping-cart')) {
+      const shoppingCart: ShoppingCart = this.props.cookies.get('shopping-cart')
+      const newShoppingcart: ShoppingCart = shoppingCart.concat([productId])
+      this.props.cookies.set('shopping-cart', newShoppingcart)
+    } else {
+      this.props.cookies.set('shopping-cart', [productId])
+    }
+  }
+
   componentDidMount() {
-    this.GetData()
+    this.getData()
   }
 
   render() {
@@ -68,14 +80,23 @@ export default class ProductOverviewComponent extends React.Component<
             return (
               <section className="product-overview">
                 {this.state.data.value.items.map((value: Product) => {
-                  return <ProductComponent {...value} />
+                  return (
+                    <ProductComponent
+                      product={value}
+                      key={value.id}
+                      onAdd={this.addToCart}
+                    />
+                  )
                 })}
-                <PaginationComponent totalPages={this.state.data.value.totalPages} route="product" onClick={(page: number) => {
-                  this.setState({...this.state, page: page}, this.GetData)
-                  }} />
+                <PaginationComponent
+                  totalPages={this.state.data.value.totalPages}
+                  route='product'
+                  currentPage={this.state.page}
+                  onClick={(page: number) => {
+                    this.setState({ ...this.state, page: page }, this.getData)
+                  }}
+                />
               </section>
-              
-              
             )
         }
       case 'loading':
@@ -83,7 +104,8 @@ export default class ProductOverviewComponent extends React.Component<
       case 'error':
       default:
         return <>error</>
-      
     }
   }
 }
+
+export default withCookies(ProductOverviewComponent)
