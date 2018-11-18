@@ -4,13 +4,24 @@ import { Cookies } from 'react-cookie'
 const isLoggedIn = () => {
   return (
     localStorage.getItem('user') != undefined &&
-    localStorage.getItem('token') != undefined
+    localStorage.getItem('token') != undefined &&
+    localStorage.getItem('type') != undefined
   )
 }
 
 const getLoggedInuser = () => {
   const user: User = JSON.parse(localStorage.getItem('user'))
   return user
+}
+
+const getJWT = () => {
+  const JWT: string = localStorage.getItem('token')
+  return JWT
+}
+
+const getTokenType = () => {
+  const type: string = localStorage.getItem('type')
+  return type
 }
 
 const logOut = () => {
@@ -80,5 +91,7 @@ export {
   deleteItemFromShoppingCart,
   distinct,
   addToCart,
-  fillArray
+  fillArray,
+  getJWT,
+  getTokenType
 }

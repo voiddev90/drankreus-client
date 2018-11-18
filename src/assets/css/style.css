@@ -285,38 +285,4 @@ header.site-header
 /*
 * -Account
 */
-.content .account .account-menu {
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-gap: 50px;
-  margin: 0 auto;
-  width: 100vw;
-align-items: center;
-justify-content: center;
-}
-
-.content .account .go-to-cart {
-  width: 20vw;
-  text-align: center;
-  border-right: 1px;
-  border-bottom: 1px;
-  border-color: #CACACA
-}
-
-.content .account .go-to-history {
-  width: 20vw;
-  text-align: center;
-
-}
-
-.content .account .go-to-wishlist {
-  width: 20vw;
-  text-align: center;
-
-}
-
-.content .account .go-to-points {
-  width: 20vw;
-  text-align: center;
-}
 
