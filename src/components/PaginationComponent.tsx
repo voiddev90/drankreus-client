@@ -22,6 +22,7 @@ export const PaginationComponent: React.SFC<Props> = (props: Props) => {
             <li className={liClass.join(' ')}>
               <button type='link' onClick={() => props.onClick(page)}>
                 {page + 1}
+              </button>
             </li>
           ) : null
         })}
