@@ -281,3 +281,42 @@ header.site-header
   box-shadow: 0 9px 12px 0 rgba(34, 34, 34, 0.24),
     0 15px 45px 0 rgba(0, 0, 0, 0.19);
 }
+
+/*
+* -Account
+*/
+.content .account .account-menu {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 50px;
+  margin: 0 auto;
+  width: 100vw;
+align-items: center;
+justify-content: center;
+}
+
+.content .account .go-to-cart {
+  width: 20vw;
+  text-align: center;
+  border-right: 1px;
+  border-bottom: 1px;
+  border-color: #CACACA
+}
+
+.content .account .go-to-history {
+  width: 20vw;
+  text-align: center;
+
+}
+
+.content .account .go-to-wishlist {
+  width: 20vw;
+  text-align: center;
+
+}
+
+.content .account .go-to-points {
+  width: 20vw;
+  text-align: center;
+}
+
