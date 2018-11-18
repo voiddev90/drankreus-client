@@ -129,7 +129,7 @@ export type WithDeleteState<T> =
 
 export type LoginResponse = {
   token_type: string
-  expires: string
+  expires: Date
   access_token: string
   user: User
 }
