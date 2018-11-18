@@ -1,3 +1,4 @@
+
 import * as React from "react"
 import MenuItemComponent from "./Menu/MenuItemComponent"
 import { isLoggedIn, getLoggedInuser, logOut } from "../helpers"
@@ -21,9 +22,7 @@ export default class MainMenuComponent extends React.Component<Props, State> {
             <MenuItemComponent to="/login" name="Inloggen" />
           ) : (
             <>
-              <li className="menu-item">
-                Welkom, {getLoggedInuser().firstName}
-              </li>
+              <MenuItemComponent to="/profile" name="Jouw profiel" />
               <MenuItemComponent
                 to="/"
                 name="Uitloggen"
