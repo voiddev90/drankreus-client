@@ -1,10 +1,15 @@
-import * as React from "react"
-import * as ReactDOM from "react-dom"
-import { Client } from "./client"
-import "./css/index.css"
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+import { Client } from './client'
 declare let module: any
+import { CookiesProvider } from 'react-cookie'
 
-ReactDOM.render(<Client />, document.getElementById("react-root"))
+ReactDOM.render(
+  <CookiesProvider>
+    <Client />
+  </CookiesProvider>,
+  document.getElementById('react-root')
+)
 
 if (module.hot) {
   module.hot.accept()

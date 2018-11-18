@@ -20,29 +20,8 @@ export const PaginationComponent: React.SFC<Props> = (props: Props) => {
             if (page == props.currentPage) liClass.push("current")
           return page == 0 || page == props.totalPages - 1 || (page <= props.currentPage + 2 && page >= props.currentPage -2)  ? (
             <li className={liClass.join(' ')}>
-                {/* {props.currentPage >= 2 ?
-              <button type='link' onClick={() => props.onClick(props.currentPage - 2)}>
-                {page - 1}
-              </button>: null} 
-                {props.currentPage >= 1 ?
-              <button type='link' onClick={() => props.onClick(props.currentPage - 1)}>
-                {page}
-              </button> : null } */}
               <button type='link' onClick={() => props.onClick(page)}>
                 {page + 1}
-              </button>
-              {/* <button type='link' onClick={() => props.onClick(props.currentPage + 1)}>
-                {page + 2}
-              </button>
-              <button type='link' onClick={() => props.onClick(props.currentPage + 2)}>
-                {page + 3}
-              </button>
-              
-              <button type='link' onClick={() => props.onClick(props.totalPages)}>
-                {props.totalPages}
-              </button> */}
-              
-
             </li>
           ) : null
         })}

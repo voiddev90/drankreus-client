@@ -7,13 +7,15 @@ type Props = RouteComponentProps<{ slug: string }>
 
 export const ProductDetailComponent: React.SFC<Props> = (value: Props) => {
   const product: Product = value.location.state
-  return <section>
+  return (
+    <section>
       <div className="product-title">{product.name}</div>
-      
-      <img className="product-image" src={product.url}></img>
+
+      <img className="product-image" src={product.url} />
       <div className="product-price">€{product.price}</div>
       <div className="product-percentage">{product.alcoholPercentage}</div>
       <p className="product-description">{product.description}</p>
       <button className="add-to-wishlist">Voeg toe aan winkelmand</button>
-  </section>
+    </section>
+  )
 }
