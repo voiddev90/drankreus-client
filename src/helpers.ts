@@ -1,5 +1,7 @@
 import { User, Option, ShoppingCart } from './model'
 import { Cookies } from 'react-cookie'
+import { string } from 'prop-types'
+import { Map } from 'immutable'
 
 const isLoggedIn = () => {
   return (
@@ -53,7 +55,7 @@ const distinct = (value: number, index: number, self: number[]) =>
 
 const fillArray = (amount: number) => <T>(value: T) => {
   const array: T[] = []
-  for (let i = 0; i < amount; i++){
+  for (let i = 0; i < amount; i++) {
     array.push(value)
   }
   return array
@@ -80,6 +82,29 @@ const addToCart = (cookies: Cookies) => (products: number[]) => {
   }
 }
 
+function ObjectToArray(object: Object) {
+  return Object.keys(object).map(field => {
+    return ''
+  })
+}
+
+function ObjectToArrayExtra<U, T>(object: T, callback: (value: string, o: T) => U) {
+  const fields = Object.keys(object)
+  return fields.map(value => {
+    return callback(value, object)
+  })
+}
+
+const deduceInputType = (name: string, types?: string[]) => {
+  let list: string[] = !types
+    ? ['text', 'email', 'e-mail', 'password', 'number', 'nr']
+    : types
+  const regex: RegExp = new RegExp(`(${list.join('|')})`, 'i')
+  const match = name.match(regex)
+  const result = (match && match[0].toLowerCase()) || 'text'
+  return result
+}
+
 export {
   isLoggedIn,
   getLoggedInuser,
@@ -93,5 +118,7 @@ export {
   addToCart,
   fillArray,
   getJWT,
-  getTokenType
+  getTokenType,
+  ObjectToArrayExtra,
+  deduceInputType
 }

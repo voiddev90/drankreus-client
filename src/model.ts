@@ -1,6 +1,6 @@
 import { Map, List } from 'immutable'
 import Axios, { AxiosResponse } from 'axios'
-import { isLoggedIn, getJWT, getTokenType } from './helpers'
+import { isLoggedIn, getJWT, getTokenType, validateField } from './helpers'
 
 export class User {
   id?: number
@@ -14,6 +14,8 @@ export class User {
   postalCode?: string
   area?: string
   admin: boolean
+
+  constructor() {}
 }
 
 export class Product {
@@ -152,6 +154,16 @@ export type Filter<T = any> = Map<string, T>
 
 export type ShoppingCart = number[]
 
+export type Field = {
+  name: string
+  value: string
+  valid: boolean
+  validated: boolean
+  type: string
+}
+
+export type Fields = Field[]
+
 export const AxiosDefault = Axios.create({
   baseURL: 'http://localhost:5000/api/',
   timeout: 1000
@@ -160,5 +172,7 @@ export const AxiosDefault = Axios.create({
 export const AuthAxios = Axios.create({
   baseURL: 'http://localhost:5000/api/users',
   timeout: 1000,
-  headers: isLoggedIn() ? { Authorization: `${getTokenType()} ${getJWT()}` } : {}
+  headers: isLoggedIn()
+    ? { Authorization: `${getTokenType()} ${getJWT()}` }
+    : {}
 })

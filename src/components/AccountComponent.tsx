@@ -1,24 +1,36 @@
 import * as React from 'react'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
-import { isLoggedIn, getLoggedInuser, logOut } from '../helpers'
+import {
+  isLoggedIn,
+  getLoggedInuser,
+  logOut,
+  ObjectToArrayExtra,
+  deduceInputType
+} from '../helpers'
 import { Redirect } from 'react-router'
-import { WithPutState, User, Option, AuthAxios } from '../model'
+import { WithPutState, User, Option, AuthAxios, Fields, Field } from '../model'
 import { Link } from 'react-router-dom'
+import { Map } from 'immutable'
+import { string } from 'prop-types'
 
 type Props = {}
-type State = WithPutState<User>
+type State = WithPutState<User> & {
+  fields: Fields
+}
 
-export default class BaseComponent extends React.Component<Props, State> {
+export default class AccountComponentn extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
     this.state = isLoggedIn()
       ? {
-          type: 'loading'
+          type: 'loading',
+          fields: []
         }
       : {
           type: 'editing',
-          data: { type: 'none' }
+          data: { type: 'none' },
+          fields: []
         }
   }
 
@@ -29,14 +41,30 @@ export default class BaseComponent extends React.Component<Props, State> {
           getLoggedInuser().id}`
       )
         .then((response: AxiosResponse<User>) => {
+          let fields: Fields
+          const user = Option(response.data)
+          if (user.type == 'some') {
+            fields = ObjectToArrayExtra<Field, User>(user.value, (name: string, object: User) => {
+              return {
+                name: name,
+                value: '',
+                valid: false,
+                validated: false,
+                type: deduceInputType(name)
+              }
+            })
+          } else {
+            fields = []
+          }
           this.setState({
             type: 'editing',
-            data: Option(response.data)
+            data: Option(response.data),
+            fields: Option(response.data).type == 'some' ? fields : []
           })
         })
         .catch((response: AxiosError) => {
-          console.log(JSON.stringify(response))
           this.setState({
+            ...this.state,
             type: 'error',
             error: {
               reason: response.response.status,
@@ -57,7 +85,12 @@ export default class BaseComponent extends React.Component<Props, State> {
           case 401:
             logOut()
             window.setTimeout(
-              () => this.setState({ type: 'editing', data: { type: 'none' } }),
+              () =>
+                this.setState({
+                  ...this.state,
+                  type: 'editing',
+                  data: { type: 'none' }
+                }),
               500
             )
             return <>Fout bij het authoriseren...</>
@@ -80,14 +113,16 @@ export default class BaseComponent extends React.Component<Props, State> {
           return (
             <section className='account'>
               <div className='user-info'>
-                <img />
-                <p className='user-name'>
-                  {this.state.data.value.firstName}{' '}
-                  {this.state.data.value.prefix}{' '}
-                  {this.state.data.value.lastName}
-                </p>
-                <p className='user-mail'>{this.state.data.value.email}</p>
-                <p className='user-points' />
+                {this.state.fields.map((field: Field) => {
+                  return (
+                    <p className={`field ${field.name}`}>
+                      <label>
+                        {field.name != 'id' && field.name}
+                        <input type={field.name != 'id' ? field.type: 'hidden'} value={field.value} />
+                      </label>
+                    </p>
+                  )
+                })}
               </div>
               <div className='account-menu'>
                 <ul>
