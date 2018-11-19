@@ -5,7 +5,8 @@ import {
   getLoggedInuser,
   logOut,
   ObjectToArrayExtra,
-  deduceInputType
+  deduceInputType,
+  handleFieldChangeBetter
 } from '../helpers'
 import { Redirect } from 'react-router'
 import { WithPutState, User, Option, AuthAxios, Fields, Field } from '../model'
@@ -19,6 +20,7 @@ type State = WithPutState<User> & {
 }
 
 export default class AccountComponentn extends React.Component<Props, State> {
+  handleFieldChange: (index: number, array: Field[]) => (value: string) => void
   constructor(props: Props) {
     super(props)
 
@@ -32,6 +34,8 @@ export default class AccountComponentn extends React.Component<Props, State> {
           data: { type: 'none' },
           fields: []
         }
+
+    this.handleFieldChange = handleFieldChangeBetter.bind(this)
   }
 
   componentDidMount() {
@@ -44,15 +48,18 @@ export default class AccountComponentn extends React.Component<Props, State> {
           let fields: Fields
           const user = Option(response.data)
           if (user.type == 'some') {
-            fields = ObjectToArrayExtra<Field, User>(user.value, (name: string, object: User) => {
-              return {
-                name: name,
-                value: '',
-                valid: false,
-                validated: false,
-                type: deduceInputType(name)
+            fields = ObjectToArrayExtra<Field, User>(
+              user.value,
+              (name: string, object: User) => {
+                return {
+                  name: name,
+                  value: Object.create(object)[name],
+                  valid: false,
+                  validated: false,
+                  type: deduceInputType(name)
+                }
               }
-            })
+            )
           } else {
             fields = []
           }
@@ -103,6 +110,7 @@ export default class AccountComponentn extends React.Component<Props, State> {
             )
         }
       case 'updating':
+        return <>Profiel aan het opslaan...</>
       case 'success':
       case 'editing':
         if (
@@ -113,16 +121,32 @@ export default class AccountComponentn extends React.Component<Props, State> {
           return (
             <section className='account'>
               <div className='user-info'>
-                {this.state.fields.map((field: Field) => {
-                  return (
-                    <p className={`field ${field.name}`}>
-                      <label>
-                        {field.name != 'id' && field.name}
-                        <input type={field.name != 'id' ? field.type: 'hidden'} value={field.value} />
-                      </label>
-                    </p>
-                  )
-                })}
+                <form>
+                  {this.state.fields.map(
+                    (field: Field, index: number, object: Fields) => {
+                      return (
+                        <p
+                          className={`field field-${field.name} field-${field.type}`}
+                          key={`${field.name}-${field.type}`}
+                        >
+                          <label>
+                            {field.name != 'id' && <span className='label'>{field.name}</span>}
+                            <input
+                              type={field.name != 'id' ? field.type : 'hidden'}
+                              value={field.value}
+                              onChange={value =>
+                                this.handleFieldChange(index, object)(
+                                  value.target.value
+                                )
+                              }
+                            />
+                          </label>
+                        </p>
+                      )
+                    }
+                  )}
+                  <p className="field field-submit"><button type='submit'>Opslaan</button></p>
+                </form>
               </div>
               <div className='account-menu'>
                 <ul>

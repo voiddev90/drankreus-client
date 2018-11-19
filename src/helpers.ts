@@ -1,4 +1,4 @@
-import { User, Option, ShoppingCart } from './model'
+import { User, Option, ShoppingCart, Fields, Field } from './model'
 import { Cookies } from 'react-cookie'
 import { string } from 'prop-types'
 import { Map } from 'immutable'
@@ -40,12 +40,54 @@ function handleFieldChange<T>(field: string) {
   }
 }
 
+function handleFieldChangeBetter(index: number, array: Fields) {
+  return (value: string) => {
+    this.setState({
+      ...this.state,
+      fields: array.map(
+        (field: Field, i: number): Field => {
+          return i == index
+            ? {
+                name: field.name,
+                value: value,
+                valid: field.valid,
+                validated: field.validated,
+                type: field.type
+              }
+            : field
+        }
+      )
+    })
+  }
+}
+
 function validateField(field: string, extraField?: string) {
   return (predicate: boolean, extraFieldValue?: boolean) => {
     this.setState({
       ...this.state,
       [field]: predicate,
       [extraField]: extraFieldValue
+    })
+  }
+}
+
+function validateFieldBetter(index: number, array: Fields) {
+  return (predicate: boolean) => {
+    this.setState({
+      ...this.state,
+      fields: array.map(
+        (field: Field, i: number): Field => {
+          return i == index
+            ? {
+                name: field.name,
+                value: field.value,
+                valid: predicate,
+                validated: true,
+                type: field.type
+              }
+            : field
+        }
+      )
     })
   }
 }
@@ -84,11 +126,14 @@ const addToCart = (cookies: Cookies) => (products: number[]) => {
 
 function ObjectToArray(object: Object) {
   return Object.keys(object).map(field => {
-    return ''
+    return Object.create(object)[field]
   })
 }
 
-function ObjectToArrayExtra<U, T>(object: T, callback: (value: string, o: T) => U) {
+function ObjectToArrayExtra<U, T>(
+  object: T,
+  callback: (value: string, o: T) => U
+) {
   const fields = Object.keys(object)
   return fields.map(value => {
     return callback(value, object)
@@ -111,7 +156,9 @@ export {
   logOut,
   OptionIsSome,
   handleFieldChange,
+  handleFieldChangeBetter,
   validateField,
+  validateFieldBetter,
   clearShoppingCart,
   deleteItemFromShoppingCart,
   distinct,
@@ -120,5 +167,6 @@ export {
   getJWT,
   getTokenType,
   ObjectToArrayExtra,
+  ObjectToArray,
   deduceInputType
 }

@@ -14,8 +14,6 @@ export class User {
   postalCode?: string
   area?: string
   admin: boolean
-
-  constructor() {}
 }
 
 export class Product {
