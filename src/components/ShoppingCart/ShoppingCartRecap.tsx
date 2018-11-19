@@ -21,9 +21,17 @@ class ShoppingCartRecap extends React.Component<Props, State> {
     this.state = {
       type: 'loading'
     }
+
+    this.props.cookies.addChangeListener(options => {
+      if (options.name == 'shopping-cart'){
+        this.getData()
+      }
+    })
+
+    this.getData = this.getData.bind(this)
   }
 
-  componentDidMount() {
+  getData() {
     const shoppingCart: ShoppingCart = this.props.cookies.get('shopping-cart')
     if (shoppingCart && shoppingCart.length > 0) {
       const requestBody = shoppingCart.filter(distinct).map(productId => {
@@ -41,6 +49,10 @@ class ShoppingCartRecap extends React.Component<Props, State> {
           this.setState({ type: 'error', reason: error.response.status })
         )
     }
+  }
+
+  componentDidMount() {
+    this.getData()
   }
 
   render() {
