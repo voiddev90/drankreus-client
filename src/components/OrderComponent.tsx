@@ -1,11 +1,11 @@
 import * as React from 'react'
 import {Link, withRouter,Redirect} from 'react-router-dom';
 import { ReactCookieProps, withCookies } from 'react-cookie';
-import { Shipment, User } from '../model';
+import { Shipment, User ,WithPostState} from '../model';
 import {handleFieldChange, validateField, isLoggedIn,getLoggedInuser, clearShoppingCart} from '../helpers'
 import Axios, { AxiosResponse } from 'axios';
 
-type State = Shipment&{
+type State = Shipment& WithPostState &{
     step : number
     paymentType: string
     shipmentType: string
@@ -17,6 +17,7 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
         this.handleChange = this.handleChange.bind(this);
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
         this.state = {
+            type: 'editing',
             step: 0,
             paymentType: '',
             shipmentType: '',
@@ -46,13 +47,22 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
     }
     handleOnSubmit(e: any){
         e.preventDefault();
-        const shipment: Shipment = {
+        if(
+            this.state.street == '' ||
+            this.state.buildingNumber == '' ||
+            this.state.postalCode == '' ||
+            this.state.area == ''
+        ){this.setState({...this.state, type: 'error', error: 'Sommige velden zijn nog leeg'})}
+        else{
+            this.incr()
+        }
+        /*const shipment: Shipment = {
             street: this.state.street,
             buildingNumber : this.state.buildingNumber,
             postalCode : this.state.postalCode,
             area : this.state.area,
-        }
-        console.log(shipment);
+        }*/
+        //
     }
     processing(){
         /* TODO:
@@ -77,11 +87,13 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
             <div id="shipment-details">
             <p>Gegevens</p>
             <form>
+                {this.state.type == 'error' &&
+            this.state.error && <small>{this.state.error}</small>} <br/>
                 <input name="street" placeholder= "Straat"  value={this.state.street} onChange={this.handleChange}/><br/>
                 <input name="buildingNumber" placeholder= "Huisnummer"  value={this.state.buildingNumber}onChange={this.handleChange}/><br/>
                 <input name="postalCode" placeholder= "PostCode"  value={this.state.postalCode}onChange={this.handleChange}/><br/>
                 <input name="area" placeholder= "Stad"  value={this.state.area}onChange={this.handleChange}/><br/>
-                <button onClick={() => this.incr()}>Submit</button>
+                <button onClick={(e) => this.handleOnSubmit(e)}>Submit</button>
             </form>
         </div>
         )
@@ -108,7 +120,7 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
                 <label>{this.state.paymentType}</label> <br/>
                 BezorgMethode: <br/>
                 <label>{this.state.shipmentType}</label> <br/>
-                {isLoggedIn ?
+                {isLoggedIn() ?
                     <label>Gegevens opslaan<input type="checkbox" checked={this.state.saveUserDetails}
                    onChange={() => this.setState({...this.state, saveUserDetails: !this.state.saveUserDetails})}/></label>
                 : ""
