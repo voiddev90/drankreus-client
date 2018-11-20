@@ -144,6 +144,7 @@ header.site-header
 /*
 * - Login
 */
+
 .content .login .button {
   background-color: #008cba;
   border: none;
@@ -268,7 +269,7 @@ header.site-header
   font-size: 16px;
   margin: 20px 2px;
   cursor: pointer;
-  -webkit-transition-duration: 0.1s; /* Safari */
+  -webkit-transition-duration: 0.1s;
   transition-duration: 0.3s;
   width: 250px;
   text-align: center;
@@ -279,4 +280,12 @@ header.site-header
   color: white;
   box-shadow: 0 9px 12px 0 rgba(34, 34, 34, 0.24),
     0 15px 45px 0 rgba(0, 0, 0, 0.19);
+}
+
+/*
+* - Contact
+*/
+.content .contact-page .contact-titel {
+  color: red;
+  text-align: center;
 }
