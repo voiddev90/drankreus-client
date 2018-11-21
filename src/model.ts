@@ -14,6 +14,12 @@ export class User {
   admin: boolean
 }
 
+export class Shipment{
+  street?: string
+  buildingNumber?: string
+  postalCode?: string
+  area?: string
+}
 export class Product {
   id: number
   name: string
