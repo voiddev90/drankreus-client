@@ -18,7 +18,7 @@ export const ProductComponent: React.SFC<Props> = (props: Props) => {
         <p className="product-price">€{props.product.price.toFixed(2)}</p>
         <p className="product-volume">{props.product.volume}</p>
         <p className="product-alcoholpercentage">
-          {props.product.alcoholPercentage}%
+          {props.product.alcoholpercentage}%
         </p>
       </Link>
       <button

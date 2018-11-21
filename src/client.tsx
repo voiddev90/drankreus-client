@@ -8,6 +8,7 @@ import { ProductDetailComponent } from "./components/Products/ProductDetailCompo
 import { CheckoutLoaderComponent } from "./components/CheckoutLoaderComponent";
 import { ReactCookieProps, withCookies } from "react-cookie";
 import { addToCart } from "./helpers";
+import { AccountLoaderComponent } from "./components/AccountLoaderComponent";
 
 export type ClientProps = ReactCookieProps;
 
@@ -42,6 +43,16 @@ const Client: React.SFC<ClientProps> = clientProps => {
             return (
               <BaseComponent>
                 <CheckoutLoaderComponent {...props} />
+              </BaseComponent>
+            );
+          }}
+        />
+        <Route
+          path="/account/:slug"
+          render={props => {
+            return (
+              <BaseComponent>
+                <AccountLoaderComponent {...props} />
               </BaseComponent>
             );
           }}

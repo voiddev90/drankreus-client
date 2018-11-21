@@ -13,10 +13,9 @@ export const ProductDetailComponent: React.SFC<Props> = (value: Props) => {
   return (
     <section>
       <div className='product-title'>{product.name}</div>
-
       <img className='product-image' src={product.url} />
       <div className='product-price'>€{product.price}</div>
-      <div className='product-percentage'>{product.alcoholPercentage}</div>
+      <div className='product-percentage'>{product.alcoholpercentage}</div>
       <p className='product-description'>{product.description}</p>
       <button
         className='add-to-wishlist'
