@@ -26,7 +26,7 @@ export class Product {
   description: string
   price: number
   volume: number
-  alcoholPercentage: number
+  alcoholpercentage: number
   url: string
   brandId: number
   categoryId: number
