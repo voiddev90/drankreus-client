@@ -6,10 +6,12 @@ import { PageLoaderComponent } from "./components/PageLoaderComponent";
 import ProductOverviewComponent from "./components/ProductOverviewComponent";
 import { ProductDetailComponent } from "./components/Products/ProductDetailComponent";
 import { CheckoutLoaderComponent } from "./components/CheckoutLoaderComponent";
+import { ReactCookieProps, withCookies } from "react-cookie";
+import { addToCart } from "./helpers";
 
-export type ClientProps = {};
+export type ClientProps = ReactCookieProps;
 
-export const Client: React.SFC<ClientProps> = () => {
+const Client: React.SFC<ClientProps> = clientProps => {
   return (
     <BrowserRouter>
       <Switch>
@@ -29,7 +31,7 @@ export const Client: React.SFC<ClientProps> = () => {
           render={props => {
             return (
               <BaseComponent>
-                <ProductDetailComponent {...props} />
+                <ProductDetailComponent {...props} onAdd={addToCart(clientProps.cookies)} />
               </BaseComponent>
             );
           }}
@@ -58,3 +60,5 @@ export const Client: React.SFC<ClientProps> = () => {
     </BrowserRouter>
   );
 };
+
+export default withCookies(Client)

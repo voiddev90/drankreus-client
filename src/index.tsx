@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { Client } from './client'
+import Client from './client'
 declare let module: any
 import { CookiesProvider } from 'react-cookie'
 
