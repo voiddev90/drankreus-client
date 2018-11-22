@@ -2,10 +2,13 @@ import * as React from 'react'
 import { NavLink, Redirect } from 'react-router-dom'
 import * as EmailValidator from 'email-validator'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
-import { LoginResponse, WithPostState } from '../model'
+import { LoginResponse, WithPostState, User } from '../model'
 import { handleFieldChange, validateField } from '../helpers'
+import { connect } from 'react-redux'
+import { fetchUser } from '../actions/UserActions'
+import { UserTypes } from '../actions/types'
 
-type Props = {}
+type Props = StateProps & DispatchProps
 type State = WithPostState & {
   email: string
   pass: string
@@ -16,7 +19,7 @@ type State = WithPostState & {
   redirect: boolean
 }
 
-export default class LoginComponent extends React.Component<Props, State> {
+class LoginComponent extends React.Component<Props, State> {
   regexChar = /[A-Z]/
   regexNum = /[0-9]/
   handleFieldChange: <T>(field: string) => (value: T) => void
@@ -52,8 +55,12 @@ export default class LoginComponent extends React.Component<Props, State> {
       password: this.state.pass
     })
       .then((response: AxiosResponse<LoginResponse>) => {
-        localStorage.setItem('user', JSON.stringify(response.data.user))
-        localStorage.setItem('token', response.data.access_token)
+        this.setState({
+          ...this.state,
+          type: 'success',
+          message: 'Successvol ingelogd'
+        })
+        this.props.fetchUser(response)
         window.setTimeout(this.redirect, 500)
         this.setState({
           ...this.state,
@@ -62,7 +69,12 @@ export default class LoginComponent extends React.Component<Props, State> {
         })
       })
       .catch((response: AxiosError) => {
-        this.setState({ ...this.state, type: 'error', error: response.response.data })
+        this.setState({
+          ...this.state,
+          type: 'error',
+          error: response.response.data
+        })
+        console.error(response.response.data)
       })
   }
 
@@ -162,3 +174,25 @@ export default class LoginComponent extends React.Component<Props, State> {
     )
   }
 }
+
+interface StateProps {
+  token_type: string
+  expires: Date
+  access_token: string
+  user: User
+}
+const mapStatetoProps = (state: any) => ({
+  token_type: state.user.token_type,
+  expires: state.user.expires,
+  access_token: state.user.access_token,
+  user: state.user.user
+})
+
+interface DispatchProps {
+  fetchUser: typeof fetchUser
+}
+
+export default connect(
+  mapStatetoProps,
+  { fetchUser }
+)(LoginComponent)
