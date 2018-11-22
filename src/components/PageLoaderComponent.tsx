@@ -6,6 +6,7 @@ import { isLoggedIn } from '../helpers'
 import RegisterComponent from './RegisterComponent'
 import AccountComponent from './AccountComponent'
 import ShoppingCartComponent from './ShoppingCartComponent'
+import ProductOverviewComponent from './ProductOverviewComponent';
 
 type Props = RouteComponentProps<{ slug: string }>
 
@@ -27,6 +28,8 @@ export const PageLoaderComponent: React.SFC<Props> = (props: Props) => {
       return <AccountComponent />
     case 'cart':
       return <ShoppingCartComponent />
+    case 'products':
+        return <ProductOverviewComponent />
     default:
       return <NotFoundComponent />
   }

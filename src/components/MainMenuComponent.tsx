@@ -16,6 +16,7 @@ export default class MainMenuComponent extends React.Component<Props, State> {
     return (
       <nav className="main-menu">
         <ul className="menu">
+          <MenuItemComponent to="/products" name="Producten" />
           <MenuItemComponent to="/" name="Contact" />
           <MenuItemComponent to="/" name="Klantenservice" />
           {!isLoggedIn() ? (

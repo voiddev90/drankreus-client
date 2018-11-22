@@ -22,7 +22,7 @@ const Client: React.SFC<ClientProps> = clientProps => {
           render={() => {
             return (
               <BaseComponent>
-                <ProductOverviewComponent />
+                <HomeComponent />
               </BaseComponent>
             );
           }}
