@@ -72,4 +72,5 @@ const Client: React.SFC<ClientProps> = clientProps => {
   );
 };
 
-export default withCookies(Client)
+//export default withCookies(Client)
+export default withCookies((Client) as any)

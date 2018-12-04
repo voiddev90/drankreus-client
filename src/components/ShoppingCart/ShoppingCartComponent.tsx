@@ -112,4 +112,4 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
   }
 }
 
-export default withCookies(ShoppingCartComponent)
+export default withCookies((ShoppingCartComponent) as any)
