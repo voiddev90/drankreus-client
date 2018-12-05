@@ -10,7 +10,7 @@ import { ProductComponent } from './Products/ProductComponent'
 import { PaginationComponent } from './PaginationComponent'
 import { ReactCookieProps, withCookies } from 'react-cookie'
 import { addToCart } from '../helpers'
-import FilterComponent from './FilterComponent';
+import FilterComponent from './Filtercomponent';
 
 type ProductOverviewProps = ReactCookieProps
 type ProductOverviewState = WithGetState<ProductResponse> & {
@@ -70,7 +70,7 @@ class ProductOverviewComponent extends React.Component<
       case 'loaded':
         switch (this.state.data.type) {
           case 'none':
-            return <>geen producten</>
+            return <section><FilterComponent getQueryString={this.getString}/> </section>
           case 'some':
             return (
               <section><FilterComponent getQueryString={this.getString}/>

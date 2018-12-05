@@ -70,7 +70,13 @@ export default class FilterComponent extends React.Component<Props, State> {
             let temp = JSON.parse(i)
             string = string + "Country=" + temp.id + "&"
         });
-        string = string + `Price=${this.state.PriceMin}&Price=${this.state.PriceMax}&`
+        let priceMin = this.state.PriceMin;
+        if(this.state.PriceMin < 0){
+            priceMin = 0;
+            console.log("nan");
+        }
+        console.log(priceMin);
+        string = string + `Price=${priceMin}&Price=${this.state.PriceMax}&`
         string = string + `Percentage=${this.state.AlcoholMin}&Percentage=${this.state.AlcoholMax}&`
         string = string + `Ascending=${this.state.ascending}&`
         this.props.getQueryString(string);
@@ -116,6 +122,9 @@ export default class FilterComponent extends React.Component<Props, State> {
     handleChange = (checked: any) => (event: any) => {
         this.setState({ ...this.state, [checked]: event.target.checked }, this.createQueryString);
     }
+    handleChangeWithoutCallback = (checked: any) => (event: any) => {
+        this.setState({ ...this.state, [checked]: event.target.value });
+    }
     render() {
         if (this.state.brand.type === "loaded" && this.state.country.type === "loaded") {
             if (this.state.brand.data.type === 'some' && this.state.country.data.type === 'some') {
@@ -127,27 +136,31 @@ export default class FilterComponent extends React.Component<Props, State> {
                                 type='number'
                                 name='alcoholfiltermin'
                                 value={this.state.AlcoholMin}
-                                onChange={this.changeData('AlcoholMin')}
+                                onChange={this.handleChangeWithoutCallback('AlcoholMin')}
+                                onBlur={this.createQueryString}
                                  /> min
                             <input
                                 type='number'
                                 name='alcoholfiltermax'
                                 value={this.state.AlcoholMax}
-                                onChange={this.changeData('AlcoholMax')}
+                                onChange={this.handleChangeWithoutCallback('AlcoholMax')}
+                                onBlur={this.createQueryString}
                                  /> max
                            <h1>Prijs (€)</h1>
                             <input
                                 type='number'
                                 name='prijsfiltermin'
                                 value={this.state.PriceMin}
-                                onChange={this.changeData('PriceMin')}
+                                onChange={this.handleChangeWithoutCallback('PriceMin')}
+                                onBlur={this.createQueryString}
                             />
                                 min
                             <input
                                 type='number'
                                 name='prijsfiltermax'
                                 value={this.state.PriceMax}
-                                onChange={this.changeData('PriceMax')}
+                                onChange={this.handleChangeWithoutCallback('PriceMax')}
+                                onBlur={this.createQueryString}
                             />
                                 max
                         </div>
