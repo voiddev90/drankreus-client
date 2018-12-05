@@ -23,7 +23,7 @@ class MainMenuComponent extends React.Component<Props, State> {
           <MenuItemComponent to="/products" name="Producten" />
           <MenuItemComponent to="/" name="Contact" />
           <MenuItemComponent to="/" name="Klantenservice" />
-          {!this.props.user ? (
+          {!isLoggedIn() ? (
             <MenuItemComponent to="/login" name="Inloggen" />
           ) : (
             <>
