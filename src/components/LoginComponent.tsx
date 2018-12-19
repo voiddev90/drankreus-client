@@ -53,6 +53,7 @@ export default class LoginComponent extends React.Component<Props, State> {
     })
       .then((response: AxiosResponse<LoginResponse>) => {
         localStorage.setItem('user', JSON.stringify(response.data.user))
+        localStorage.setItem('type', response.data.token_type)
         localStorage.setItem('token', response.data.access_token)
         window.setTimeout(this.redirect, 500)
         this.setState({

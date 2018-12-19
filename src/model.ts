@@ -1,4 +1,6 @@
 import { Map, List } from 'immutable'
+import Axios, { AxiosResponse } from 'axios'
+import { isLoggedIn, getJWT, getTokenType, validateField } from './helpers'
 
 export class User {
   id?: number
@@ -77,60 +79,65 @@ export type WithGetState<T> =
       reason: number
     }
 
-export type WithPostState = 
+export type WithPostState =
   | {
-    type: 'editing'
-  }
+      type: 'editing'
+    }
   | {
-    type: 'creating' | 'validating'
-  }
+      type: 'creating' | 'validating'
+    }
   | {
-    type: 'error'
-    error?: string
-  }
+      type: 'error'
+      error?: string
+    }
   | {
-    type: 'success'
-    message?: string
-  }
+      type: 'success'
+      message?: string
+    }
 
 export type WithPutState<T> =
   | {
-    type: 'loading'
-  }
+      type: 'loading'
+    }
   | {
-    type: 'loaded' | 'editing'
-    data: Option<T>
-  }
+      type: 'loaded' | 'editing'
+      data: Option<T>
+    }
   | {
-    type: 'updating'
-  }
+      type: 'updating'
+    }
   | {
-    type: 'error'
-    error?: string
-  }
+      type: 'error'
+      error?: Error
+    }
   | {
-    type: 'success'
-    message?: string
-  }
+      type: 'success'
+      message?: string
+    }
 
-export type WithDeleteState<T> = 
-| {
-  type: 'loading'
-}
-| {
-  type: 'loaded' | 'editing'
-  data: Option<T>
-}
-| {
-  type: 'removing'
-}
-| {
-  type: 'error'
-  error?: string
-}
-| {
-  type: 'success'
-  message?: string
+export type WithDeleteState<T> =
+  | {
+      type: 'loading'
+    }
+  | {
+      type: 'loaded' | 'editing'
+      data: Option<T>
+    }
+  | {
+      type: 'removing'
+    }
+  | {
+      type: 'error'
+      error?: string
+    }
+  | {
+      type: 'success'
+      message?: string
+    }
+
+export type Error = {
+  reason: number
+  error: string
 }
 
 export type LoginResponse = {
@@ -150,3 +157,26 @@ export type CartResponse = {
 export type Filter<T = any> = Map<string, T>
 
 export type ShoppingCart = number[]
+
+export type Field = {
+  name: string
+  value: string
+  valid: boolean
+  validated: boolean
+  type: string
+}
+
+export type Fields = Field[]
+
+export const AxiosDefault = Axios.create({
+  baseURL: 'http://localhost:5000/api/',
+  timeout: 1000
+})
+
+export const AuthAxios = Axios.create({
+  baseURL: 'http://localhost:5000/api/users',
+  timeout: 1000,
+  headers: isLoggedIn()
+    ? { Authorization: `${getTokenType()} ${getJWT()}` }
+    : {}
+})
