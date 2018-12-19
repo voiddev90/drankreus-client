@@ -3,6 +3,7 @@ import { withCookies, ReactCookieProps } from 'react-cookie'
 import { NavLink } from 'react-router-dom'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {compose} from 'redux'
 
 type Props = ReactCookieProps
 
@@ -24,4 +25,4 @@ const ShoppingCartMenuItemComponent: React.SFC<Props> = (props: Props) => {
   )
 }
 
-export default withCookies(ShoppingCartMenuItemComponent)
+export default withCookies((ShoppingCartMenuItemComponent) as any)
