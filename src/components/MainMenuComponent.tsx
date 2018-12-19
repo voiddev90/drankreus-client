@@ -3,15 +3,11 @@ import * as React from "react"
 import MenuItemComponent from "./Menu/MenuItemComponent"
 import { isLoggedIn, getLoggedInuser, logOut } from "../helpers"
 import ShoppingCartMenuItem from "./Menu/ShoppingCartMenuItem";
-import { connect } from "react-redux";
-import { User } from "../model";
 
-type Props = {
-  user: User
-}
+type Props = {}
 type State = {}
 
-class MainMenuComponent extends React.Component<Props, State> {
+export default class MainMenuComponent extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
   }
@@ -27,7 +23,7 @@ class MainMenuComponent extends React.Component<Props, State> {
             <MenuItemComponent to="/login" name="Inloggen" />
           ) : (
             <>
-              <MenuItemComponent to="/profile" name={this.props.user.firstName} />
+              <MenuItemComponent to="/profile" name="Jouw profiel" />
               <MenuItemComponent
                 to="/"
                 name="Uitloggen"
@@ -41,9 +37,3 @@ class MainMenuComponent extends React.Component<Props, State> {
     )
   }
 }
-
-const mapStatetoProps = (state: any) => ({
-  user: state.user.user
-})
-
-export default connect(mapStatetoProps)(MainMenuComponent)
