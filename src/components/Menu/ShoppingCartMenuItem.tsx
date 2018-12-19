@@ -3,7 +3,6 @@ import { withCookies, ReactCookieProps } from 'react-cookie'
 import { NavLink } from 'react-router-dom'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {compose} from 'redux'
 
 type Props = ReactCookieProps
 
