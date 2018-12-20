@@ -137,4 +137,4 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
     }
         
 }
-export default withCookies(OrderComponent)
+export default withCookies((OrderComponent) as any)

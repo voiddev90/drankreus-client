@@ -24,4 +24,4 @@ const ShoppingCartMenuItemComponent: React.SFC<Props> = (props: Props) => {
   )
 }
 
-export default withCookies(ShoppingCartMenuItemComponent)
+export default withCookies((ShoppingCartMenuItemComponent) as any)
