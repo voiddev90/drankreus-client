@@ -174,9 +174,9 @@ export const AxiosDefault = Axios.create({
 })
 
 export const AuthAxios = Axios.create({
-  baseURL: 'http://localhost:5000/api/users',
+  baseURL: 'http://localhost:5000/api/',
   timeout: 1000,
   headers: isLoggedIn()
-    ? { Authorization: `${getTokenType()} ${getJWT()}` }
+    ? { 'Authorization': `${getTokenType()} ${getJWT()}` }
     : {}
 })
