@@ -1,9 +1,9 @@
 import * as React from 'react'
-import MenuComponent from './MenuComponent'
+import { MenuComponent } from './MenuComponent'
 import { NavLink } from 'react-router-dom'
-import MenuItemComponent from './Menu/MenuItemComponent';
-import { isLoggedIn, logOut } from '../helpers';
-import ShoppingCartMenuItem from './Menu/ShoppingCartMenuItem';
+import MenuItemComponent from './Menu/MenuItemComponent'
+import { isLoggedIn, logOut } from '../helpers'
+import ShoppingCartMenuItem from './Menu/ShoppingCartMenuItem'
 
 type Props = {}
 type State = {}
