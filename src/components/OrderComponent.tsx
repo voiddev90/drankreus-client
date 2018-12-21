@@ -1,8 +1,8 @@
 import * as React from 'react'
-import {Link, withRouter,Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import { ReactCookieProps, withCookies } from 'react-cookie';
 import { Shipment, User ,WithPostState} from '../model';
-import {handleFieldChange, validateField, isLoggedIn,getLoggedInuser, clearShoppingCart} from '../helpers'
+import {isLoggedIn,getLoggedInuser, clearShoppingCart} from '../helpers'
 import Axios, { AxiosResponse } from 'axios';
 
 type State = Shipment& WithPostState &{

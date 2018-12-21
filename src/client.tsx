@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import BaseComponent from "./components/BaseComponent";
 import HomeComponent from "./components/HomeComponent";
 import { PageLoaderComponent } from "./components/PageLoaderComponent";
-import ProductOverviewComponent from "./components/ProductOverviewComponent";
 import { ProductDetailComponent } from "./components/Products/ProductDetailComponent";
 import { CheckoutLoaderComponent } from "./components/CheckoutLoaderComponent";
 import { ReactCookieProps, withCookies } from "react-cookie";

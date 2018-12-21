@@ -2,7 +2,6 @@ import * as React from 'react'
 import { handleFieldChange } from '../helpers'
 import { WithGetState, Tag, Option } from '../model';
 import Axios, { AxiosResponse, AxiosError } from 'axios'
-import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';

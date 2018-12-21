@@ -1,9 +1,6 @@
 import * as React from 'react'
-import { MenuComponent } from './MenuComponent'
 import { NavLink } from 'react-router-dom'
-import MenuItemComponent from './Menu/MenuItemComponent'
-import { isLoggedIn, logOut } from '../helpers'
-import ShoppingCartMenuItem from './Menu/ShoppingCartMenuItem'
+import { MainMenuComponent } from './Menu/MainMenuComponent';
 
 type Props = {}
 type State = {}
@@ -32,26 +29,7 @@ export default class HeaderComponent extends React.Component<Props, State> {
               <button type='submit'>Zoek</button>
             </form>
           </div>
-          <div className='main-menu-wrapper'>
-            <MenuComponent classes='main-menu'>
-              <MenuItemComponent to='/products' name='Producten' />
-              <MenuItemComponent to='/' name='Contact' />
-              <MenuItemComponent to='/' name='Klantenservice' />
-              {!isLoggedIn() ? (
-                <MenuItemComponent to='/login' name='Inloggen' />
-              ) : (
-                <>
-                  <MenuItemComponent to='/profile' name='Jouw profiel' />
-                  <MenuItemComponent
-                    to='/'
-                    name='Uitloggen'
-                    navLinkProps={{ onClick: () => logOut() }}
-                  />
-                </>
-              )}
-              <ShoppingCartMenuItem />
-            </MenuComponent>
-          </div>
+          <MainMenuComponent />
         </div>
       </header>
     )

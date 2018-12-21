@@ -1,7 +1,5 @@
 import { User, Option, ShoppingCart, Fields, Field } from './model'
 import { Cookies } from 'react-cookie'
-import { string } from 'prop-types'
-import { Map } from 'immutable'
 
 const isLoggedIn = () => {
   return (

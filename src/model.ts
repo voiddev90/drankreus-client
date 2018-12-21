@@ -1,5 +1,5 @@
 import { Map, List } from 'immutable'
-import Axios, { AxiosResponse } from 'axios'
+import Axios from 'axios'
 import { isLoggedIn, getJWT, getTokenType, validateField } from './helpers'
 
 export class User {
