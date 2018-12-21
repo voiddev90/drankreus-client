@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { MainAdminMenuComponent } from './menu/MainAdminMenuComponent';
+import { MainAdminMenuComponent } from './Menu/MainAdminMenuComponent';
 
 type Props = {}
 
