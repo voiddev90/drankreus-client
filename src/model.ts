@@ -1,6 +1,6 @@
 import { Map, List } from 'immutable'
 import Axios from 'axios'
-import { isLoggedIn, getJWT, getTokenType, validateField } from './helpers'
+import { isLoggedIn, getJWT, getTokenType } from './helpers'
 
 export class User {
   id?: number
