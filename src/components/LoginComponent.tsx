@@ -108,7 +108,7 @@ export default class LoginComponent extends React.Component<Props, State> {
               </small>
             </p>
           )}
-          {this.state.redirect && <Redirect to={{ pathname: '/' }} />}
+          {this.state.redirect && <Redirect to={{ pathname: '/profile' }} />}
           <p className='validText'>
             <label htmlFor='email'>
               <p>Vul hier uw e-mailadres in </p>

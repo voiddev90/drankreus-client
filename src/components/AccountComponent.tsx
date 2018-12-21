@@ -9,7 +9,7 @@ import {
   handleFieldChangeBetter
 } from '../helpers'
 import { Redirect } from 'react-router'
-import { WithPutState, User, Option, AuthAxios, Fields, Field } from '../model'
+import { WithPutState, User, Option, Fields, Field, getAuthorizedAxiosInstance } from '../model'
 import { Link } from 'react-router-dom'
 import { Map } from 'immutable'
 import { string } from 'prop-types'
@@ -40,7 +40,7 @@ export default class AccountComponentn extends React.Component<Props, State> {
 
   componentDidMount() {
     if (isLoggedIn()) {
-      AuthAxios.get(
+      getAuthorizedAxiosInstance().get(
         `http://localhost:5000/api/users/${getLoggedInuser().id &&
           getLoggedInuser().id}`
       )
