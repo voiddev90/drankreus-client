@@ -14,6 +14,10 @@ const getLoggedInuser = () => {
   return user
 }
 
+const loggedInUserIsAdmin = () => {
+  return isLoggedIn() && getLoggedInuser().admin
+}
+
 const getJWT = () => {
   const JWT: string = localStorage.getItem('token')
   return JWT
@@ -166,5 +170,6 @@ export {
   getTokenType,
   ObjectToArrayExtra,
   ObjectToArray,
-  deduceInputType
+  deduceInputType,
+  loggedInUserIsAdmin
 }
