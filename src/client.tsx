@@ -8,6 +8,7 @@ import { CheckoutLoaderComponent } from "./components/CheckoutLoaderComponent";
 import { ReactCookieProps, withCookies } from "react-cookie";
 import { addToCart } from "./helpers";
 import { AccountLoaderComponent } from "./components/AccountLoaderComponent";
+import { AdminLoaderComponent } from "./components/Admin/AdminLoaderComponent";
 
 export type ClientProps = ReactCookieProps;
 
@@ -52,6 +53,16 @@ const Client: React.SFC<ClientProps> = clientProps => {
             return (
               <BaseComponent>
                 <AccountLoaderComponent {...props} />
+              </BaseComponent>
+            );
+          }}
+        />
+        <Route
+          path="/admin/:slug"
+          render={props => {
+            return (
+              <BaseComponent>
+                <AdminLoaderComponent {...props} />
               </BaseComponent>
             );
           }}
