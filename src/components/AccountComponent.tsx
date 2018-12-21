@@ -17,13 +17,14 @@ import {
   Field,
   getAuthorizedAxiosInstance
 } from '../model'
+import { AccountMenuComponent } from './Menu/AccountMenuComponent';
 
 type Props = {}
 type State = WithPutState<User> & {
   fields: Fields
 }
 
-export default class AccountComponentn extends React.Component<Props, State> {
+export default class AccountComponent extends React.Component<Props, State> {
   handleFieldChange: (index: number, array: Field[]) => (value: string) => void
   constructor(props: Props) {
     super(props)
@@ -159,7 +160,7 @@ export default class AccountComponentn extends React.Component<Props, State> {
                   </p>
                 </form>
               </div>
-              
+              <AccountMenuComponent />
             </section>
           )
         } else {
