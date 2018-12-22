@@ -4,7 +4,7 @@ import { AdminDashboardComponent } from './AdminDashboardComponent'
 import { loggedInUserIsAdmin } from '../../helpers'
 import { BrowserRouter } from 'react-router-dom'
 
-type Props = RouteComponentProps<{ slug: string }>
+type Props = {}
 
 export const AdminLoaderComponent: React.SFC<Props> = (props: Props) => {
   if (loggedInUserIsAdmin()) {

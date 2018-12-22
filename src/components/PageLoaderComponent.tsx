@@ -8,6 +8,7 @@ import AccountComponent from './AccountComponent'
 import ShoppingCartComponent from './ShoppingCartComponent'
 import ProductOverviewComponent from './ProductOverviewComponent';
 import { AdminDashboardComponent } from './Admin/AdminDashboardComponent';
+import { AdminLoaderComponent } from './Admin/AdminLoaderComponent';
 
 type Props = RouteComponentProps<{ slug: string }>
 
@@ -32,7 +33,7 @@ export const PageLoaderComponent: React.SFC<Props> = (props: Props) => {
     case 'products':
         return <ProductOverviewComponent />
     case 'admin':
-        return <AdminDashboardComponent />
+        return <AdminLoaderComponent />
     default:
       return <NotFoundComponent />
   }
