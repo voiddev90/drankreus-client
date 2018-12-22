@@ -4,6 +4,7 @@ import { AdminDashboardComponent } from './AdminDashboardComponent'
 import { loggedInUserIsAdmin } from '../../helpers'
 import { BrowserRouter } from 'react-router-dom'
 import AdminProductsOverviewComponent from './AdminProductsOverviewComponent';
+import AdminProductEditComponent from './AdminProductEditComponent';
 
 type Props = {}
 
@@ -21,6 +22,10 @@ export const AdminLoaderComponent: React.SFC<Props> = (props: Props) => {
             exact
             path='/admin/products/new'
             render={() => <>Nieuw product</>}
+          />
+          <Route
+            path='/admin/products/:slug'
+            component={AdminProductEditComponent}
           />
           <Route
             exact

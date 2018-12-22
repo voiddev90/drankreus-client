@@ -5,8 +5,9 @@ import {
   getAuthorizedAxiosInstance
 } from '../../model'
 import { Button } from '@material-ui/core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom'
 
 type Props = {
   product: Product
@@ -52,20 +53,42 @@ export default class AdminProductComponent extends React.Component<
     return this.state.type != 'success' ? (
       <article className={`product ${this.state.type}`}>
         <header className='product-header'>
-          <img src={this.props.product.url} />
+          <Link
+            to={{
+              pathname: `/admin/products/${this.props.product.id}`,
+              state: this.props.product
+            }}
+          >
+            <img src={this.props.product.url} />
+          </Link>
         </header>
         <main className='product-content'>
-          <div className='product-name'>{this.props.product.name}</div>
+          <div className='product-name'>
+            <Link
+              to={{
+                pathname: `/admin/products/${this.props.product.id}`,
+                state: this.props.product
+              }}
+            >
+              {this.props.product.name}
+            </Link>
+          </div>
           <div className='product-stock'>1000</div>
           <div className='product-delete'>
-            <Button onClick={() => this.deleteProduct()}>{this.state.type != 'loading' ? <FontAwesomeIcon icon={faTrash} /> : <FontAwesomeIcon icon={faSpinner} />}</Button>
+            <Button onClick={() => this.deleteProduct()}>
+              {this.state.type != 'loading' ? (
+                <FontAwesomeIcon icon={faTrash} />
+              ) : (
+                <FontAwesomeIcon icon={faSpinner} spin />
+              )}
+            </Button>
           </div>
         </main>
       </article>
     ) : (
       <article className='product removed'>
         <main className='product-content'>
-          <div className='product-state'>Artikel verwijderd</div>
+          <div className='product-state'>Artikel uit de schappen gehaald</div>
         </main>
       </article>
     )
