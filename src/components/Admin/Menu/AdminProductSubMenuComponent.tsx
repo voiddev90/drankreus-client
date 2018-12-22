@@ -6,8 +6,8 @@ type Props = {}
 
 export const AdminProductSubMenuComponent: React.SFC<Props> = (props: Props) => {
   return (
-    <div className='panel admin-main-menu-wrapper'>
-      <MenuComponent classes='admin-main-menu'>
+    <div className='panel admin-user-sub-menu-wrapper'>
+      <MenuComponent classes='admin-user-sub-menu'>
         <MenuItemComponent to='/admin/products' name='Overzicht' />
         <MenuItemComponent to='/admin/products/new' name='Nieuw' />
       </MenuComponent>
