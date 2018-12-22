@@ -3,6 +3,7 @@ import { RouteComponentProps, Redirect, Switch, Route } from 'react-router'
 import { AdminDashboardComponent } from './AdminDashboardComponent'
 import { loggedInUserIsAdmin } from '../../helpers'
 import { BrowserRouter } from 'react-router-dom'
+import AdminProductsOverviewComponent from './AdminProductsOverviewComponent';
 
 type Props = {}
 
@@ -14,7 +15,7 @@ export const AdminLoaderComponent: React.SFC<Props> = (props: Props) => {
           <Route
             exact
             path='/admin/products'
-            render={() => <>Productenlijst</>}
+            component={AdminProductsOverviewComponent}
           />
           <Route
             exact
