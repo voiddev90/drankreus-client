@@ -10,7 +10,7 @@ import {
 import { AdminProductSubMenuComponent } from './Menu/AdminProductSubMenuComponent'
 import { AxiosResponse, AxiosError } from 'axios'
 import { PaginationComponent } from '../PaginationComponent'
-import { AdminProductComponent } from './AdminProductComponent'
+import AdminProductComponent from './AdminProductComponent'
 
 type Props = {}
 type State = WithGetState<ProductResponse> & {

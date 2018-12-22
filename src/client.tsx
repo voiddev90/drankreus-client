@@ -61,14 +61,12 @@ const Client: React.SFC<ClientProps> = clientProps => {
           }}
         />
         <Route
+          path='/admin'
+          component={AdminLoaderComponent}
+        />
+        <Route
           path='/admin/:slug'
-          render={props => {
-            return (
-              <BaseComponent>
-                <AdminLoaderComponent />
-              </BaseComponent>
-            )
-          }}
+          component={AdminLoaderComponent}
         />
         <Route
           path='/:slug'

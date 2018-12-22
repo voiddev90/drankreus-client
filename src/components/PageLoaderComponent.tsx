@@ -32,8 +32,6 @@ export const PageLoaderComponent: React.SFC<Props> = (props: Props) => {
       return <ShoppingCartComponent />
     case 'products':
         return <ProductOverviewComponent />
-    case 'admin':
-        return <AdminLoaderComponent />
     default:
       return <NotFoundComponent />
   }
