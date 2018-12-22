@@ -65,7 +65,7 @@ const Client: React.SFC<ClientProps> = clientProps => {
           render={props => {
             return (
               <BaseComponent>
-                <AdminLoaderComponent {...props} />
+                <AdminLoaderComponent />
               </BaseComponent>
             )
           }}

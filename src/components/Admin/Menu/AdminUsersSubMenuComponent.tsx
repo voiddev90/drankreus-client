@@ -4,7 +4,7 @@ import MenuItemComponent from '../../Menu/MenuItemComponent'
 
 type Props = {}
 
-export const AdminProductSubMenuComponent: React.SFC<Props> = (props: Props) => {
+export const AdminUserSubMenuComponent: React.SFC<Props> = (props: Props) => {
   return (
     <div className='panel admin-products-sub-menu-wrapper'>
       <MenuComponent classes='admin-products-sub-menu'>
