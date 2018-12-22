@@ -31,6 +31,7 @@ export const AdminLoaderComponent: React.SFC<Props> = (props: Props) => {
             path='/admin/users/new'
             render={() => <>Nieuwe gebruiker</>}
           />
+          <Route component={AdminDashboardComponent} />
         </Switch>
       </BrowserRouter>
     )
