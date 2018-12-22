@@ -11,6 +11,7 @@ import { AdminProductSubMenuComponent } from './Menu/AdminProductSubMenuComponen
 import { AxiosResponse, AxiosError } from 'axios'
 import { PaginationComponent } from '../PaginationComponent'
 import AdminProductComponent from './AdminProductComponent'
+import { Grid } from '@material-ui/core'
 
 type Props = {}
 type State = WithGetState<ProductResponse> & {
@@ -93,12 +94,20 @@ export default class AdminProductsOverviewComponent extends React.Component<
   render() {
     return (
       <section className='admin products'>
-        <MainAdminMenuComponent />
-        <AdminProductSubMenuComponent />
-        <article className='content'>
-          <h1 className='h1 page-title'>Producten</h1>
-          {this.renderState()}
-        </article>
+        <Grid container>
+          <Grid item xs={2}>
+            <MainAdminMenuComponent />
+          </Grid>
+          <Grid item xs={2}>
+            <AdminProductSubMenuComponent />
+          </Grid>
+          <Grid item xs={8}>
+            <article className='content'>
+              <h1 className='h1 page-title'>Producten</h1>
+              {this.renderState()}
+            </article>
+          </Grid>
+        </Grid>
       </section>
     )
   }
