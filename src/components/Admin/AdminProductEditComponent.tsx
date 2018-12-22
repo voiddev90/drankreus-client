@@ -10,7 +10,7 @@ import {
 import { AxiosResponse, AxiosError } from 'axios'
 import { MainAdminMenuComponent } from './Menu/MainAdminMenuComponent'
 import { AdminProductSubMenuComponent } from './Menu/AdminProductSubMenuComponent'
-import { TextField, Grid } from '@material-ui/core'
+import { TextField, Grid, Button } from '@material-ui/core'
 
 type Props = RouteComponentProps<{ slug: string }>
 type State = WithPutState<Product>
@@ -129,6 +129,11 @@ export default class AdminProductEditComponent extends React.Component<
                           variant='outlined'
                           required
                         />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Button variant='contained' color='primary'>
+                          Opslaan
+                        </Button>
                       </Grid>
                     </Grid>
                   </form>
