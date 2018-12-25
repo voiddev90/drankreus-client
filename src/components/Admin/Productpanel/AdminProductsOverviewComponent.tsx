@@ -1,15 +1,15 @@
 import * as React from 'react'
-import { MainAdminMenuComponent } from './Menu/MainAdminMenuComponent'
+import { MainAdminMenuComponent } from '../Menu/MainAdminMenuComponent'
 import {
   WithGetState,
   ProductResponse,
   getAuthorizedAxiosInstance,
   Option,
   Product
-} from '../../model'
-import { AdminProductSubMenuComponent } from './Menu/AdminProductSubMenuComponent'
+} from '../../../model'
+import { AdminProductSubMenuComponent } from '../Menu/AdminProductSubMenuComponent'
 import { AxiosResponse, AxiosError } from 'axios'
-import { PaginationComponent } from '../PaginationComponent'
+import { PaginationComponent } from '../../PaginationComponent'
 import AdminProductComponent from './AdminProductComponent'
 import { Grid } from '@material-ui/core'
 

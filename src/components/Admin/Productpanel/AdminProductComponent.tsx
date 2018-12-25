@@ -3,7 +3,7 @@ import {
   Product,
   WithDeleteState,
   getAuthorizedAxiosInstance
-} from '../../model'
+} from '../../../model'
 import { Button } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faSpinner } from '@fortawesome/free-solid-svg-icons'

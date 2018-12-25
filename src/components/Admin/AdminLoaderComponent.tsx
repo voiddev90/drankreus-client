@@ -3,8 +3,8 @@ import { RouteComponentProps, Redirect, Switch, Route } from 'react-router'
 import { AdminDashboardComponent } from './AdminDashboardComponent'
 import { loggedInUserIsAdmin } from '../../helpers'
 import { BrowserRouter } from 'react-router-dom'
-import AdminProductsOverviewComponent from './AdminProductsOverviewComponent';
-import AdminProductEditComponent from './AdminProductEditComponent';
+import AdminProductsOverviewComponent from './Productpanel/AdminProductsOverviewComponent';
+import AdminProductEditComponent from './Productpanel/AdminProductEditComponent';
 
 type Props = {}
 

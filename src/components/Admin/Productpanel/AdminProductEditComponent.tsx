@@ -6,10 +6,10 @@ import {
   Option,
   getAuthorizedAxiosInstance,
   ProductResponse
-} from '../../model'
+} from '../../../model'
 import { AxiosResponse, AxiosError } from 'axios'
-import { MainAdminMenuComponent } from './Menu/MainAdminMenuComponent'
-import { AdminProductSubMenuComponent } from './Menu/AdminProductSubMenuComponent'
+import { MainAdminMenuComponent } from '../Menu/MainAdminMenuComponent'
+import { AdminProductSubMenuComponent } from '../Menu/AdminProductSubMenuComponent'
 import { TextField, Grid, Button } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
