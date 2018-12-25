@@ -1,21 +1,26 @@
 import * as React from 'react'
-import { RouteComponentProps } from 'react-router'
+import { RouteComponentProps, Redirect } from 'react-router'
 import {
   Product,
   WithPutState,
   Option,
   getAuthorizedAxiosInstance,
-  ProductResponse
+  WithDeleteState,
+  WithGetState
 } from '../../model'
 import { AxiosResponse, AxiosError } from 'axios'
 import { MainAdminMenuComponent } from './Menu/MainAdminMenuComponent'
 import { AdminProductSubMenuComponent } from './Menu/AdminProductSubMenuComponent'
 import { TextField, Grid, Button } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 type Props = RouteComponentProps<{ slug: string }>
-type State = WithPutState<Product>
+type State = {
+  editing: WithPutState<Product>
+  deleting: WithDeleteState<Product>
+  redirect: boolean
+}
 
 export default class AdminProductEditComponent extends React.Component<
   Props,
@@ -26,7 +31,7 @@ export default class AdminProductEditComponent extends React.Component<
 
     const product: Option<Product> = Option(this.props.location.state)
 
-    this.state =
+    const newState: WithGetState<Product> | WithDeleteState<Product> =
       product.type == 'some'
         ? {
             type: 'loaded',
@@ -36,6 +41,12 @@ export default class AdminProductEditComponent extends React.Component<
             type: 'loading'
           }
 
+    this.state = {
+      editing: newState,
+      deleting: newState,
+      redirect: false
+    }
+
     this.getData = this.getData.bind(this)
     this.handleFieldChange = this.handleFieldChange.bind(this)
     this.renderState = this.renderState.bind(this)
@@ -43,28 +54,74 @@ export default class AdminProductEditComponent extends React.Component<
     this.onsubmit = this.onsubmit.bind(this)
   }
 
+  deleteProduct(productId: number) {
+    this.setState({
+      ...this.state,
+      deleting: {
+        type: 'removing'
+      }
+    })
+    getAuthorizedAxiosInstance()
+      .delete(`product/${productId}`)
+      .then(_ => {
+        this.setState({
+          ...this.state,
+          editing: {
+            type: 'loading'
+          },
+          deleting: {
+            type: 'success'
+          }
+        })
+      })
+      .catch(_ => {
+        this.setState({
+          ...this.state,
+          deleting: {
+            type: 'error'
+          }
+        })
+      })
+  }
+
   getData() {
     getAuthorizedAxiosInstance()
-      .get(`products/${this.props.match.params.slug}`)
-      .then((response: AxiosResponse<ProductResponse>) => {
-        this.setState({
+      .get(`product/${this.props.match.params.slug}`)
+      .then((response: AxiosResponse<Product>) => {
+        const newState: WithGetState<Product> | WithDeleteState<Product> = {
           type: 'loaded',
           data: Option(response.data)
+        }
+        this.setState({
+          editing: newState,
+          deleting: newState
         })
       })
       .catch((response: AxiosError) => {
         this.setState({
-          type: 'error'
+          ...this.state,
+          editing: {
+            type: 'error'
+          }
         })
       })
   }
 
   handleFieldChange = (field: keyof Product) => (value: string) => {
-    if (this.state.type == 'loaded' && this.state.data.type == 'some') {
-      const changedProduct = { ...this.state.data.value, [field]: value }
+    if (
+      this.state.editing.type == 'loaded' &&
+      this.state.editing.data.type == 'some'
+    ) {
+      const changedProduct = {
+        ...this.state.editing.data.value,
+        [field]: value
+      }
       this.setState({
         ...this.state,
-        data: Option(changedProduct)
+        editing: {
+          type: 'editing',
+          data: Option(changedProduct)
+        }
       })
     }
   }
@@ -79,70 +136,80 @@ export default class AdminProductEditComponent extends React.Component<
       this.getData()
   }
 
-  checkRequiredFields() {
-    if (this.state.type == 'loaded' && this.state.data.type == 'some') {
-      const product = this.state.data.value
-      return (
-        product.name != '' &&
-        product.price != null &&
-        product.volume != null &&
-        product.alcoholpercentage != '' &&
-        product.brandId != null &&
-        product.countryId != null &&
-        product.description != ''
-      )
-    } else {
-      return false
-    }
+  checkRequiredFields(product: Product) {
+    return (
+      product.name != '' &&
+      product.price != null &&
+      product.volume != null &&
+      product.alcoholpercentage != '' &&
+      product.brandId != null &&
+      product.countryId != null &&
+      product.description != ''
+    )
   }
 
   onsubmit(product: Product) {
-    console.log(this.checkRequiredFields())
-    if (this.checkRequiredFields()) {
+    if (this.checkRequiredFields(product)) {
       this.setState({
         ...this.state,
-        type: 'updating',
-        data: Option(product)
+        editing: {
+          type: 'updating',
+          data: Option(product)
+        }
       })
       getAuthorizedAxiosInstance()
         .put(`product/${product.id}`, product)
         .then(_ =>
           this.setState({
             ...this.state,
-            type: 'success',
-            data: Option(product)
+            editing: {
+              type: 'success',
+              data: Option(product)
+            }
           })
         )
         .catch(_ =>
           this.setState({
             ...this.state,
-            type: 'error',
-            data: Option(product)
+            editing: {
+              type: 'error',
+              data: Option(product)
+            }
           })
         )
     }
   }
 
   renderState() {
-    switch (this.state.type) {
+    switch (this.state.editing.type) {
       case 'loading':
-        return <>Loading</>
+        if (this.state.deleting.type == 'success'){
+          if (this.state.redirect){
+            return <Redirect to='/admin/products' />
+          } else {
+            window.setTimeout(() => this.setState({...this.state, redirect: true}), 1000)
+            return <>Product succesvol verwijderd.</>
+          }
+        } else {
+          return <>Loading</>
+        }
       default:
       case 'error':
       case 'updating':
       case 'loaded':
-        switch (this.state.data.type) {
+        switch (this.state.editing.data.type) {
           default:
           case 'none':
             return <>Geen producten gevonden</>
           case 'some':
+            const product = this.state.editing.data.value
             return (
               <React.Fragment>
                 <h1 className='h1 page-title'>Wijzig product</h1>
                 <div className='product-edit-form-wrapper fields'>
                   <form className='product-edit-form'>
                     <Grid container spacing={24}>
-                      {this.state.type == 'updating' && (
+                      {this.state.editing.type == 'updating' && (
                         <Grid item xs={12}>
                           <p className='message'>Aanpassingen opslaan...</p>
                         </Grid>
@@ -151,7 +218,7 @@ export default class AdminProductEditComponent extends React.Component<
                         <TextField
                           type='text'
                           label='Naam'
-                          value={this.state.data.value.name}
+                          value={product.name}
                           variant='outlined'
                           required
                           onChange={(
@@ -166,7 +233,7 @@ export default class AdminProductEditComponent extends React.Component<
                           <TextField
                             type='number'
                             label='Prijs'
-                            value={this.state.data.value.price}
+                            value={product.price}
                             variant='outlined'
                             required
                             onChange={(
@@ -182,7 +249,7 @@ export default class AdminProductEditComponent extends React.Component<
                           <TextField
                             type='number'
                             label='Alcoholpercentage'
-                            value={this.state.data.value.alcoholpercentage}
+                            value={product.alcoholpercentage}
                             variant='outlined'
                             required
                             onChange={(
@@ -199,9 +266,7 @@ export default class AdminProductEditComponent extends React.Component<
                         <TextField
                           type='number'
                           label={`Volume in ${'cl'}`}
-                          value={parseInt(
-                            this.state.data.value.volume.match(/\d/g).join('')
-                          )}
+                          value={parseInt(product.volume.match(/\d/g).join(''))}
                           variant='outlined'
                           required
                           onChange={(
@@ -218,7 +283,7 @@ export default class AdminProductEditComponent extends React.Component<
                           multiline
                           type='text'
                           label='Omschrijving'
-                          value={this.state.data.value.description}
+                          value={product.description}
                           variant='outlined'
                           required
                           onChange={(
@@ -235,21 +300,23 @@ export default class AdminProductEditComponent extends React.Component<
                           <Button
                             variant='contained'
                             color='primary'
-                            disabled={this.checkRequiredFields()}
-                            onClick={() => {
-                              ;(this.state.type == 'loaded' ||
-                                this.state.type == 'updating' ||
-                                this.state.type == 'success') &&
-                                this.state.data.type == 'some' &&
-                                this.onsubmit(this.state.data.value)
-                            }}
+                            disabled={this.checkRequiredFields(product)}
+                            onClick={() => this.onsubmit(product)}
                           >
                             Opslaan
                           </Button>
                         </Grid>
                         <Grid item>
-                          <Button variant='text' color='secondary'>
-                            <FontAwesomeIcon icon={faTrash} />
+                          <Button
+                            variant='text'
+                            color='secondary'
+                            onClick={() => this.deleteProduct(product.id)}
+                          >
+                            {this.state.deleting.type != 'removing' ? (
+                              <FontAwesomeIcon icon={faTrash} />
+                            ) : (
+                              <FontAwesomeIcon icon={faSpinner} spin />
+                            )}
                           </Button>
                         </Grid>
                       </Grid>
