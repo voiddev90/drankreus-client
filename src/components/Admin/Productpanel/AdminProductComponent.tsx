@@ -51,7 +51,7 @@ export default class AdminProductComponent extends React.Component<
 
   render() {
     return this.state.type != 'success' ? (
-      <article className={`product ${this.state.type}`}>
+      <article className={`product product-${this.state.type}`}>
         <header className='product-header'>
           <Link
             to={{

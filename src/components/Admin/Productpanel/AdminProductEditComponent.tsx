@@ -5,7 +5,8 @@ import {
   WithPutState,
   Option,
   getAuthorizedAxiosInstance,
-  ProductResponse
+  ProductResponse,
+  Brand
 } from '../../../model'
 import { AxiosResponse, AxiosError } from 'axios'
 import { MainAdminMenuComponent } from '../Menu/MainAdminMenuComponent'
@@ -13,6 +14,7 @@ import { AdminProductSubMenuComponent } from '../Menu/AdminProductSubMenuCompone
 import { TextField, Grid, Button } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { AddBrandComponent } from './AddCategoryComponent'
 
 type Props = RouteComponentProps<{ slug: string }>
 type State = WithPutState<Product>
@@ -47,6 +49,7 @@ export default class AdminProductEditComponent extends React.Component<
     getAuthorizedAxiosInstance()
       .get(`products/${this.props.match.params.slug}`)
       .then((response: AxiosResponse<ProductResponse>) => {
+        console.log(response.data)
         this.setState({
           type: 'loaded',
           data: Option(response.data)
@@ -59,7 +62,7 @@ export default class AdminProductEditComponent extends React.Component<
       })
   }
 
-  handleFieldChange = (field: keyof Product) => (value: string) => {
+  handleFieldChange = (field: keyof Product) => (value: any) => {
     if (this.state.type == 'loaded' && this.state.data.type == 'some') {
       const changedProduct = { ...this.state.data.value, [field]: value }
       this.setState({
@@ -71,6 +74,11 @@ export default class AdminProductEditComponent extends React.Component<
 
   componentDidMount() {
     !this.props.location.state && this.getData()
+  }
+
+  componentWillUpdate(prevProps: Props) {
+    if (prevProps.match.params.slug != this.props.match.params.slug)
+      this.getData()
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -87,8 +95,8 @@ export default class AdminProductEditComponent extends React.Component<
         product.price != null &&
         product.volume != null &&
         product.alcoholpercentage != '' &&
-        product.brandId != null &&
-        product.countryId != null &&
+        product.brandEntity != null &&
+        product.countryEntity != null &&
         product.description != ''
       )
     } else {
@@ -230,6 +238,18 @@ export default class AdminProductEditComponent extends React.Component<
                           }
                         />
                       </Grid>
+                      <Grid item xs={12}>
+                        <AddBrandComponent
+                          endpoint='brand'
+                          getId={(item: Brand) => item.id}
+                          getName={(item: Brand) => item.name}
+                          onChange={(item: Brand) =>
+                            this.handleFieldChange('brandEntity')(item)
+                          }
+                          placeholder='Selecteer brand'
+                          default={this.state.data.value.brandEntity}
+                        />
+                      </Grid>
                       <Grid item xs={12} container spacing={24}>
                         <Grid item>
                           <Button
@@ -237,11 +257,13 @@ export default class AdminProductEditComponent extends React.Component<
                             color='primary'
                             disabled={this.checkRequiredFields()}
                             onClick={() => {
-                              ;(this.state.type == 'loaded' ||
-                                this.state.type == 'updating' ||
-                                this.state.type == 'success') &&
+                              return (
+                                (this.state.type == 'loaded' ||
+                                  this.state.type == 'updating' ||
+                                  this.state.type == 'success') &&
                                 this.state.data.type == 'some' &&
                                 this.onsubmit(this.state.data.value)
+                              )
                             }}
                           >
                             Opslaan

@@ -30,9 +30,9 @@ export class Product {
   volume: string
   alcoholpercentage: string
   url: string
-  brandId: number
-  categoryId: number
-  countryId: number
+  brandEntity: Brand
+  categoryEntity: Category
+  countryEntity: Country
 }
 
 export class Tag {
@@ -137,6 +137,8 @@ export type WithDeleteState<T> =
       type: 'success'
       message?: string
     }
+
+export type Endpoint = 'product' | 'brand' | 'cart' | 'category' | 'orders' | 'users' | 'wishlists'
 
 export type Error = {
   reason: number
