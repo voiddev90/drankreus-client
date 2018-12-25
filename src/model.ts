@@ -27,8 +27,8 @@ export class Product {
   name: string
   description: string
   price: number
-  volume: number
-  alcoholpercentage: number
+  volume: string
+  alcoholpercentage: string
   url: string
   brandId: number
   categoryId: number
@@ -105,14 +105,17 @@ export type WithPutState<T> =
     }
   | {
       type: 'updating'
+      data: Option<T>
     }
   | {
       type: 'error'
       error?: Error
+      data?: Option<T>
     }
   | {
       type: 'success'
       message?: string
+      data: Option<T>
     }
 
 export type WithDeleteState<T> =
