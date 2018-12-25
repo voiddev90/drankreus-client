@@ -33,7 +33,7 @@ export default class AdminProductComponent extends React.Component<
 
   deleteProduct() {
     this.setState({
-      type: 'removing'
+      type: 'loading'
     })
     getAuthorizedAxiosInstance()
       .delete(`product/${this.props.product.id}`)
@@ -76,7 +76,7 @@ export default class AdminProductComponent extends React.Component<
           <div className='product-stock'>1000</div>
           <div className='product-delete'>
             <Button onClick={() => this.deleteProduct()}>
-              {this.state.type != 'removing' ? (
+              {this.state.type != 'loading' ? (
                 <FontAwesomeIcon icon={faTrash} />
               ) : (
                 <FontAwesomeIcon icon={faSpinner} spin />
