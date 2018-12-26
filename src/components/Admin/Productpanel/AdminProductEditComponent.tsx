@@ -7,7 +7,8 @@ import {
   getAuthorizedAxiosInstance,
   ProductResponse,
   Brand,
-  WithDeleteState
+  WithDeleteState,
+  Country
 } from '../../../model'
 import { AxiosResponse, AxiosError } from 'axios'
 import { MainAdminMenuComponent } from '../Menu/MainAdminMenuComponent'
@@ -19,7 +20,7 @@ import {
   faSpinner,
   faExclamation
 } from '@fortawesome/free-solid-svg-icons'
-import { AddBrandComponent } from './AddCategoryComponent'
+import { AddBrandComponent, AddCountryComponent } from './AddCategoryComponent'
 
 type Props = RouteComponentProps<{ slug: string }>
 type State = {
@@ -160,7 +161,6 @@ export default class AdminProductEditComponent extends React.Component<
   }
 
   onsubmit(product: Product) {
-    console.log(this.checkRequiredFields(product))
     if (this.checkRequiredFields(product)) {
       this.setState({
         ...this.state,
@@ -322,12 +322,24 @@ export default class AdminProductEditComponent extends React.Component<
                           default={product.brandEntity}
                         />
                       </Grid>
+                      <Grid item xs={12}>
+                        <AddCountryComponent
+                          endpoint='brand'
+                          getId={(item: Country) => item.id}
+                          getName={(item: Country) => item.name}
+                          onChange={(item: Country) =>
+                            this.handleFieldChange('countryEntity')(item)
+                          }
+                          placeholder='Selecteer land'
+                          default={product.countryEntity}
+                        />
+                      </Grid>
                       <Grid item xs={12} container spacing={24}>
                         <Grid item>
                           <Button
                             variant='contained'
                             color='primary'
-                            disabled={this.checkRequiredFields(product)}
+                            disabled={!this.checkRequiredFields(product)}
                             onClick={() => this.onsubmit(product)}
                           >
                             Opslaan
