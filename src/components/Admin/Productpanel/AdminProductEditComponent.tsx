@@ -33,10 +33,14 @@ export default class AdminProductEditComponent extends React.Component<
   Props,
   State
 > {
+  private OriginalProduct: Product
   constructor(props: Props) {
     super(props)
 
     const product: Option<Product> = Option(this.props.location.state)
+    if (product.type == 'some') {
+      this.OriginalProduct = product.value
+    }
 
     const newState: WithPutState<Product> | WithDeleteState<Product> =
       product.type == 'some'
@@ -57,7 +61,7 @@ export default class AdminProductEditComponent extends React.Component<
     this.getData = this.getData.bind(this)
     this.handleFieldChange = this.handleFieldChange.bind(this)
     this.renderState = this.renderState.bind(this)
-    this.checkRequiredFields = this.checkRequiredFields.bind(this)
+    this.requiredFieldsAreFilled = this.requiredFieldsAreFilled.bind(this)
     this.onsubmit = this.onsubmit.bind(this)
   }
 
@@ -99,9 +103,12 @@ export default class AdminProductEditComponent extends React.Component<
           type: 'loaded',
           data: Option(response.data)
         }
+        if (newState.data.type == 'some'){
+          this.OriginalProduct = newState.data.value
+        }
         this.setState({
-          editing: newState,
-          deleting: newState
+          ...this.state,
+          editing: newState
         })
       })
       .catch((response: AxiosError) => {
@@ -148,7 +155,7 @@ export default class AdminProductEditComponent extends React.Component<
       this.getData()
   }
 
-  checkRequiredFields(product: Product) {
+  requiredFieldsAreFilled(product: Product) {
     return (
       product.name != '' &&
       product.price != null &&
@@ -160,8 +167,12 @@ export default class AdminProductEditComponent extends React.Component<
     )
   }
 
+  productIsChanged(product: Product) {
+    return this.OriginalProduct != product
+  }
+
   onsubmit(product: Product) {
-    if (this.checkRequiredFields(product)) {
+    if (this.requiredFieldsAreFilled(product) && this.productIsChanged(product)) {
       this.setState({
         ...this.state,
         editing: {
@@ -241,6 +252,7 @@ export default class AdminProductEditComponent extends React.Component<
                           ) =>
                             this.handleFieldChange('name')(event.target.value)
                           }
+                          fullWidth
                         />
                       </Grid>
                       <Grid item xs={12} container spacing={24}>
@@ -258,6 +270,7 @@ export default class AdminProductEditComponent extends React.Component<
                                 event.target.value
                               )
                             }
+                            fullWidth
                           />
                         </Grid>
                         <Grid item>
@@ -274,6 +287,7 @@ export default class AdminProductEditComponent extends React.Component<
                                 event.target.value
                               )
                             }
+                            fullWidth
                           />
                         </Grid>
                       </Grid>
@@ -291,6 +305,7 @@ export default class AdminProductEditComponent extends React.Component<
                               `${event.target.value} ${'cl'}`
                             )
                           }
+                          fullWidth
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -308,6 +323,7 @@ export default class AdminProductEditComponent extends React.Component<
                               event.target.value
                             )
                           }
+                          fullWidth
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -339,7 +355,7 @@ export default class AdminProductEditComponent extends React.Component<
                           <Button
                             variant='contained'
                             color='primary'
-                            disabled={!this.checkRequiredFields(product)}
+                            disabled={!(this.productIsChanged(product) && this.requiredFieldsAreFilled(product))}
                             onClick={() => this.onsubmit(product)}
                           >
                             Opslaan
