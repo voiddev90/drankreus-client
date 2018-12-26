@@ -9,7 +9,7 @@ import {
 } from '../../../model'
 import { AxiosResponse } from 'axios'
 import Select from 'react-select/lib/Select'
-import { ActionMeta, InputActionMeta } from 'react-select/lib/types';
+import { ActionMeta, InputActionMeta } from 'react-select/lib/types'
 
 type Props<T> = {
   endpoint: Endpoint
@@ -22,7 +22,7 @@ type Props<T> = {
 }
 
 type State<T> = WithGetState<T> & {
-  menuOpen: boolean,
+  menuOpen: boolean
   searchTerm: string
 }
 
@@ -79,32 +79,6 @@ export default class AddCategoryComponent<T> extends React.Component<
           case 'none':
             return <>Geen items gevonden</>
           case 'some':
-            const dummyOptions = [
-              {
-                value: 'dummy',
-                label: 'Dummy'
-              },
-              {
-                value: 'dummy2',
-                label: 'Dummy 2'
-              },
-              {
-                value: 'dummy3',
-                label: 'Dummy 3'
-              },
-              {
-                value: 'dummy4',
-                label: 'Dummy 4'
-              },
-              {
-                value: 'dummy5',
-                label: 'Dummy 5'
-              },
-              {
-                value: 'dummy6',
-                label: 'Dummy 6'
-              }
-            ]
             const options = this.state.data.value
             return (
               <Select
@@ -113,11 +87,17 @@ export default class AddCategoryComponent<T> extends React.Component<
                 isClearable
                 options={options}
                 placeholder={this.props.placeholder}
-                onInputChange={(newValue: string, actionMeta: InputActionMeta) => console.log(newValue)}
-                onMenuOpen={() => this.setState({...this.state, menuOpen: true})}
-                onMenuClose={() => this.setState({...this.state, menuOpen: false})}
+                onInputChange={(newValue: string) =>
+                  this.setState({ ...this.state, searchTerm: newValue })
+                }
+                onMenuOpen={() =>
+                  this.setState({ ...this.state, menuOpen: true })
+                }
+                onMenuClose={() =>
+                  this.setState({ ...this.state, menuOpen: false })
+                }
                 menuIsOpen={this.state.menuOpen}
-                onChange={(value) => this.props.onChange(value as T)}
+                onChange={value => this.props.onChange(value as T)}
                 getOptionLabel={option => this.props.getName(option)}
                 value={this.props.default}
               />
