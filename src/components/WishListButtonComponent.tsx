@@ -21,7 +21,7 @@ export default class WishListButtonComponent extends React.Component<
 
   addToWishList() {
     console.log('het is gelukt')
-    getAuthorizedAxiosInstance().post('http://localhost:5000/api/wishlists/', this.props.product.id)
+    getAuthorizedAxiosInstance().post('wishlists/', {id: this.props.product.id})
       .then((response: AxiosResponse<null>) => {
         this.setState({
           ...this.state,
