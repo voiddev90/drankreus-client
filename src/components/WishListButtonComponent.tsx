@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
-import { WithPostState, Product } from '../model'
+import { WithPostState, Product, getAuthorizedAxiosInstance } from '../model'
 
 type Props = { product: Product }
 type State = WithPostState
@@ -15,11 +15,13 @@ export default class WishListButtonComponent extends React.Component<
     this.state = {
       type: 'editing'
     }
+
+    this.addToWishList = this.addToWishList.bind(this)
   }
 
   addToWishList() {
     console.log('het is gelukt')
-    Axios.post('http://localhost:5000/api/wishlists/', this.props.product.id)
+    getAuthorizedAxiosInstance().post('http://localhost:5000/api/wishlists/', this.props.product.id)
       .then((response: AxiosResponse<null>) => {
         this.setState({
           ...this.state,

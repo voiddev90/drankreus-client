@@ -1,37 +1,41 @@
 import * as React from 'react'
 import { RouteComponentProps, Redirect } from 'react-router'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
-import { Product, WithGetState, Option, getAuthorizedAxiosInstance } from '../model'
+import {
+  Product,
+  WithGetState,
+  Option,
+  getAuthorizedAxiosInstance
+} from '../model'
 import { ProductResponse } from '../model'
 import WishListProductComponent from './WishListProductComponent'
-
 
 type WishListOverviewState = WithGetState<ProductResponse> & {
   perPage: number
   page: number
 }
-type Props = {
-}
+type Props = {}
 //onAddtoWishList: (products: number[]) => void
 
-export default class WishListComponent extends React.Component<Props, WishListOverviewState> {
+export default class WishListComponent extends React.Component<
+  Props,
+  WishListOverviewState
+> {
   constructor(props: Props) {
     super(props)
 
     this.state = {
       type: 'loading',
       perPage: 20,
-      page: 0,
-  }
+      page: 0
+    }
 
-  this.getData = this.getData.bind(this)
-
+    this.getData = this.getData.bind(this)
   }
 
   getData() {
-    getAuthorizedAxiosInstance().get(
-      `http://localhost:5000/api/wishlists/`
-    )
+    getAuthorizedAxiosInstance()
+      .get(`http://localhost:5000/api/wishlists/`)
       .then((value: AxiosResponse<ProductResponse>) => {
         this.setState({
           ...this.state,
@@ -47,7 +51,6 @@ export default class WishListComponent extends React.Component<Props, WishListOv
       })
   }
 
-
   componentDidMount() {
     this.getData()
   }
@@ -62,21 +65,28 @@ export default class WishListComponent extends React.Component<Props, WishListOv
       case 'loaded':
         switch (this.state.data.type) {
           case 'none':
-            return <>Er staan geen producten in je favorieten lijst.</>
+            return <>Er staan geen producten in je favorietenlijst.</>
           case 'some':
-    return (
-      <div className='Wishlist'>
-        <h1 className='WistList_text'>Dit is uw favorietenlijst</h1>
-        <div>
-        {this.state.data.value.items.map((value: Product) => {
-                  return ( 
-                    <WishListProductComponent product={value}
-                    key={value.id} />
-                  )})}
-        </div>
-      </div>
-    )
-  }}}}
+          console.log(JSON.stringify(this.state.data))
+            return (
+              <div className='Wishlist'>
+                <h1 className='WistList_text'>Dit is uw favorietenlijst</h1>
+                <div>
+                  {this.state.data.value.items.map((value: Product) => {
+                    return (
+                      <WishListProductComponent
+                        product={value}
+                        key={value.id}
+                      />
+                    )
+                  })}
+                </div>
+              </div>
+            )
+        }
+    }
+  }
+}
 
 // export const WishListComponentProps: React.SFC<Props> = (props: Props) => {
 //   switch (props.match.params.slug) {
