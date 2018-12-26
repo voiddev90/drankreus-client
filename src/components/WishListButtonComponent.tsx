@@ -19,7 +19,7 @@ export default class WishListButtonComponent extends React.Component<
 
   addToWishList() {
     console.log('het is gelukt')
-    Axios.post('http://localhost:5000/api/wishlist/', this.props.product.id)
+    Axios.post('http://localhost:5000/api/wishlists/', this.props.product.id)
       .then((response: AxiosResponse<null>) => {
         this.setState({
           ...this.state,
@@ -38,7 +38,6 @@ export default class WishListButtonComponent extends React.Component<
 
   render() {
     return (
-      <>
         <button
           className='Wishlistbutton'
           onClick={() => {
@@ -46,8 +45,6 @@ export default class WishListButtonComponent extends React.Component<
           }}>
           Favorieten
           </button>
-
-      </>
     )
   }
 }

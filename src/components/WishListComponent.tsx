@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { RouteComponentProps } from 'react-router'
+import { RouteComponentProps, Redirect } from 'react-router'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
-import { Product, WithGetState, Option } from '../model'
+import { Product, WithGetState, Option, getAuthorizedAxiosInstance } from '../model'
 import { ProductResponse } from '../model'
 import WishListProductComponent from './WishListProductComponent'
 
@@ -21,7 +21,7 @@ export default class WishListComponent extends React.Component<Props, WishListOv
     this.state = {
       type: 'loading',
       perPage: 20,
-      page: 0
+      page: 0,
   }
 
   this.getData = this.getData.bind(this)
@@ -29,8 +29,8 @@ export default class WishListComponent extends React.Component<Props, WishListOv
   }
 
   getData() {
-    Axios.get(
-      `http://localhost:5000/api/wishlist/`
+    getAuthorizedAxiosInstance().get(
+      `http://localhost:5000/api/wishlists/`
     )
       .then((value: AxiosResponse<ProductResponse>) => {
         this.setState({
@@ -42,16 +42,23 @@ export default class WishListComponent extends React.Component<Props, WishListOv
       .catch((value: AxiosError) => {
         this.setState({
           ...this.state,
-          type: 'error',
-          reason: value.response.status
+          type: 'error'
         })
       })
   }
 
 
+  componentDidMount() {
+    this.getData()
+  }
+
   render() {
     document.title = 'Drankreus - Wishlist'
     switch (this.state.type) {
+      case 'loading':
+        return <>favorietentlijst wordt geladen </>
+      case 'error':
+        return <>Er ging iets fout</>
       case 'loaded':
         switch (this.state.data.type) {
           case 'none':
@@ -59,11 +66,12 @@ export default class WishListComponent extends React.Component<Props, WishListOv
           case 'some':
     return (
       <div className='Wishlist'>
-        <h1 className='WistList_text'>Dit is uw wenslijst</h1>
+        <h1 className='WistList_text'>Dit is uw favorietenlijst</h1>
         <div>
         {this.state.data.value.items.map((value: Product) => {
                   return ( 
-                    <WishListProductComponent product={value} />
+                    <WishListProductComponent product={value}
+                    key={value.id} />
                   )})}
         </div>
       </div>

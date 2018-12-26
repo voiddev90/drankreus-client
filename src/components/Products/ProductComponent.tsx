@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Product } from '../../model'
 import { Link } from 'react-router-dom'
+import  WishListButtonComponent  from '../WishListButtonComponent'
 
 type Props = {
   product: Product
@@ -27,6 +28,8 @@ export const ProductComponent: React.SFC<Props> = (props: Props) => {
       >
         Toevoegen
       </button>
+      <WishListButtonComponent product={props.product}
+      />
     </div>
   )
 }
