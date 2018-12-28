@@ -53,9 +53,27 @@ export class Page<T> {
 }
 
 export function Option<T>(value: T): Option<T> {
-  if (!value) return { type: 'none' }
-  return { type: 'some', value: value }
+  if (value) {
+    switch (typeof value) {
+      case 'object':
+        return Object.keys(value).length == 0
+          ? { type: 'none' }
+          : { type: 'some', value: value }
+      case 'string':
+        return value.length == 0
+          ? { type: 'none' }
+          : { type: 'some', value: value }
+      default:
+        return { type: 'none' }
+    }
+  }
+  return { type: 'none' }
 }
+
+// export function Option<T>(value: T): Option<T> {
+//   if (!value) return { type: 'none' }
+//   return { type: 'some', value: value }
+// }
 
 export type Option<T> =
   | {
@@ -146,6 +164,8 @@ export type LoginResponse = {
   access_token: string
   user: User
 }
+
+export type WishlistResponse = Product[]
 
 export type ProductResponse = Page<Product>
 

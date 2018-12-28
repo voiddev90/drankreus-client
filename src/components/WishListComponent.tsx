@@ -7,10 +7,10 @@ import {
   Option,
   getAuthorizedAxiosInstance
 } from '../model'
-import { ProductResponse } from '../model'
+import { WishlistResponse } from '../model'
 import WishListProductComponent from './WishListProductComponent'
 
-type WishListOverviewState = WithGetState<ProductResponse> & {
+type WishListOverviewState = WithGetState<WishlistResponse> & {
   perPage: number
   page: number
 }
@@ -36,7 +36,7 @@ export default class WishListComponent extends React.Component<
   getData() {
     getAuthorizedAxiosInstance()
       .get(`http://localhost:5000/api/wishlists/`)
-      .then((value: AxiosResponse<ProductResponse>) => {
+      .then((value: AxiosResponse<WishlistResponse>) => {
         this.setState({
           ...this.state,
           type: 'loaded',
@@ -72,11 +72,12 @@ export default class WishListComponent extends React.Component<
               <div className='Wishlist'>
                 <h1 className='WistList_text'>Dit is uw favorietenlijst</h1>
                 <div>
-                  {this.state.data.value.items.map((value: Product) => {
+                  {this.state.data.value.map((value: Product) => {
                     return (
                       <WishListProductComponent
                         product={value}
                         key={value.id}
+                        
                       />
                     )
                   })}

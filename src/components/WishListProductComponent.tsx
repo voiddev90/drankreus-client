@@ -24,7 +24,7 @@ export default class WishListProductComponent extends React.Component<Props, Sta
                 ...this.state, type: 'loading'
             }
         )
-        Axios.delete(`http://localhost:5000/api/wishlists/${this.props.product.id}`)
+        getAuthorizedAxiosInstance().delete(`http://localhost:5000/api/wishlists/${this.props.product.id}`)
           .then((response: AxiosResponse<ProductResponse>) => {
             this.setState({
               ...this.state,
@@ -45,11 +45,13 @@ export default class WishListProductComponent extends React.Component<Props, Sta
         return (
             <div>
                 <Link to={`/product/${this.props.product.id}`}>
-                <img className='wishlist-product-image'>{this.props.product.url}</img>
-                <p className='wishlist-product-name'>{this.props.product.name}</p>
-                <p className='wishlist-product-price'>{this.props.product.price}</p>
-                <div className='wishlist-delete-button' onClick={() => this.DeleteFromWishList()}>Verwijder uit favorieten</div>
+                <img src={this.props.product.url}></img> 
+                <div className='wishlist-product-name'>{this.props.product.name}</div>
+                <div className='wishlist-product-price'>€{this.props.product.price}</div>
+                <div className='wishlist-product-percentage'>%{this.props.product.alcoholpercentage}</div>
+                <div className='wishlist-product-volume'>{this.props.product.volume}</div>
                 </Link>
+                <button className='wishlist-delete-button' onClick={() => this.DeleteFromWishList()}>Verwijder uit favorieten</button>
             </div>
         )
     }
