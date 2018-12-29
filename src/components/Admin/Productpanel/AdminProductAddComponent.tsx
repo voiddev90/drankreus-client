@@ -106,14 +106,15 @@ export default class AdminProductAddComponent extends React.Component<
                 .catch(_ =>
                     this.setState({
                         ...this.state,
-                        type: 'error'
+                        type: 'error',
+                        error: 'Er is iets foutgegaan bij het opslaan.'
                     })
                 )
         } else {
             this.setState({
                 ...this.state,
                 type: 'error',
-                message: 'De vereiste velden zijn niet ingevuld.'
+                error: 'De vereiste velden zijn niet ingevuld.'
             })
         }
     }
@@ -129,6 +130,16 @@ export default class AdminProductAddComponent extends React.Component<
                             {this.state.type == 'creating' && (
                                 <Grid item xs={12}>
                                     <p className='message'>Product opslaan...</p>
+                                </Grid>
+                            )}
+                            {this.state.type == 'error' && (
+                                <Grid item xs={12}>
+                                    <p className='message'>{this.state.error && this.state.error}</p>
+                                </Grid>
+                            )}
+                            {this.state.type == 'success' && (
+                                <Grid item xs={12}>
+                                    <p className='message'>Product opgeslagen</p>
                                 </Grid>
                             )}
                             <Grid item xs={12}>
