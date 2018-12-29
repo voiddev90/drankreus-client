@@ -8,7 +8,7 @@ import {
   Country
 } from '../../../model'
 import { AxiosResponse } from 'axios'
-import Select from 'react-select/lib/Select'
+import Select from 'react-select'
 import { ActionMeta, InputActionMeta } from 'react-select/lib/types'
 
 type Props<T> = {
@@ -29,7 +29,7 @@ type State<T> = WithGetState<T> & {
 export default class AddCategoryComponent<T> extends React.Component<
   Props<T>,
   State<Array<T>>
-> {
+  > {
   constructor(props: Props<T>) {
     super(props)
 
@@ -82,24 +82,14 @@ export default class AddCategoryComponent<T> extends React.Component<
             const options = this.state.data.value
             return (
               <Select
-                isMulti={this.props.multiple}
                 isSearchable
                 isClearable
                 options={options}
-                placeholder={this.props.placeholder}
-                onInputChange={(newValue: string) =>
-                  this.setState({ ...this.state, searchTerm: newValue })
-                }
-                onMenuOpen={() =>
-                  this.setState({ ...this.state, menuOpen: true })
-                }
-                onMenuClose={() =>
-                  this.setState({ ...this.state, menuOpen: false })
-                }
-                menuIsOpen={this.state.menuOpen}
-                onChange={value => this.props.onChange(value as T)}
                 getOptionLabel={option => this.props.getName(option)}
                 value={this.props.default}
+                onChange={value => this.props.onChange(value as T)}
+                isMulti={this.props.multiple}
+                placeholder={this.props.placeholder}
               />
             )
         }
@@ -107,5 +97,5 @@ export default class AddCategoryComponent<T> extends React.Component<
   }
 }
 
-export class AddBrandComponent extends AddCategoryComponent<Brand> {}
-export class AddCountryComponent extends AddCategoryComponent<Country> {}
+export class AddBrandComponent extends AddCategoryComponent<Brand> { }
+export class AddCountryComponent extends AddCategoryComponent<Country> { }
