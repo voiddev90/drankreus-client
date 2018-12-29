@@ -28,7 +28,7 @@ export class Product {
   description: string
   price: number
   volume: string
-  alcoholpercentage: string
+  alcoholpercentage: number
   url: string
   brandEntity: Brand
   categoryEntity: Category
@@ -92,21 +92,41 @@ export type WithGetState<T> =
       reason: number
     }
 
-export type WithPostState =
+export type WithPostState2<T> =
   | {
       type: 'editing'
+      data: T
     }
   | {
       type: 'creating' | 'validating'
+      data: T
     }
   | {
       type: 'error'
       error?: string
+      data: T
     }
   | {
       type: 'success'
       message?: string
+      data: T
     }
+
+export type WithPostState =
+      | {
+          type: 'editing'
+        }
+      | {
+          type: 'creating' | 'validating'
+        }
+      | {
+          type: 'error'
+          error?: string
+        }
+      | {
+          type: 'success'
+          message?: string
+        }
 
 export type WithPutState<T> =
   | {

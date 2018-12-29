@@ -157,12 +157,10 @@ export default class AdminProductEditComponent extends React.Component<
 
   requiredFieldsAreFilled(product: Product) {
     return (
-      product.name != '' &&
+      product.name.length! <= 0 &&
       product.price != null &&
-      product.volume != null &&
-      product.alcoholpercentage != '' &&
-      product.brandEntity != null &&
-      product.countryEntity != null &&
+      product.volume != 'cl' &&
+      product.alcoholpercentage != null &&
       product.description != ''
     )
   }
