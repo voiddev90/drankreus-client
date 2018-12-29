@@ -168,7 +168,8 @@ export default class AdminProductEditComponent extends React.Component<
   }
 
   productIsChanged(product: Product) {
-    return this.OriginalProduct != product
+    const productValues = Object.getOwnPropertyNames(product)
+    return productValues.filter((value: keyof Product) => product[value] == this.OriginalProduct[value]).length != productValues.length
   }
 
   onsubmit(product: Product) {
