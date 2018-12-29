@@ -32,7 +32,7 @@ type State = {
 export default class AdminProductEditComponent extends React.Component<
   Props,
   State
-> {
+  > {
   private OriginalProduct: Product
   constructor(props: Props) {
     super(props)
@@ -45,12 +45,12 @@ export default class AdminProductEditComponent extends React.Component<
     const newState: WithPutState<Product> | WithDeleteState<Product> =
       product.type == 'some'
         ? {
-            type: 'loaded',
-            data: product
-          }
+          type: 'editing',
+          data: product
+        }
         : {
-            type: 'loading'
-          }
+          type: 'loading'
+        }
 
     this.state = {
       editing: newState,
@@ -100,10 +100,10 @@ export default class AdminProductEditComponent extends React.Component<
       .get(`products/${this.props.match.params.slug}`)
       .then((response: AxiosResponse<Product>) => {
         const newState: WithPutState<Product> | WithDeleteState<Product> = {
-          type: 'loaded',
+          type: 'editing',
           data: Option(response.data)
         }
-        if (newState.data.type == 'some'){
+        if (newState.data.type == 'some') {
           this.OriginalProduct = newState.data.value
         }
         this.setState({
@@ -123,7 +123,7 @@ export default class AdminProductEditComponent extends React.Component<
 
   handleFieldChange = (field: keyof Product) => (value: any) => {
     if (
-      this.state.editing.type == 'loaded' &&
+      this.state.editing.type == 'editing' &&
       this.state.editing.data.type == 'some'
     ) {
       const changedProduct = {
@@ -340,7 +340,7 @@ export default class AdminProductEditComponent extends React.Component<
                       </Grid>
                       <Grid item xs={12}>
                         <AddCountryComponent
-                          endpoint='brand'
+                          endpoint='country'
                           getId={(item: Country) => item.id}
                           getName={(item: Country) => item.name}
                           onChange={(item: Country) =>
@@ -371,10 +371,10 @@ export default class AdminProductEditComponent extends React.Component<
                               <FontAwesomeIcon icon={faSpinner} spin />
                             ) : this.state.deleting.type == 'loaded' ||
                               this.state.deleting.type == 'editing' ? (
-                              <FontAwesomeIcon icon={faTrash} />
-                            ) : (
-                              <FontAwesomeIcon icon={faExclamation} />
-                            )}
+                                  <FontAwesomeIcon icon={faTrash} />
+                                ) : (
+                                  <FontAwesomeIcon icon={faExclamation} />
+                                )}
                           </Button>
                         </Grid>
                       </Grid>

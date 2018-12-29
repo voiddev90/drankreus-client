@@ -151,7 +151,7 @@ export type WithDeleteState<T> =
       message?: string
     }
 
-export type Endpoint = 'product' | 'brand' | 'cart' | 'category' | 'orders' | 'users' | 'wishlists'
+export type Endpoint = 'product' | 'brand' | 'cart' | 'category' | 'orders' | 'users' | 'wishlists' | 'country'
 
 export type Error = {
   reason: number
