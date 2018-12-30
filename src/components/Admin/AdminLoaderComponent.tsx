@@ -6,6 +6,9 @@ import { BrowserRouter } from 'react-router-dom'
 import AdminProductsOverviewComponent from './Productpanel/AdminProductsOverviewComponent';
 import AdminProductEditComponent from './Productpanel/AdminProductEditComponent';
 import AdminProductAddComponent from './Productpanel/AdminProductAddComponent';
+import AdminUsersOverviewComponent from './Userpanel/AdminUsersOverviewComponent';
+import AdminUserEditComponent from './Userpanel/AdminUserEditComponent';
+import AdminUserAddComponent from './Userpanel/AdminUserAddComponent';
 
 type Props = RouteComponentProps<{ slug: string }>
 
@@ -22,7 +25,7 @@ export const AdminLoaderComponent: React.SFC<Props> = (props: Props) => {
           <Route
             exact
             path='/admin/products/new'
-            render={() => <AdminProductAddComponent />}
+            component={AdminProductAddComponent}
           />
           <Route
             path='/admin/products/:slug'
@@ -31,12 +34,17 @@ export const AdminLoaderComponent: React.SFC<Props> = (props: Props) => {
           <Route
             exact
             path='/admin/users'
-            render={() => <>Gebruikerslijst</>}
+            component={AdminUsersOverviewComponent}
           />
           <Route
             exact
             path='/admin/users/new'
-            render={() => <>Nieuwe gebruiker</>}
+            component={AdminUserAddComponent}
+          />
+          <Route
+            exact
+            path='/admin/users/:slug'
+            component={AdminUserEditComponent}
           />
           <Route component={AdminDashboardComponent} />
         </Switch>
