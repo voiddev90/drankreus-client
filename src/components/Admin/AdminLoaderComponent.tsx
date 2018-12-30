@@ -1,15 +1,15 @@
 import * as React from 'react'
-import { RouteComponentProps, Redirect, Switch, Route } from 'react-router'
+import { RouteComponentProps, Redirect, Switch, Route, Router } from 'react-router'
 import { AdminDashboardComponent } from './AdminDashboardComponent'
 import { loggedInUserIsAdmin } from '../../helpers'
 import { BrowserRouter } from 'react-router-dom'
 
-type Props = {}
+type Props = RouteComponentProps<{ slug: string }>
 
 export const AdminLoaderComponent: React.SFC<Props> = (props: Props) => {
   if (loggedInUserIsAdmin()) {
     return (
-      <BrowserRouter>
+      <Router {...props}>
         <Switch>
           <Route
             exact
@@ -33,7 +33,7 @@ export const AdminLoaderComponent: React.SFC<Props> = (props: Props) => {
           />
           <Route component={AdminDashboardComponent} />
         </Switch>
-      </BrowserRouter>
+      </Router>
     )
   } else {
     return <Redirect to='/' />

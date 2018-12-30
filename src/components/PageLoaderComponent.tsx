@@ -33,7 +33,7 @@ export const PageLoaderComponent: React.SFC<Props> = (props: Props) => {
     case 'products':
         return <ProductOverviewComponent />
     case 'admin':
-        return <AdminLoaderComponent />
+        return <AdminLoaderComponent {...props} />
     default:
       return <NotFoundComponent />
   }
