@@ -1,6 +1,6 @@
 import { Map, List } from 'immutable'
-import Axios, { AxiosResponse } from 'axios'
-import { isLoggedIn, getJWT, getTokenType, validateField } from './helpers'
+import Axios from 'axios'
+import { isLoggedIn, getJWT, getTokenType } from './helpers'
 
 export class User {
   id?: number
@@ -27,12 +27,15 @@ export class Product {
   name: string
   description: string
   price: number
-  volume: number
+  volume: string
   alcoholpercentage: number
   url: string
+  brandEntity: Brand
+  categoryEntity: Category
+  countryEntity: Country
   brandId: number
-  categoryId: number
   countryId: number
+  categoryId: number
 }
 
 export class Tag {
@@ -92,21 +95,41 @@ export type WithGetState<T> =
       reason: number
     }
 
-export type WithPostState =
+export type WithPostState2<T> =
   | {
       type: 'editing'
+      data: T
     }
   | {
       type: 'creating' | 'validating'
+      data: T
     }
   | {
       type: 'error'
       error?: string
+      data: T
     }
   | {
       type: 'success'
       message?: string
+      data: T
     }
+
+export type WithPostState =
+      | {
+          type: 'editing'
+        }
+      | {
+          type: 'creating' | 'validating'
+        }
+      | {
+          type: 'error'
+          error?: string
+        }
+      | {
+          type: 'success'
+          message?: string
+        }
 
 export type WithPutState<T> =
   | {
@@ -118,14 +141,17 @@ export type WithPutState<T> =
     }
   | {
       type: 'updating'
+      data: Option<T>
     }
   | {
       type: 'error'
       error?: Error
+      data?: Option<T>
     }
   | {
       type: 'success'
       message?: string
+      data: Option<T>
     }
 
 export type WithDeleteState<T> =
@@ -147,6 +173,8 @@ export type WithDeleteState<T> =
       type: 'success'
       message?: string
     }
+
+export type Endpoint = 'product' | 'brand' | 'cart' | 'category' | 'orders' | 'users' | 'wishlists' | 'country'
 
 export type Error = {
   reason: number

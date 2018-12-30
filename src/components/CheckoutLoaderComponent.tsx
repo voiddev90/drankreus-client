@@ -1,9 +1,6 @@
 import * as React from 'react'
-import { ReactCookieProps, Cookies } from 'react-cookie'
 import { RouteComponentProps } from 'react-router'
 import OrderComponent from './OrderComponent';
-import { Shipment } from '../model';
-import {handleFieldChange, validateField, isLoggedIn,getLoggedInuser} from '../helpers'
 
 type Props = RouteComponentProps<{ slug: string }>
 /*

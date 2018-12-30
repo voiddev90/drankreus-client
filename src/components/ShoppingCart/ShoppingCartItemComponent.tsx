@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Product } from '../../model'
-import { fillArray, handleFieldChange, validateField } from '../../helpers'
+import { fillArray, handleFieldChange } from '../../helpers'
 
 type Props = Product & {
   amount: number

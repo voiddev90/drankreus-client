@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router';
-import AccountComponentn from './AccountComponent';
+import AccountComponent from './AccountComponent';
 
 type Props = RouteComponentProps<{ slug: string }>
 
@@ -11,6 +11,6 @@ export const AccountLoaderComponent: React.SFC<Props> = (props: Props) => {
     case 'history':
       return <>Geschiedenis</>
     default:
-      return <AccountComponentn />
+      return <AccountComponent />
   }
 }
