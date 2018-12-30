@@ -197,6 +197,8 @@ export type WishlistResponse = Product[]
 
 export type ProductResponse = Page<Product>
 
+export type UserResponse = Page<User>
+
 export type CartResponse = {
   tax: number
   grandtotal: number
