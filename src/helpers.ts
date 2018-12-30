@@ -1,7 +1,5 @@
 import { User, Option, ShoppingCart, Fields, Field } from './model'
 import { Cookies } from 'react-cookie'
-import { string } from 'prop-types'
-import { Map } from 'immutable'
 
 const isLoggedIn = () => {
   return (
@@ -14,6 +12,10 @@ const isLoggedIn = () => {
 const getLoggedInuser = () => {
   const user: User = JSON.parse(localStorage.getItem('user'))
   return user
+}
+
+const loggedInUserIsAdmin = () => {
+  return isLoggedIn() && getLoggedInuser().admin
 }
 
 const getJWT = () => {
@@ -168,5 +170,6 @@ export {
   getTokenType,
   ObjectToArrayExtra,
   ObjectToArray,
-  deduceInputType
+  deduceInputType,
+  loggedInUserIsAdmin
 }

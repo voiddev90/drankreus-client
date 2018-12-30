@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Axios, { AxiosResponse, AxiosError } from 'axios'
+import { AxiosResponse, AxiosError } from 'axios'
 import {
   isLoggedIn,
   getLoggedInuser,
@@ -9,17 +9,22 @@ import {
   handleFieldChangeBetter
 } from '../helpers'
 import { Redirect } from 'react-router'
-import { WithPutState, User, Option, Fields, Field, getAuthorizedAxiosInstance } from '../model'
-import { Link } from 'react-router-dom'
-import { Map } from 'immutable'
-import { string } from 'prop-types'
+import {
+  WithPutState,
+  User,
+  Option,
+  Fields,
+  Field,
+  getAuthorizedAxiosInstance
+} from '../model'
+import { AccountMenuComponent } from './Menu/AccountMenuComponent';
 
 type Props = {}
 type State = WithPutState<User> & {
   fields: Fields
 }
 
-export default class AccountComponentn extends React.Component<Props, State> {
+export default class AccountComponent extends React.Component<Props, State> {
   handleFieldChange: (index: number, array: Field[]) => (value: string) => void
   constructor(props: Props) {
     super(props)
@@ -40,10 +45,11 @@ export default class AccountComponentn extends React.Component<Props, State> {
 
   componentDidMount() {
     if (isLoggedIn()) {
-      getAuthorizedAxiosInstance().get(
-        `http://localhost:5000/api/users/${getLoggedInuser().id &&
-          getLoggedInuser().id}`
-      )
+      getAuthorizedAxiosInstance()
+        .get(
+          `http://localhost:5000/api/users/${getLoggedInuser().id &&
+            getLoggedInuser().id}`
+        )
         .then((response: AxiosResponse<User>) => {
           let fields: Fields
           const user = Option(response.data)
@@ -126,11 +132,15 @@ export default class AccountComponentn extends React.Component<Props, State> {
                     (field: Field, index: number, object: Fields) => {
                       return (
                         <p
-                          className={`field field-${field.name} field-${field.type}`}
+                          className={`field field-${field.name} field-${
+                            field.type
+                          }`}
                           key={`${field.name}-${field.type}`}
                         >
                           <label>
-                            {field.name != 'id' && <span className='label'>{field.name}</span>}
+                            {field.name != 'id' && (
+                              <span className='label'>{field.name}</span>
+                            )}
                             <input
                               type={field.name != 'id' ? field.type : 'hidden'}
                               value={field.value}
@@ -145,22 +155,12 @@ export default class AccountComponentn extends React.Component<Props, State> {
                       )
                     }
                   )}
-                  <p className="field field-submit"><button type='submit'>Opslaan</button></p>
+                  <p className='field field-submit'>
+                    <button type='submit'>Opslaan</button>
+                  </p>
                 </form>
               </div>
-              <div className='account-menu'>
-                <ul>
-                  <li>
-                    <Link to='/cart'>Winkelwagen</Link>
-                  </li>
-                  <li>
-                    <Link to='/account/favourites'>Favorieten</Link>
-                  </li>
-                  <li>
-                    <Link to='account/history'>Geschiedenis</Link>
-                  </li>
-                </ul>
-              </div>
+              <AccountMenuComponent />
             </section>
           )
         } else {

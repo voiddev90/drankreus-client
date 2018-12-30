@@ -1,8 +1,8 @@
 import * as React from 'react'
+import ReactDOM from 'react-dom';
 import { handleFieldChange } from '../helpers'
 import { WithGetState, Tag, Option } from '../model';
 import Axios, { AxiosResponse, AxiosError } from 'axios'
-import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -11,34 +11,30 @@ import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+import Slider, {Range} from 'rc-slider';
+import '!style-loader!css-loader!rc-slider/assets/index.css'; 
 type Props = {
     getQueryString: (e: string) => void
 }
 type State = {
+    AlchoholPercentage: number[],
+    Price: number[],
     brandname: string[],
     countryname: string[],
     brand: WithGetState<Tag[]>
     country: WithGetState<Tag[]>
     ascending: boolean
     FilterString: string
-    AlcoholMax: number
-    AlcoholMin: number
-    PriceMin: number
-    PriceMax: number
 }
-
 export default class FilterComponent extends React.Component<Props, State> {
     handleFieldChange: <T>(field: string) => (value: T) => void
     constructor(props: Props) {
         super(props)
 
         this.state = {
+            AlchoholPercentage: [0,100],
+            Price: [0,3370],
             FilterString: '',
-            AlcoholMax: 100,
-            AlcoholMin: 0,
-            PriceMin: 0,
-            PriceMax: 9999,
             brandname: [],
             countryname: [],
             ascending: false,
@@ -70,15 +66,9 @@ export default class FilterComponent extends React.Component<Props, State> {
             let temp = JSON.parse(i)
             string = string + "Country=" + temp.id + "&"
         });
-        let priceMin = this.state.PriceMin;
-        if(this.state.PriceMin < 0){
-            priceMin = 0;
-            console.log("nan");
-        }
-        console.log(priceMin);
-        string = string + `Price=${priceMin}&Price=${this.state.PriceMax}&`
-        string = string + `Percentage=${this.state.AlcoholMin}&Percentage=${this.state.AlcoholMax}&`
-        string = string + `Ascending=${this.state.ascending}&`
+        string = string + `Price=${this.state.Price[0]}&Price=${this.state.Price[1]}&`;
+        string = string + `Percentage=${this.state.AlchoholPercentage[0]}&Percentage=${this.state.AlchoholPercentage[1]}&`;
+        string = string + `Ascending=${this.state.ascending}&`;
         this.props.getQueryString(string);
     }
     componentDidMount() {
@@ -132,37 +122,27 @@ export default class FilterComponent extends React.Component<Props, State> {
                     <section className="product-filter">
                         <div>
                             <h1>Alcoholpercentage (%)</h1>
-                            <input
-                                type='number'
-                                name='alcoholfiltermin'
-                                value={this.state.AlcoholMin}
-                                onChange={this.handleChangeWithoutCallback('AlcoholMin')}
-                                onBlur={this.createQueryString}
-                                 /> min
-                            <input
-                                type='number'
-                                name='alcoholfiltermax'
-                                value={this.state.AlcoholMax}
-                                onChange={this.handleChangeWithoutCallback('AlcoholMax')}
-                                onBlur={this.createQueryString}
-                                 /> max
+                            {this.state.AlchoholPercentage[0]} Min
+                            <Range
+                             min={0}
+                             max={100}
+                             defaultValue={[0,100]}
+                             value={this.state.AlchoholPercentage}
+                             onChange={p => this.setState({AlchoholPercentage: p})}
+                             onAfterChange={this.createQueryString}
+                            />
+                            {this.state.AlchoholPercentage[1]} Max
                            <h1>Prijs (€)</h1>
-                            <input
-                                type='number'
-                                name='prijsfiltermin'
-                                value={this.state.PriceMin}
-                                onChange={this.handleChangeWithoutCallback('PriceMin')}
-                                onBlur={this.createQueryString}
+                            {this.state.Price[0]} Min
+                            <Range
+                             min={0}
+                             max={3370}
+                             defaultValue={[0,3370]}
+                             value={this.state.Price}
+                             onChange={p => this.setState({Price: p})}
+                             onAfterChange={this.createQueryString}
                             />
-                                min
-                            <input
-                                type='number'
-                                name='prijsfiltermax'
-                                value={this.state.PriceMax}
-                                onChange={this.handleChangeWithoutCallback('PriceMax')}
-                                onBlur={this.createQueryString}
-                            />
-                                max
+                            {this.state.Price[1]} Max
                         </div>
                         <section>
                             <FormControlLabel
@@ -174,7 +154,17 @@ export default class FilterComponent extends React.Component<Props, State> {
                                         color="secondary"
                                     />}
                                 label={(this.state.ascending) ? "Laag naar Hoog" : "Hoog naar Laag" } />
+                            <button onClick={e => this.setState({
+                                AlchoholPercentage: [0,100],
+                                Price: [0,3370],
+                                FilterString: '',
+                                brandname: [],
+                                countryname: [],
+                                ascending: false
+                            }, this.createQueryString)
+                            }>Reset</button>
                         </section>
+                        
                         <section className="brand-filter">
                             <FormControl className="brand-multi-select-form">
                                 <InputLabel htmlFor="select-multiple-brand">Merk</InputLabel>
@@ -223,7 +213,6 @@ export default class FilterComponent extends React.Component<Props, State> {
                                 </Select>
                             </FormControl>
                         </section>
-
                     </section>
 
                 )
