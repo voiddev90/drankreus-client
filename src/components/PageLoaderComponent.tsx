@@ -7,6 +7,8 @@ import RegisterComponent from './RegisterComponent'
 import AccountComponent from './AccountComponent'
 import ShoppingCartComponent from './ShoppingCartComponent'
 import ProductOverviewComponent from './ProductOverviewComponent';
+import { AdminDashboardComponent } from './Admin/AdminDashboardComponent';
+import { AdminLoaderComponent } from './Admin/AdminLoaderComponent';
 
 type Props = RouteComponentProps<{ slug: string }>
 

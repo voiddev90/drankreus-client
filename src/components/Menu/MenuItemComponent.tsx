@@ -1,9 +1,10 @@
 import * as React from "react"
 import { NavLink } from "react-router-dom"
+import * as H from 'history'
 
 type Props = {
   name: string
-  to: string
+  to: H.LocationDescriptor
   navLinkProps?: React.AnchorHTMLAttributes<HTMLAnchorElement>
 }
 type State = {}
