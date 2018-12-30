@@ -21,6 +21,7 @@ import {
   faExclamation
 } from '@fortawesome/free-solid-svg-icons'
 import { AddBrandComponent, AddCountryComponent } from './AddCategoryComponent'
+import { Map } from 'immutable';
 
 type Props = RouteComponentProps<{ slug: string }>
 type State = {
@@ -37,20 +38,9 @@ export default class AdminProductEditComponent extends React.Component<
   constructor(props: Props) {
     super(props)
 
-    const product: Option<Product> = Option(this.props.location.state)
-    if (product.type == 'some') {
-      this.OriginalProduct = product.value
+    const newState: WithPutState<Product> | WithDeleteState<Product> = {
+      type: 'loading'
     }
-
-    const newState: WithPutState<Product> | WithDeleteState<Product> =
-      product.type == 'some'
-        ? {
-          type: 'editing',
-          data: product
-        }
-        : {
-          type: 'loading'
-        }
 
     this.state = {
       editing: newState,
@@ -97,8 +87,9 @@ export default class AdminProductEditComponent extends React.Component<
 
   getData() {
     getAuthorizedAxiosInstance()
-      .get(`products/${this.props.match.params.slug}`)
+      .get(`product/${this.props.match.params.slug}`)
       .then((response: AxiosResponse<Product>) => {
+        console.log(response)
         const newState: WithPutState<Product> | WithDeleteState<Product> = {
           type: 'editing',
           data: Option(response.data)
@@ -141,27 +132,21 @@ export default class AdminProductEditComponent extends React.Component<
   }
 
   componentDidMount() {
-    !this.props.location.state && this.getData()
-  }
-
-  componentWillUpdate(prevProps: Props) {
-    if (prevProps.match.params.slug != this.props.match.params.slug)
-      this.getData()
+    this.getData()
   }
 
   componentDidUpdate(prevProps: Props) {
     this.props.match.params.slug != prevProps.match.params.slug &&
-      !this.props.location.state &&
       this.getData()
   }
 
   requiredFieldsAreFilled(product: Product) {
     return (
-      product.name.length! <= 0 &&
+      product.name.length > 0 &&
       product.price != null &&
-      product.volume != 'cl' &&
+      product.volume.length > 2 &&
       product.alcoholpercentage != null &&
-      product.description != ''
+      product.description.length > 0
     )
   }
 
@@ -180,7 +165,7 @@ export default class AdminProductEditComponent extends React.Component<
         }
       })
       getAuthorizedAxiosInstance()
-        .put(`product/${product.id}`, product)
+        .put(`product/${product.id}`, { ...product, brandId: product.brandEntity && product.brandEntity.id, countryId: product.countryEntity && product.countryEntity.id })
         .then(_ =>
           this.setState({
             ...this.state,
@@ -220,6 +205,9 @@ export default class AdminProductEditComponent extends React.Component<
         }
       default:
       case 'error':
+        if (!this.state.editing.data) {
+          return <>Fout bij het ophalen van het product.</>
+        }
       case 'updating':
       case 'loaded':
         switch (this.state.editing.data.type) {
@@ -330,9 +318,9 @@ export default class AdminProductEditComponent extends React.Component<
                           endpoint='brand'
                           getId={(item: Brand) => item.id}
                           getName={(item: Brand) => item.name}
-                          onChange={(item: Brand) =>
+                          onChange={(item: Brand) => {
                             this.handleFieldChange('brandEntity')(item)
-                          }
+                          }}
                           placeholder='Selecteer brand'
                           default={product.brandEntity}
                         />
@@ -342,9 +330,9 @@ export default class AdminProductEditComponent extends React.Component<
                           endpoint='country'
                           getId={(item: Country) => item.id}
                           getName={(item: Country) => item.name}
-                          onChange={(item: Country) =>
+                          onChange={(item: Country) => {
                             this.handleFieldChange('countryEntity')(item)
-                          }
+                          }}
                           placeholder='Selecteer land'
                           default={product.countryEntity}
                         />

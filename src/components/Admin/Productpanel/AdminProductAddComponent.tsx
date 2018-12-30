@@ -31,7 +31,7 @@ export default class AdminProductAddComponent extends React.Component<
         this.state = {
             type: 'editing',
             data: {
-                id: null,
+                id: 0,
                 name: '',
                 description: '',
                 price: null,
@@ -40,31 +40,16 @@ export default class AdminProductAddComponent extends React.Component<
                 url: '',
                 brandEntity: null,
                 categoryEntity: null,
-                countryEntity: null
+                countryEntity: null,
+                brandId: null,
+                categoryId: null,
+                countryId: null
             }
         }
         this.handleFieldChange = this.handleFieldChange.bind(this)
         this.renderState = this.renderState.bind(this)
         this.requiredFieldsAreFilled = this.requiredFieldsAreFilled.bind(this)
         this.onsubmit = this.onsubmit.bind(this)
-    }
-
-    deleteProduct(productId: number) {
-        this.setState({
-            ...this.state
-        })
-        getAuthorizedAxiosInstance()
-            .delete(`product/${productId}`)
-            .then(_ => {
-                this.setState({
-                    ...this.state
-                })
-            })
-            .catch(_ => {
-                this.setState({
-                    ...this.state
-                })
-            })
     }
 
     handleFieldChange = (field: keyof Product) => (value: any) => {
@@ -79,13 +64,12 @@ export default class AdminProductAddComponent extends React.Component<
     }
 
     requiredFieldsAreFilled(product: Product) {
-        console.log(JSON.stringify(product))
         return (
-            product.name.length! <= 0 &&
+            product.name.length > 0 &&
             product.price != null &&
-            product.volume != 'cl' &&
+            product.volume.length > 2 &&
             product.alcoholpercentage != null &&
-            product.description != ''
+            product.description.length > 0
         )
     }
 
@@ -96,7 +80,7 @@ export default class AdminProductAddComponent extends React.Component<
                 type: 'creating'
             })
             getAuthorizedAxiosInstance()
-                .post(`product/${product.id}`, product)
+                .post(`product`, { ...product, brandId: product.brandEntity && product.brandEntity.id, countryId: product.countryEntity && product.countryEntity.id })
                 .then(_ =>
                     this.setState({
                         ...this.state,
@@ -212,7 +196,25 @@ export default class AdminProductAddComponent extends React.Component<
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
+                                    type='text'
+                                    label='Afbeelding URL'
+                                    value={product.url}
+                                    variant='outlined'
+                                    required
+                                    onChange={(
+                                        event: React.ChangeEvent<HTMLInputElement>
+                                    ) =>
+                                        this.handleFieldChange('url')(
+                                            event.target.value
+                                        )
+                                    }
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
                                     multiline
+                                    rows={4}
                                     type='text'
                                     label='Omschrijving'
                                     value={product.description}
@@ -226,6 +228,7 @@ export default class AdminProductAddComponent extends React.Component<
                                         )
                                     }
                                     fullWidth
+                                    
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -233,9 +236,9 @@ export default class AdminProductAddComponent extends React.Component<
                                     endpoint='brand'
                                     getId={(item: Brand) => item.id}
                                     getName={(item: Brand) => item.name}
-                                    onChange={(item: Brand) =>
+                                    onChange={(item: Brand) => {
                                         this.handleFieldChange('brandEntity')(item)
-                                    }
+                                    }}
                                     placeholder='Selecteer brand'
                                     default={product.brandEntity}
                                 />
@@ -245,9 +248,9 @@ export default class AdminProductAddComponent extends React.Component<
                                     endpoint='country'
                                     getId={(item: Country) => item.id}
                                     getName={(item: Country) => item.name}
-                                    onChange={(item: Country) =>
+                                    onChange={(item: Country) => {
                                         this.handleFieldChange('countryEntity')(item)
-                                    }
+                                    }}
                                     placeholder='Selecteer land'
                                     default={product.countryEntity}
                                 />
@@ -261,7 +264,7 @@ export default class AdminProductAddComponent extends React.Component<
                                         onClick={() => this.onsubmit(product)}
                                     >
                                         Opslaan
-                          </Button>
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </Grid>

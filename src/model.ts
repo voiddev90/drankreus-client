@@ -33,6 +33,9 @@ export class Product {
   brandEntity: Brand
   categoryEntity: Category
   countryEntity: Country
+  brandId: number
+  countryId: number
+  categoryId: number
 }
 
 export class Tag {
