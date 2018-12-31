@@ -1,6 +1,6 @@
 import { Map, List } from 'immutable'
-import Axios from 'axios'
-import { isLoggedIn, getJWT, getTokenType } from './helpers'
+import Axios, { AxiosError } from 'axios'
+import { isLoggedIn, getJWT, getTokenType, logOut } from './helpers'
 
 export class User {
   id?: number
@@ -16,7 +16,7 @@ export class User {
   admin: boolean
 }
 
-export class Shipment{
+export class Shipment {
   street?: string
   buildingNumber?: string
   postalCode?: string
@@ -43,11 +43,11 @@ export class Tag {
   name: string
 }
 
-export class Brand extends Tag {}
+export class Brand extends Tag { }
 
-export class Category extends Tag {}
+export class Category extends Tag { }
 
-export class Country extends Tag {}
+export class Country extends Tag { }
 
 export class Page<T> {
   index: number
@@ -80,104 +80,104 @@ export function Option<T>(value: T): Option<T> {
 
 export type Option<T> =
   | {
-      type: 'none'
-    }
+    type: 'none'
+  }
   | {
-      type: 'some'
-      value: T
-    }
+    type: 'some'
+    value: T
+  }
 
 export type WithGetState<T> =
   | {
-      type: 'loading'
-    }
+    type: 'loading'
+  }
   | {
-      type: 'loaded'
-      data: Option<T>
-    }
+    type: 'loaded'
+    data: Option<T>
+  }
   | {
-      type: 'error'
-      reason: number
-    }
+    type: 'error'
+    reason: number
+  }
 
 export type WithPostState2<T> =
   | {
-      type: 'editing'
-      data: T
-    }
+    type: 'editing'
+    data: T
+  }
   | {
-      type: 'creating' | 'validating'
-      data: T
-    }
+    type: 'creating' | 'validating'
+    data: T
+  }
   | {
-      type: 'error'
-      error?: string
-      data: T
-    }
+    type: 'error'
+    error?: string
+    data: T
+  }
   | {
-      type: 'success'
-      message?: string
-      data: T
-    }
+    type: 'success'
+    message?: string
+    data: T
+  }
 
 export type WithPostState =
-      | {
-          type: 'editing'
-        }
-      | {
-          type: 'creating' | 'validating'
-        }
-      | {
-          type: 'error'
-          error?: string
-        }
-      | {
-          type: 'success'
-          message?: string
-        }
+  | {
+    type: 'editing'
+  }
+  | {
+    type: 'creating' | 'validating'
+  }
+  | {
+    type: 'error'
+    error?: string
+  }
+  | {
+    type: 'success'
+    message?: string
+  }
 
 export type WithPutState<T> =
   | {
-      type: 'loading'
-    }
+    type: 'loading'
+  }
   | {
-      type: 'loaded' | 'editing'
-      data: Option<T>
-    }
+    type: 'loaded' | 'editing'
+    data: Option<T>
+  }
   | {
-      type: 'updating'
-      data: Option<T>
-    }
+    type: 'updating'
+    data: Option<T>
+  }
   | {
-      type: 'error'
-      error?: Error
-      data?: Option<T>
-    }
+    type: 'error'
+    error?: Error
+    data?: Option<T>
+  }
   | {
-      type: 'success'
-      message?: string
-      data: Option<T>
-    }
+    type: 'success'
+    message?: string
+    data: Option<T>
+  }
 
 export type WithDeleteState<T> =
   | {
-      type: 'loading'
-    }
+    type: 'loading'
+  }
   | {
-      type: 'loaded' | 'editing'
-      data: Option<T>
-    }
+    type: 'loaded' | 'editing'
+    data: Option<T>
+  }
   | {
-      type: 'removing'
-    }
+    type: 'removing'
+  }
   | {
-      type: 'error'
-      error?: string
-    }
+    type: 'error'
+    error?: string
+  }
   | {
-      type: 'success'
-      message?: string
-    }
+    type: 'success'
+    message?: string
+  }
 
 export type Endpoint = 'product' | 'brand' | 'cart' | 'category' | 'orders' | 'users' | 'wishlists' | 'country'
 
@@ -224,11 +224,18 @@ export const AxiosDefault = Axios.create({
 })
 
 export const getAuthorizedAxiosInstance = () => {
-  return Axios.create({
+  const instance = Axios.create({
     baseURL: 'http://localhost:5000/api/',
     timeout: 1000,
     headers: isLoggedIn()
       ? { 'Authorization': `${getTokenType()} ${getJWT()}` }
       : {}
   })
+  instance.interceptors.response.use(res => res, (error: AxiosError) => {
+    if (error.response.status == 401) {
+      logOut()
+    }
+    return error
+  })
+  return instance
 }
