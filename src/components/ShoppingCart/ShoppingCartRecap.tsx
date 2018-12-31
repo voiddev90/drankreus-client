@@ -23,7 +23,7 @@ class ShoppingCartRecap extends React.Component<Props, State> {
     }
 
     this.props.cookies.addChangeListener(options => {
-      if (options.name == 'shopping-cart'){
+      if (options.name == 'shopping-cart') {
         this.getData()
       }
     })
@@ -42,9 +42,10 @@ class ShoppingCartRecap extends React.Component<Props, State> {
       })
 
       Axios.post('http://localhost:5000/api/cart', requestBody)
-        .then((response: AxiosResponse<CartResponse>) =>
+        .then((response: AxiosResponse<CartResponse>) => {
+          console.log(response.data)
           this.setState({ type: 'loaded', data: Option(response.data) })
-        )
+        })
         .catch((error: AxiosError) =>
           this.setState({ type: 'error', reason: error.response.status })
         )
@@ -64,20 +65,20 @@ class ShoppingCartRecap extends React.Component<Props, State> {
           {this.state.type == 'loading' ? (
             <>BTW ophalen..</>
           ) : (
-            this.state.type == 'loaded' &&
-            this.state.data.type == 'some' &&
-            this.state.data.value.tax.toFixed(2)
-          )}
+              this.state.type == 'loaded' &&
+              this.state.data.type == 'some' &&
+              this.state.data.value.tax.toFixed(2)
+            )}
         </p>
         <p className='total'>
           Totaal: €
           {this.state.type == 'loading' ? (
             <>Totaal ophalen..</>
           ) : (
-            this.state.type == 'loaded' &&
-            this.state.data.type == 'some' &&
-            this.state.data.value.grandtotal.toFixed(2)
-          )}
+              this.state.type == 'loaded' &&
+              this.state.data.type == 'some' &&
+              this.state.data.value.grandTotal.toFixed(2)
+            )}
         </p>
       </div>
     ) : null

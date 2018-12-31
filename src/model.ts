@@ -200,8 +200,11 @@ export type ProductResponse = Page<Product>
 export type UserResponse = Page<User>
 
 export type CartResponse = {
+  discountAmount: number
+  discountPercentage: number
   tax: number
-  grandtotal: number
+  totalPrice: number
+  grandTotal: number
 }
 
 export type Filter<T = any> = Map<string, T>
