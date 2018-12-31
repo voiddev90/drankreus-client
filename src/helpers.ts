@@ -9,6 +9,10 @@ const isLoggedIn = () => {
   )
 }
 
+const ageValidated = () => localStorage.getItem('validAge') != undefined
+
+const validateAge = () => localStorage.setItem('validAge', 'true')
+
 const getLoggedInuser = () => {
   const user: User = JSON.parse(localStorage.getItem('user'))
   return user
@@ -171,5 +175,7 @@ export {
   ObjectToArrayExtra,
   ObjectToArray,
   deduceInputType,
-  loggedInUserIsAdmin
+  loggedInUserIsAdmin,
+  ageValidated,
+  validateAge
 }
