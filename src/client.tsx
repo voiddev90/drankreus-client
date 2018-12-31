@@ -29,7 +29,6 @@ class Client extends React.Component<ClientProps, ClientState>{
 
   render() {
     const clientProps = this.props
-    localStorage.removeItem('validAge')
     return (
       <>
         <Dialog open={this.state.dialogOpen}>
