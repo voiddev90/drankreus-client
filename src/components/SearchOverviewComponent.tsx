@@ -35,7 +35,7 @@ export default class SearchOverviewComponent extends React.Component<Props,State
     componentDidMount(){
         this.getData()
     }
-    componentDidUpdate(){
+    componentWillReceiveProps(){
       this.getData()
     }
     getData(){
