@@ -1,47 +1,49 @@
 import * as React from 'react'
+import { RouteProps } from 'react-router';
+import ProductOverviewComponent from './ProductOverviewComponent';
+import Axios, { AxiosResponse, AxiosError } from 'axios';
 import {
   WithGetState,
   Product,
   Option,
   ProductResponse
 } from '../model'
-import Axios, { AxiosResponse, AxiosError } from 'axios'
-import { ProductComponent } from './Products/ProductComponent'
-import { PaginationComponent } from './PaginationComponent'
-import { ReactCookieProps, withCookies } from 'react-cookie'
+import { ProductComponent } from './Products/ProductComponent';
+import { PaginationComponent } from './PaginationComponent';
 import { addToCart } from '../helpers'
-import FilterComponent from './Filtercomponent';
-type ProductOverviewProps = ReactCookieProps & {
+import { ReactCookieProps } from 'react-cookie';
+
+type Props = ReactCookieProps & RouteProps & {
 }
-type ProductOverviewState = WithGetState<ProductResponse> & {
+type State = WithGetState<ProductResponse> & {
   perPage: number
   page: number
-  query: string
+  search: string
 }
 
-class ProductOverviewComponent extends React.Component<
-  ProductOverviewProps,
-  ProductOverviewState
-> {
-
-  constructor(props: ProductOverviewProps) {
-    super(props)
-
-    this.state = {
-      type: 'loading',
-      perPage: 20,
-      page: 0,
-      query: ''
-    }
+export default class SearchOverviewComponent extends React.Component<Props,State>{
+    constructor(props: RouteProps){
+        super(props)
+        this.state ={
+            type: 'loading',
+            perPage: 20,
+            page: 0,
+            search: "",
+        }
     this.getData = this.getData.bind(this)
-    this.getString = this.getString.bind(this)
-  }
-
-  getData() {
-    Axios.get(`http://localhost:5000/api/product/?${this.state.query}index=${this.state.page}&size=${
+    }
+    componentDidMount(){
+        this.getData()
+    }
+    componentDidUpdate(){
+      this.getData()
+    }
+    getData(){
+        Axios
+        .get(`http://localhost:5000/api/product/Search/?Products=${this.props.location.state.test}&index=${this.state.page}&size=${
         this.state.perPage}`
-    )
-      .then((value: AxiosResponse<ProductResponse>) => {
+        )
+        .then((value: AxiosResponse<ProductResponse>) =>{
         this.setState({
           ...this.state,
           type: 'loaded',
@@ -55,25 +57,15 @@ class ProductOverviewComponent extends React.Component<
           reason: value.response.status
         })
       })
-  }
-  getString(e: string){
-    this.setState({
-      query: e
-    }, this.getData)
-    console.log(e + "ProductOverview");
-  }
-  componentDidMount() {
-    this.getData()
-  }
-  render() {
+    }
+    render(){
     switch (this.state.type) {
       case 'loaded':
         switch (this.state.data.type) {
           case 'none':
-            return <section><FilterComponent getQueryString={this.getString}/> </section>
+          return <div>Loading</div>
           case 'some':
             return (
-              <section><FilterComponent getQueryString={this.getString}/>
               <section className='product-overview'>
                 {this.state.data.value.items.map((value: Product) => {
                   return (
@@ -93,7 +85,6 @@ class ProductOverviewComponent extends React.Component<
                   }}
                 />
               </section>
-              </section>
             )
         }
       case 'loading':
@@ -102,7 +93,5 @@ class ProductOverviewComponent extends React.Component<
       default:
         return <>error</>
     }
-  }
 }
-
-export default withCookies((ProductOverviewComponent) as any)
+}

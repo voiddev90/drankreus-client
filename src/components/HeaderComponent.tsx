@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
 import { MainMenuComponent } from './Menu/MainMenuComponent';
+import SearchComponent from './SearchComponent';
 
 type Props = {}
 type State = {}
@@ -20,14 +21,7 @@ export default class HeaderComponent extends React.Component<Props, State> {
             </h2>
           </div>
           <div className='search-wrapper'>
-            <form className='search-form'>
-              <input
-                type='text'
-                name='search'
-                placeholder='Voer zoekterm in en druk op enter..'
-              />
-              <button type='submit'>Zoek</button>
-            </form>
+            <SearchComponent/>
           </div>
           <MainMenuComponent />
         </div>

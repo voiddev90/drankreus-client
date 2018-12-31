@@ -2,6 +2,7 @@ import * as React from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import BaseComponent from './components/BaseComponent'
 import HomeComponent from './components/HomeComponent'
+import SearchOverviewComponent from './components/SearchOverviewComponent'
 import { PageLoaderComponent } from './components/PageLoaderComponent'
 import { ProductDetailComponent } from './components/Products/ProductDetailComponent'
 import { CheckoutLoaderComponent } from './components/CheckoutLoaderComponent'
@@ -68,6 +69,16 @@ const Client: React.SFC<ClientProps> = clientProps => {
           path='/admin/:slug'
           component={AdminLoaderComponent}
         />
+        <Route
+          path='/search/:slug'
+          render={props => {
+            return (
+              <BaseComponent>
+                <SearchOverviewComponent {...props} />
+              </BaseComponent>
+            )
+          }}
+          />
         <Route
           path='/:slug'
           render={props => {
