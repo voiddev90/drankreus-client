@@ -23,13 +23,17 @@ export default class HeaderComponent extends React.Component<Props, State> {
 
   render() {
     return (
-      <header className='site-header'>
-        <div className='site-header-wrapper'>
-          <div className='site-title-wrapper'>
+      <header className='site-header max-width container-fluid'>
+        <div className='site-header-wrapper row'>
+          <div className='site-title-wrapper col-2'>
             <h2 className='site-title'>DrankReus</h2>
           </div>
-          <MainMenuComponent />
-          <UserMainMenuComponent toggleSubMenu={() => this.setState({ showSubMenu: !this.state.showSubMenu })} />
+          <div className='col-5'>
+            <MainMenuComponent />
+          </div>
+          <div className='col-5'>
+            <UserMainMenuComponent toggleSubMenu={() => this.setState({ showSubMenu: !this.state.showSubMenu })} />
+          </div>
         </div>
         {this.state.showSubMenu && <div className='profile-submenu'>
           <MenuComponent classes='submenu'>
@@ -43,3 +47,4 @@ export default class HeaderComponent extends React.Component<Props, State> {
     )
   }
 }
+

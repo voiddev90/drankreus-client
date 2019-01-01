@@ -5,6 +5,7 @@ import { isLoggedIn } from '../../helpers';
 import ShoppingCartMenuItem from './ShoppingCartMenuItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Button } from '@material-ui/core';
 
 type Props = {
   toggleSubMenu: () => void
@@ -27,7 +28,7 @@ export class UserMainMenuComponent extends React.Component<Props, State> {
   render() {
     return (
       <div className='user-main-menu-wrapper'>
-        <MenuComponent classes='user-main-menu'>
+        <MenuComponent classes='user-main-menu float-right'>
           {this.state.showSearch &&
             <div className='search-wrapper'>
               <form className='search-form'><input
@@ -47,8 +48,12 @@ export class UserMainMenuComponent extends React.Component<Props, State> {
               <FontAwesomeIcon icon={faUser} />
             </MenuItemComponent> :
             <>
-              <MenuItemComponent to='/login'>Inloggen</MenuItemComponent>
-              <MenuItemComponent to='/register'>Registreren</MenuItemComponent>
+              <MenuItemComponent to='/login'>
+                <Button variant='outlined' color='primary' size='small'>Inloggen</Button>
+              </MenuItemComponent>
+              <MenuItemComponent to='/register'>
+                <Button variant='contained' color='primary' size='small'>Registreren</Button>
+              </MenuItemComponent>
             </>
           }
         </MenuComponent>

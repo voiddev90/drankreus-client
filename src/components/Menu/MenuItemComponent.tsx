@@ -16,8 +16,8 @@ export default class MenuItemComponent extends React.Component<Props, State> {
 
   render() {
     return (
-      <li className="menu-item">
-        <NavLink {...this.props.navLinkProps} to={this.props.to} onClick={this.props.onClick}>
+      <li className="menu-item nav-item">
+        <NavLink {...this.props.navLinkProps} to={this.props.to} onClick={this.props.onClick} className='nav-link'>
           {this.props.children}
         </NavLink>
       </li>

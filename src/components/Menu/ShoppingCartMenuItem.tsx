@@ -3,6 +3,7 @@ import { withCookies, ReactCookieProps } from 'react-cookie'
 import { NavLink } from 'react-router-dom'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Badge } from '@material-ui/core';
 
 type Props = ReactCookieProps
 
@@ -12,13 +13,15 @@ const ShoppingCartMenuItemComponent: React.SFC<Props> = (props: Props) => {
   const liClasses = [
     "menu-item",
     "shoppinger-cart",
+    'nav-link',
     amountOfCookies == 0 ? 'empty' : 'has-content'
   ]
   return (
     <li className={liClasses.join(' ')}>
       <NavLink to="/cart">
-        <span className="">{amountOfCookies}</span>
-        <FontAwesomeIcon icon={faShoppingCart} size='2x' />
+        <Badge badgeContent={amountOfCookies} color='secondary' className='quartair'>
+          <FontAwesomeIcon icon={faShoppingCart} />
+        </Badge>
       </NavLink>
     </li>
   )
