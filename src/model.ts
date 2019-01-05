@@ -17,6 +17,9 @@ export class User {
 }
 
 export class Shipment{
+  email: string
+  firstname: string
+  lastname: string
   street?: string
   buildingNumber?: string
   postalCode?: string
@@ -199,7 +202,7 @@ export type ProductResponse = Page<Product>
 
 export type CartResponse = {
   tax: number
-  grandtotal: number
+  grandTotal: number
 }
 
 export type Filter<T = any> = Map<string, T>

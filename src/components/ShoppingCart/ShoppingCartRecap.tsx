@@ -76,7 +76,7 @@ class ShoppingCartRecap extends React.Component<Props, State> {
           ) : (
             this.state.type == 'loaded' &&
             this.state.data.type == 'some' &&
-            this.state.data.value.grandtotal.toFixed(2)
+            this.state.data.value.grandTotal.toFixed(2)
           )}
         </p>
       </div>
