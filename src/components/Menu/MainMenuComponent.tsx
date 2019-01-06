@@ -10,21 +10,9 @@ export const MainMenuComponent: React.SFC<Props> = (props: Props) => {
   return (
     <div className='main-menu-wrapper'>
       <MenuComponent classes='main-menu'>
-        <MenuItemComponent to='/products' name='Producten' />
-        <MenuItemComponent to='/' name='Contact' />
-        {!isLoggedIn() ? (
-          <MenuItemComponent to='/login' name='Inloggen' />
-        ) : (
-          <>
-            <MenuItemComponent to='/profile' name='Jouw profiel' />
-            <MenuItemComponent
-              to='/'
-              name='Uitloggen'
-              navLinkProps={{ onClick: () => logOut() }}
-            />
-          </>
-        )}
-        <ShoppingCartMenuItem />
+        <MenuItemComponent to='/'>Home</MenuItemComponent>
+        <MenuItemComponent to='/products'>Producten</MenuItemComponent>
+        <MenuItemComponent to='/'>Contact</MenuItemComponent>
       </MenuComponent>
     </div>
   )
