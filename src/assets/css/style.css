@@ -6,6 +6,7 @@ body {
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
+  color: #222222;
 }
 
 small {
@@ -36,7 +37,7 @@ a:visited {
 }
 
 a:hover {
-  color: #E3740B;
+  color: #D9150B;
 }
 
 a:active {
@@ -47,16 +48,57 @@ a:active {
   color: #989898;
 }
 
-input {
-  width: 360px;
+input,
+textarea {
   padding: 5.5px 10px;
-  border-radius: 4px;
   outline: none;
-  border: none;
+  border: 2px solid #989898;
+  background-color: inherit;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #222222;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='search'],
+input[type='url'],
+input[type='password'],
+input[type='date'],
+input[type='datetime-local'],
+input[type='month'],
+input[type='day'],
+input[type='year'],
+input[type='tel'],
+textarea {
+  width: 360px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
 }
 
 /*
 * - Generic components
+* -- Grid
+*/
+.max-width {
+  max-width: 1652px;
+  margin: 0 auto;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+[class*=" col-"],
+[class*="col-"] {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+/*
 * -- Buttons
 */
 .btn {
@@ -67,6 +109,7 @@ input {
   height: 48px;
   padding: 12px;
   min-width: 100px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.16);
 }
 
 .btn-sm {
@@ -85,6 +128,7 @@ input {
 .btn-link {
   color: #CC4400;
   min-width: initial;
+  box-shadow: none;
 }
 
 .btn-link:hover {
@@ -105,6 +149,7 @@ input {
 .btn-outline-primary {
   border-color: #CC4400;
   color: #CC4400;
+  background-color: inherit;
 }
 
 .btn-outline-primary:hover {
@@ -151,6 +196,7 @@ input {
 .btn-outline-secondary {
   border-color: #E3360B;
   color: #E3360B;
+  background-color: inherit;
 }
 
 .btn-outline-secondary:hover {
@@ -190,7 +236,7 @@ input {
 }
 
 .btn-tertiary:hover {
-  background-color: #FFFFFF;
+  background-color: inherit;
   color: #E3740B;
   border-color: #E3740B;
 }
@@ -198,7 +244,7 @@ input {
 .btn-outline-tertiary {
   border-color: #E3740B;
   color: #E3740B;
-  background-color: #FFFFFF;
+  background-color: inherit;
 }
 
 .btn-outline-tertiary:hover {
@@ -221,14 +267,14 @@ input {
 
 .btn-outline-tertiary:disabled  {
   border-color: #FCD8B6;
-  background-color: #FFFFFF;
+  background-color: inherit;
   color: #FCD8B6;
   cursor: default;
 }
 
 .btn-outline-tertiary:hover:disabled  {
   border-color: #FCD8B6;
-  background-color: #FFFFFF;
+  background-color: inherit;
   color: #FCD8B6;
 }
 
@@ -239,22 +285,21 @@ input {
 }
 
 .btn-quartairy:hover {
-  background-color: #FFFFFF;
+  background-color: inherit;
   color: #D9150B;
   border-color: #D9150B;
-  color: #FFFFFF;
 }
 
 .btn-outline-quartairy {
   border-color: #D9150B;
   color: #D9150B;
-  background-color: #FFFFFF;
+  background-color: inherit;
 }
 
 .btn-outline-quartairy:hover {
   background-color: #D9150B;
   border-color: #D9150B;
-  background-color: #FFFFFF;
+  color: #FFFFFF;
 }
 
 .btn-quartairy:disabled  {
@@ -271,15 +316,82 @@ input {
 
 .btn-outline-quartairy:disabled  {
   border-color: #FCD8B6;
-  background-color: #FFFFFF;
+  background-color: inherit;
   color: #FCD8B6;
   cursor: default;
 }
 
 .btn-outline-quartairy:hover:disabled  {
   border-color: #FCD8B6;
-  background-color: #FFFFFF;
+  background-color: inherit;
   color: #FCD8B6;
+}
+
+.btn-black {
+  border-color: #222222;
+  background-color: #222222;
+  color: #FFFFFF;
+}
+
+.btn-black:hover {
+  color: #222222;
+  background-color: inherit;
+  border-color: #222222;
+}
+
+.btn-white {
+  border-color: #FFFFFF;
+  background-color: #FFFFFF;
+  color: #222222;
+}
+
+.btn-white:hover {
+  border-color: #FFFFFF;
+  background-color: inherit;
+  color: #FFFFFF;
+}
+
+.btn-black:disabled,
+.btn-white:disabled {
+  background-color: #989898;
+  border-color: #989898;
+  color: #FFFFFF;
+  cursor: default;
+}
+
+.btn-black:hover:disabled,
+.btn-white:hover:disabled {
+  background-color: inherit;
+  border-color: #989898;
+  color: #989898;
+  cursor: default;
+}
+
+.btn-round,
+.btn-square {
+  min-width: initial;
+  width: 48px;
+  height: 48px;
+}
+
+.btn-round.btn-sm,
+.btn-square.btn-sm {
+  width: 35px;
+  height: 35px;
+}
+
+.btn-round.btn-lg,
+.btn-square.btn-lg {
+  width: 58px;
+  height: 58px;
+}
+
+.btn-round {
+  border-radius: 29px;
+}
+
+.btn-square {
+  border-radius: 4px;
 }
 
 /*
@@ -291,6 +403,11 @@ input.sm {
 
 input.lg {
   height: 64px;
+}
+
+input.error,
+textarea.error {
+  border-color: #D9150B;
 }
 
 /*
@@ -322,6 +439,8 @@ input.lg {
 */
 .site-header .search-wrapper .search-input {
   background-color: #FFCCB3;
+  border: none;
+  box-shadow: none;
 }
 
 /*
