@@ -43,9 +43,18 @@ export class UserMainMenuComponent extends React.Component<Props, State> {
           {!this.state.showSearch && <MenuItemComponent to='' onClick={() => this.setState({ showSearch: true })}><FontAwesomeIcon icon={faSearch} size='lg' /></MenuItemComponent>}
           <ShoppingCartMenuItem />
           {isLoggedIn() ?
-            <MenuItemComponent to='' onClick={() => this.props.toggleSubMenu()}>
-              <FontAwesomeIcon icon={faUser} size='lg' />
-            </MenuItemComponent> :
+            <li className="menu-item nav-item">
+              <a
+                href="#"
+                className='nav-link'
+                onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                  e.preventDefault()
+                  this.props.toggleSubMenu()
+                }}
+              >
+                <FontAwesomeIcon icon={faUser} size='lg' />
+              </a>
+            </li> :
             <>
               <MenuItemComponent to='/login'>
                 <button type='button' className='btn btn-outline-primary btn-sm'>Inloggen</button>
