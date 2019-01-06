@@ -23,36 +23,35 @@ export class UserMainMenuComponent extends React.Component<Props, State> {
     }
   }
 
-  componentDidMount() { }
-
   render() {
     return (
       <div className='user-main-menu-wrapper'>
         <MenuComponent classes='user-main-menu float-right'>
           {this.state.showSearch &&
             <div className='search-wrapper'>
-              <form className='search-form'><input
-                type='text'
-                name='search'
-                placeholder='Voer zoekterm in en druk op enter..'
-              />
-
-                <button type='submit'><FontAwesomeIcon icon={faSearch} /></button>
+              <form className='search-form'>
+                <input
+                  type='text'
+                  name='search'
+                  placeholder='Voer zoekterm in en druk op enter..'
+                  className='search-input sm'
+                />
+                <button type='submit' className='btn btn-link'><FontAwesomeIcon icon={faSearch} size='lg' /></button>
               </form>
             </div>
           }
-          {!this.state.showSearch && <MenuItemComponent to='' onClick={() => this.setState({ showSearch: true })}><FontAwesomeIcon icon={faSearch} /></MenuItemComponent>}
+          {!this.state.showSearch && <MenuItemComponent to='' onClick={() => this.setState({ showSearch: true })}><FontAwesomeIcon icon={faSearch} size='lg' /></MenuItemComponent>}
           <ShoppingCartMenuItem />
           {isLoggedIn() ?
             <MenuItemComponent to='' onClick={() => this.props.toggleSubMenu()}>
-              <FontAwesomeIcon icon={faUser} />
+              <FontAwesomeIcon icon={faUser} size='lg' />
             </MenuItemComponent> :
             <>
               <MenuItemComponent to='/login'>
-                <Button variant='outlined' color='primary' size='small'>Inloggen</Button>
+                <button type='button' className='btn btn-outline-primary btn-sm'>Inloggen</button>
               </MenuItemComponent>
               <MenuItemComponent to='/register'>
-                <Button variant='contained' color='primary' size='small'>Registreren</Button>
+                <button type='button' className='btn btn-primary btn-sm'>Registreren</button>
               </MenuItemComponent>
             </>
           }

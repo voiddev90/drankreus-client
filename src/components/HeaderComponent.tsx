@@ -1,8 +1,5 @@
 import * as React from 'react'
-import { NavLink } from 'react-router-dom'
 import { MainMenuComponent } from './Menu/MainMenuComponent';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { UserMainMenuComponent } from './Menu/UserMainMenuComponent';
 import { MenuComponent } from './Menu/MenuComponent';
 import MenuItemComponent from './Menu/MenuItemComponent';
@@ -25,13 +22,13 @@ export default class HeaderComponent extends React.Component<Props, State> {
     return (
       <header className='site-header max-width container-fluid'>
         <div className='site-header-wrapper row'>
-          <div className='site-title-wrapper col-2'>
+          <div className='site-title-wrapper col-1'>
             <h2 className='site-title'>DrankReus</h2>
           </div>
-          <div className='col-5'>
+          <div className='col-4'>
             <MainMenuComponent />
           </div>
-          <div className='col-5'>
+          <div className='col-7'>
             <UserMainMenuComponent toggleSubMenu={() => this.setState({ showSubMenu: !this.state.showSubMenu })} />
           </div>
         </div>

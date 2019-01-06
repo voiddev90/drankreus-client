@@ -20,7 +20,7 @@ const ShoppingCartMenuItemComponent: React.SFC<Props> = (props: Props) => {
     <li className={liClasses.join(' ')}>
       <NavLink to="/cart">
         <Badge badgeContent={amountOfCookies} color='secondary' className='quartair'>
-          <FontAwesomeIcon icon={faShoppingCart} />
+          <FontAwesomeIcon icon={faShoppingCart} size='lg' />
         </Badge>
       </NavLink>
     </li>
