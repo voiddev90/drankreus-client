@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { MenuComponent } from './MenuComponent';
-import MenuItemComponent from './MenuItemComponent';
-import { isLoggedIn, logOut } from '../../helpers';
-import ShoppingCartMenuItem from './ShoppingCartMenuItem';
+import { MenuComponent } from './MenuComponent'
+import MenuItemComponent from './MenuItemComponent'
+import { isLoggedIn, logOut } from '../../helpers'
+import ShoppingCartMenuItem from './ShoppingCartMenuItem'
 
 type Props = {}
 
@@ -11,7 +11,8 @@ export const MainMenuComponent: React.SFC<Props> = (props: Props) => {
     <div className='main-menu-wrapper'>
       <MenuComponent classes='main-menu'>
         <MenuItemComponent to='/products' name='Producten' />
-        <MenuItemComponent to='/' name='Contact' />
+        <MenuItemComponent to='/contact' name='Contact' />
+
         {!isLoggedIn() ? (
           <MenuItemComponent to='/login' name='Inloggen' />
         ) : (

@@ -6,9 +6,10 @@ import { isLoggedIn } from '../helpers'
 import RegisterComponent from './RegisterComponent'
 import AccountComponent from './AccountComponent'
 import ShoppingCartComponent from './ShoppingCartComponent'
-import ProductOverviewComponent from './ProductOverviewComponent';
-import { AdminDashboardComponent } from './Admin/AdminDashboardComponent';
-import { AdminLoaderComponent } from './Admin/AdminLoaderComponent';
+import ProductOverviewComponent from './ProductOverviewComponent'
+import { AdminDashboardComponent } from './Admin/AdminDashboardComponent'
+import { AdminLoaderComponent } from './Admin/AdminLoaderComponent'
+import { Contact } from './Contact'
 
 type Props = RouteComponentProps<{ slug: string }>
 
@@ -31,7 +32,9 @@ export const PageLoaderComponent: React.SFC<Props> = (props: Props) => {
     case 'cart':
       return <ShoppingCartComponent />
     case 'products':
-        return <ProductOverviewComponent />
+      return <ProductOverviewComponent />
+    case 'contact':
+      return <Contact />
     default:
       return <NotFoundComponent />
   }

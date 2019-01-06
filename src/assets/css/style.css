@@ -11,7 +11,7 @@ header.site-header .site-header-wrapper {
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  background-color: #393537;
+  background-color: white;
   padding: 10px;
   max-width: 1465px;
   margin: 0 auto;
@@ -48,7 +48,7 @@ header.site-header
   .site-title-wrapper
   h2.site-title
   a:hover {
-  color: #ffffff;
+  color: #ce7c4f;
 }
 
 header.site-header
@@ -56,7 +56,7 @@ header.site-header
   .site-title-wrapper
   h2.site-title
   a:active {
-  color: #ffffff;
+  color: #cc6329;
 }
 
 header.site-header .site-header-wrapper .search-wrapper {
@@ -75,12 +75,12 @@ header.site-header
   display: block;
   width: 100%;
   padding: 8px 10px;
-  background-color: #ffffff;
+  background-color: #e0a788;
   box-shadow: none;
   outline: none;
   border: none;
   border-radius: 3px;
-  color: #222222;
+  color: black;
   box-sizing: border-box;
 }
 
@@ -90,7 +90,7 @@ header.site-header
   .search-form
   input[type='text']
   ::placeholder {
-  color: #444444;
+  color: black;
 }
 
 header.site-header
@@ -99,6 +99,7 @@ header.site-header
   .search-form
   button[type='submit'] {
   display: none;
+  color: #000000;
 }
 
 header.site-header .site-header-wrapper .main-menu-wrapper {
@@ -122,7 +123,7 @@ header.site-header nav.main-menu .menu .menu-item,
 header.site-header nav.main-menu .menu .menu-item a:link,
 header.site-header nav.main-menu .menu .menu-item a:visited {
   padding: 5px 10px;
-  color: #ffffff;
+  color: #cc6329;
   text-decoration: none;
 }
 
@@ -147,7 +148,7 @@ header.site-header
 * - Login
 */
 .content .login .button {
-  background-color: #008cba;
+  background-color: #cc6329;
   border: none;
   border-radius: 8px;
   color: white;
@@ -157,7 +158,7 @@ header.site-header
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
-  -webkit-transition-duration: 0.4s; /* Safari */
+  -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
   width: 250px;
   text-align: center;
@@ -165,8 +166,6 @@ header.site-header
 .content .login .button:hover {
   background-color: #4caf50;
   color: white;
-  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
-    0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 .content .login .e-mail_en_Wachtwoord {
   color: #000000;
@@ -192,77 +191,140 @@ header.site-header
   grid-gap: 30px;
   max-width: 1465px;
   margin: 0 auto;
+  text-decoration: none;
 }
 
 .content .product-overview .product-container {
   text-align: center;
   padding: 0 5vw;
   border: 1px solid;
+  color: white;
+  text-decoration: none;
   /* margin: 0 50px;
   margin-top: 10px;
   margin-bottom: 10px; */
 }
-
-.content .product-overview .product-container .product-button {
-  background-color: red;
-  border: none;
+.content .product-overview .Wishlistbutton {
+  background-color: darkred;
+  color: antiquewhite;
   border-radius: 8px;
-  color: white;
-  padding: 15px 32px;
+  padding: 15px 15px;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
-  -webkit-transition-duration: 0.2s;
-  transition-duration: 0.2s;
-  width: 250px;
+  width: 125px;
+  text-align: center;
+}
+
+.content .product-overview .product-container .product-button {
+  background-color: #cc6329;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 15px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 125px;
   text-align: center;
 }
 
 .content .product-overview .product-container .product-button:hover {
-  background-color: #ff7070;
+  background-color: #cc6329;
 }
-
+.content .product-overview .product-container .product-volume {
+  color: #000000;
+}
+.content .product-overview .product-container .product-alcoholpercentage {
+  color: #000000;
+}
+.content .product-overview .product-container .product-name {
+  color: #000000;
+  text-decoration: none;
+}
+.content .product-overview .product-container .product-name {
+  color: black;
+  text-decoration: none;
+}
 .content .product-overview .product-container .product-price {
   font-size: 20px;
+  color: black;
+  text-decoration: none;
 }
 
 /*
 * - Register
 */
-.content .signup-form {
+.content .signup-form h2 {
   color: rgb(0, 0, 0);
+  text-align: center;
+}
+.content .signup-form p {
   text-align: center;
 }
 
 .content .signup-form .fields-signup .signup-name {
   color: rgb(0, 0, 0);
-  position: relative;
+
+  position: absolute;
+  transition: 0.5s ease;
+  top: 25%;
+  left: 20%;
+}
+.content .signup-form .fields-signup .signup-prefix {
+  color: rgb(0, 0, 0);
+  position: absolute;
+  transition: 0.5s ease;
+  top: 35%;
+  left: 20%;
 }
 
 .content .signup-form .fields-signup .signup-surname {
   color: rgb(0, 0, 0);
+  position: absolute;
+  transition: 0.5s ease;
+  top: 40%;
+  left: 20%;
 }
 
 .content .signup-form .fields-signup .signup-email {
   color: rgb(0, 0, 0);
+  position: absolute;
+  transition: 0.5s ease;
+  top: 25%;
+  left: 45%;
 }
 
 .content .signup-form .fields-signup .signup-emailconfirm {
   color: rgb(0, 0, 0);
+  position: absolute;
+  transition: 0.5s ease;
+  top: 35%;
+  left: 45%;
 }
 
 .content .signup-form .fields-signup .signup-pass {
   color: rgb(0, 0, 0);
+  position: absolute;
+  transition: 0.5s ease;
+  top: 25%;
+  left: 70%;
 }
 
 .content .signup-form .fields-signup .signup-passconfirm {
   color: rgb(0, 0, 0);
+  position: absolute;
+  transition: 0.5s ease;
+  top: 40%;
+  left: 79%;
 }
 
 .content .signup-form .submit {
-  background-color: #008cba;
+  background-color: #cc6329;
   border: none;
   border-radius: 8px;
   color: white;
@@ -272,20 +334,149 @@ header.site-header
   font-size: 16px;
   margin: 20px 2px;
   cursor: pointer;
-  -webkit-transition-duration: 0.1s; /* Safari */
-  transition-duration: 0.3s;
+
   width: 250px;
   text-align: center;
+  position: absolute;
+  transition: 0.5s ease;
+  top: 55%;
+  left: 43%;
 }
 
 .content .signup-form .submit:hover {
-  background-color: #bd5417;
+  background-color: #4caf50;
   color: white;
-  box-shadow: 0 9px 12px 0 rgba(34, 34, 34, 0.24),
-    0 15px 45px 0 rgba(0, 0, 0, 0.19);
+}
+.content .signup-form .button-regstr {
+  position: absolute;
+  transition: 0.5s ease;
+  top: 65%;
+  left: 48%;
 }
 
 /*
 * -Account
 */
 
+/* filters */
+
+.content .product-filter .product-filters p {
+  text-align: center;
+}
+
+.content .product-filter .rc-slider {
+  background-color: white;
+  position: center;
+}
+.content .product-filter .rc-slider .rc-slider-mark {
+  background-color: #000000;
+}
+.content .product-filter .rc-slider .rc-slider-step {
+  background-color: #d88c63;
+}
+
+.content .product-filter .rc-slider .rc-slider-track .rc-slider-track-1 {
+  border: #000000;
+}
+.content .product-filter .rc-slider .rc-slider-handle {
+  /* background-color: white; */
+  background: black;
+  border: #d88c63;
+}
+
+.content .product-filter .button-reset {
+  background-color: #cc6329;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 15px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 125px;
+  text-align: center;
+  position: absolute;
+  transition: 0.5s ease;
+  top: 45%;
+  left: 45%;
+}
+
+.content .product-filter .MuiFormControlLabel-root-16 {
+  position: absolute;
+  transition: 0.5s ease;
+  top: 40%;
+  left: 42%;
+}
+
+/* product-info */
+
+.content .product-title {
+  font-size: 25px;
+  position: absolute;
+  top: 15%;
+  left: 25%;
+}
+
+.content .product-desr-price {
+  position: absolute;
+  top: 25%;
+  left: 40%;
+}
+.content .product-desr-percentage {
+  position: absolute;
+  top: 30%;
+  left: 40%;
+}
+
+.content .product-image {
+  position: absolute;
+  top: 25%;
+  left: 15%;
+}
+
+.content .product-description {
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  right: 10%;
+}
+
+.content .product-descr-title {
+  position: absolute;
+  top: 45%;
+  left: 40%;
+}
+
+.content .add-to-wishlist {
+  background-color: #cc6329;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 15px;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 125px;
+  text-align: center;
+  position: absolute;
+  top: 70%;
+  left: 19%;
+}
+
+.content .back-button {
+  color: #ce7c4f;
+  position: absolute;
+  top: 80%;
+  left: 19%;
+}
+
+/* contact */
+.content .contact-page h1 {
+  text-align: center;
+}
+.content .contact-page p {
+  text-align: center;
+}

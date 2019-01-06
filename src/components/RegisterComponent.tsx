@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { NavLink, Redirect } from 'react-router-dom'
 import { User, WithPostState } from '../model'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
 import * as EmailValidator from 'email-validator'
@@ -124,7 +125,7 @@ export default class RegisterComponent extends React.Component<Props, State> {
           .catch((reason: AxiosError) => {
             let error = ''
             if (reason.response.data) {
-              error = reason.response.data;
+              error = reason.response.data
             } else {
               error = 'Er is iets foutgegaan bij het registreren.'
             }
@@ -149,63 +150,67 @@ export default class RegisterComponent extends React.Component<Props, State> {
   render() {
     document.title = 'Drankreus - Registreren'
     return (
-      <div className="signup-form">
+      <div className='signup-form'>
         <h2>Registreren</h2>
         <p>
           Vul hier uw gegevens in, zodat wij een account voor u kunnen maken.
         </p>
         {this.state.registered && <small>Gebruiker geregistreerd!</small>}
-        {this.state.type == 'error' &&
-          this.state.error && <small>{this.state.error}</small>}
-        {this.state.type == 'success' &&
-          this.state.message && <small>{this.state.message}</small>}
-        <div className="fields-signup">
-          <p className="signup-name">
-            <label htmlFor="name">Voornaam</label>
+        {this.state.type == 'error' && this.state.error && (
+          <small>{this.state.error}</small>
+        )}
+        {this.state.type == 'success' && this.state.message && (
+          <small>{this.state.message}</small>
+        )}
+        <div className='fields-signup'>
+          <p className='signup-name'>
+            <p>Vul hier uw naam in</p>
+            <label htmlFor='name' />
             <input
-              type="text"
-              name="name"
-              id="name"
-              placeholder=""
+              type='text'
+              name='name'
+              id='name'
+              placeholder='Voornaam'
               value={this.state.firstName}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('firstName')(e.target.value)
               }
             />
           </p>
-          <p className="signup-prefix">
-            <label htmlFor="name">Tussenvoegsel</label>
+          <p className='signup-prefix'>
+            <label htmlFor='name' />
             <input
-              type="text"
-              name="prefix"
-              id="prefix"
-              placeholder=""
+              type='text'
+              name='prefix'
+              id='prefix'
+              placeholder='Tussenvoegsel'
               value={this.state.prefix}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('prefix')(e.target.value)
               }
             />
           </p>
-          <p className="signup-surname">
-            <label htmlFor="surname">Achternaam</label>
+          <p className='signup-surname'>
+            <label htmlFor='surname' />
             <input
-              type="text"
-              name="surname"
-              id="surname"
-              placeholder=""
+              type='text'
+              name='surname'
+              id='surname'
+              placeholder='Achternaam'
               value={this.state.lastName}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('lastName')(e.target.value)
               }
             />
           </p>
-          <p className="signup-email">
-            <label htmlFor="email">E-mailadres</label>
+          <p className='signup-email'>
+            <p>Vul hier uw e-mailadres in</p>
+            <label htmlFor='email' />
             <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="voorbeeld@voorbeeld.nl"
+              type='email'
+              name='email'
+              id='email'
+              placeholder='voorbeeld@voorbeeld.nl'
               value={this.state.email}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('email')(e.target.value)
@@ -218,13 +223,14 @@ export default class RegisterComponent extends React.Component<Props, State> {
               }
             />
           </p>
-          <p className="signup-emailconfirm">
-            <label htmlFor="emailconfirm">Herhaal uw e-mailadres</label>
+          <p className='signup-emailconfirm'>
+            <p>Herhaal uw e-mailadres</p>
+            <label htmlFor='emailconfirm' />
             <input
-              type="email"
-              name="emailconfirm"
-              id="emailconfirm"
-              placeholder="voorbeeld@voorbeeld.nl"
+              type='email'
+              name='emailconfirm'
+              id='emailconfirm'
+              placeholder='voorbeeld@voorbeeld.nl'
               value={this.state.emailconfirm}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('emailconfirm')(e.target.value)
@@ -237,15 +243,16 @@ export default class RegisterComponent extends React.Component<Props, State> {
               }
             />
           </p>
-          <p className="signup-pass">
-            <label htmlFor="pass">
-              Wachtwoord (minimaal één hoofdletter en één cijfer)
-            </label>
+          <p className='signup-pass'>
+            <p>
+              Vul hier uw Wachtwoord in (minimaal één hoofdletter en één cijfer)
+            </p>
+            <label htmlFor='pass' />
             <input
-              type="password"
-              name="pass"
-              id="pass"
-              placeholder=""
+              type='password'
+              name='pass'
+              id='pass'
+              placeholder='DrankReus01'
               value={this.state.password}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('password')(e.target.value)
@@ -259,13 +266,14 @@ export default class RegisterComponent extends React.Component<Props, State> {
               }
             />
           </p>
-          <p className="signup-passconfirm">
-            <label htmlFor="passconfirm">Herhaal uw wachtwoord</label>
+          <p className='signup-passconfirm'>
+            <p>Herhaal uw wachtwoord</p>
+            <label htmlFor='passconfirm' />
             <input
-              type="password"
-              name="passconfirm"
-              id="passconfirm"
-              placeholder=""
+              type='password'
+              name='passconfirm'
+              id='passconfirm'
+              placeholder='DrankReus01'
               value={this.state.passconfirm}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('passconfirm')(e.target.value)
@@ -280,9 +288,12 @@ export default class RegisterComponent extends React.Component<Props, State> {
           </p>
         </div>
         <div>
-          <button className="submit" onClick={this.onSubmit}>
-            Verzenden
+          <button className='submit' onClick={this.onSubmit}>
+            Meldt u nu aan
           </button>
+          <NavLink to='/login' className='button-regstr'>
+            Al een account?
+          </NavLink>
         </div>
       </div>
     )

@@ -63,7 +63,11 @@ export default class LoginComponent extends React.Component<Props, State> {
         })
       })
       .catch((response: AxiosError) => {
-        this.setState({ ...this.state, type: 'error', error: response.response.data })
+        this.setState({
+          ...this.state,
+          type: 'error',
+          error: response.response.data
+        })
       })
   }
 
@@ -76,7 +80,7 @@ export default class LoginComponent extends React.Component<Props, State> {
     return (
       <div className='login'>
         <h2>Inloggen</h2>
-        <p>Inloggen of een profiel aanmaken.</p>
+        <p>Vul hier uw e-mail en wachtwoord in</p>
         <form
           className='e-mail_en_Wachtwoord'
           onSubmit={e => {
@@ -110,14 +114,12 @@ export default class LoginComponent extends React.Component<Props, State> {
           )}
           {this.state.redirect && <Redirect to={{ pathname: '/profile' }} />}
           <p className='validText'>
-            <label htmlFor='email'>
-              <p>Vul hier uw e-mailadres in </p>
-            </label>
+            <label htmlFor='email' />
             <input
               type='email'
               name='email'
               id='email'
-              placeholder='E-mailadres'
+              placeholder='E-mail'
               value={this.state.email}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('email')(e.target.value)
@@ -131,9 +133,7 @@ export default class LoginComponent extends React.Component<Props, State> {
             />
           </p>
           <p className='field field-pass'>
-            <label htmlFor='pass'>
-              <p>Vul hier uw wachtwoord in </p>
-            </label>
+            <label htmlFor='pass' />
             <input
               type='password'
               name='pass'
@@ -153,10 +153,11 @@ export default class LoginComponent extends React.Component<Props, State> {
             />
           </p>
           <button type='submit' className='button'>
-            Log in!
+            Inloggen
           </button>
-          <NavLink to='/register' className='button'>
-            Registreer
+          <p />
+          <NavLink to='/register' className='button-regstr'>
+            Nog geen account?
           </NavLink>
         </form>
       </div>
