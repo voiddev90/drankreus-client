@@ -16,6 +16,17 @@ export default class HeaderComponent extends React.Component<Props, State> {
     this.state = {
       showSubMenu: false
     }
+
+    this.toggleMenu = this.toggleMenu.bind(this)
+    this.closeMenu = this.closeMenu.bind(this)
+  }
+
+  toggleMenu() {
+    this.setState({ showSubMenu: !this.state.showSubMenu })
+  }
+
+  closeMenu() {
+    this.setState({ showSubMenu: false })
   }
 
   render() {
@@ -26,18 +37,21 @@ export default class HeaderComponent extends React.Component<Props, State> {
             <h2 className='site-title'>DrankReus</h2>
           </div>
           <div className='col-4'>
-            <MainMenuComponent />
+            <MainMenuComponent closeSubMenu={this.closeMenu} />
           </div>
           <div className='col-7'>
-            <UserMainMenuComponent toggleSubMenu={() => this.setState({ showSubMenu: !this.state.showSubMenu })} />
+            <UserMainMenuComponent toggleSubMenu={this.toggleMenu} closeSubMenu={this.closeMenu} />
           </div>
         </div>
         {this.state.showSubMenu && <div className='profile-submenu'>
           <MenuComponent classes='submenu'>
-            <MenuItemComponent to='/profile'>Mijn profiel</MenuItemComponent>
-            <MenuItemComponent to='/favourites'>Mijn wenslijst</MenuItemComponent>
-            <MenuItemComponent to='/history'>Mijn bestelgeschiedenis</MenuItemComponent>
-            <MenuItemComponent to='/' onClick={() => logOut()}>Uitloggen</MenuItemComponent>
+            <MenuItemComponent to='/profile' onClick={() => this.closeMenu()}>Mijn profiel</MenuItemComponent>
+            <MenuItemComponent to='/favourites' onClick={() => this.closeMenu()}>Mijn wenslijst</MenuItemComponent>
+            <MenuItemComponent to='/history' onClick={() => this.closeMenu()}>Mijn bestelgeschiedenis</MenuItemComponent>
+            <MenuItemComponent to='/' onClick={() => {
+              logOut()
+              this.closeMenu()
+            }}>Uitloggen</MenuItemComponent>
           </MenuComponent>
         </div>}
       </header>

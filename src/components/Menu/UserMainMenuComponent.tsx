@@ -5,10 +5,10 @@ import { isLoggedIn } from '../../helpers';
 import ShoppingCartMenuItem from './ShoppingCartMenuItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { Button } from '@material-ui/core';
 
 type Props = {
   toggleSubMenu: () => void
+  closeSubMenu: () => void
 }
 type State = {
   showSearch: boolean
