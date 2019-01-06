@@ -4,11 +4,11 @@ import MenuItemComponent from './MenuItemComponent';
 import { isLoggedIn } from '../../helpers';
 import ShoppingCartMenuItem from './ShoppingCartMenuItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { Button } from '@material-ui/core';
+import { faUser, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
   toggleSubMenu: () => void
+  closeSubMenu: () => void
 }
 type State = {
   showSearch: boolean
@@ -21,6 +21,12 @@ export class UserMainMenuComponent extends React.Component<Props, State> {
     this.state = {
       showSearch: false
     }
+
+    this.toggleSearchForm = this.toggleSearchForm.bind(this)
+  }
+
+  toggleSearchForm() {
+    this.setState({ showSearch: !this.state.showSearch })
   }
 
   render() {
@@ -36,16 +42,26 @@ export class UserMainMenuComponent extends React.Component<Props, State> {
                   placeholder='Voer zoekterm in en druk op enter..'
                   className='search-input sm'
                 />
-                <button type='submit' className='btn btn-link'><FontAwesomeIcon icon={faSearch} size='lg' /></button>
               </form>
             </div>
           }
-          {!this.state.showSearch && <MenuItemComponent to='' onClick={() => this.setState({ showSearch: true })}><FontAwesomeIcon icon={faSearch} size='lg' /></MenuItemComponent>}
-          <ShoppingCartMenuItem />
+          {this.state.showSearch ?
+            (<li className="menu-item nav-item">
+              <a href="#" className='nav-link' onClick={(e: React.MouseEvent<HTMLAnchorElement>) => this.toggleSearchForm()} >
+                <FontAwesomeIcon icon={faTimes} size='lg' />
+              </a>
+            </li>) : (<li className="menu-item nav-item">
+              <a href="#" className='nav-link' onClick={(e: React.MouseEvent<HTMLAnchorElement>) => this.toggleSearchForm()} >
+                <FontAwesomeIcon icon={faSearch} size='lg' />
+              </a>
+            </li>)}
+          < ShoppingCartMenuItem />
           {isLoggedIn() ?
-            <MenuItemComponent to='' onClick={() => this.props.toggleSubMenu()}>
-              <FontAwesomeIcon icon={faUser} size='lg' />
-            </MenuItemComponent> :
+            <li className="menu-item nav-item">
+              <a href="#" className='nav-link' onClick={(e: React.MouseEvent<HTMLAnchorElement>) => this.props.toggleSubMenu()} >
+                <FontAwesomeIcon icon={faUser} size='lg' />
+              </a>
+            </li> :
             <>
               <MenuItemComponent to='/login'>
                 <button type='button' className='btn btn-outline-primary btn-sm'>Inloggen</button>
