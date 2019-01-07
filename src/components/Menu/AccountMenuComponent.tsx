@@ -9,11 +9,11 @@ export const AccountMenuComponent: React.SFC<Props> = (props: Props) => {
   return (
     <div className='account-menu-wrapper'>
       <MenuComponent classes='account-menu'>
-        <MenuItemComponent to='/cart' name='Winkelwagen' />
-        <MenuItemComponent to='/account/favourites' name='Favorieten' />
-        <MenuItemComponent to='/account/history' name='Bestelgeschiedenis' />
+        <MenuItemComponent to='/cart'>Winkelwagen</MenuItemComponent>
+        <MenuItemComponent to='/account/favourites'>Favorieten</MenuItemComponent>
+        <MenuItemComponent to='/account/history'>Bestelgeschiedenis</MenuItemComponent>
         {loggedInUserIsAdmin() && (
-          <MenuItemComponent to='/admin' name='Administratie' />
+          <MenuItemComponent to='/admin'>Administratie</MenuItemComponent>
         )}
       </MenuComponent>
     </div>
