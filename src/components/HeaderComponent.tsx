@@ -36,6 +36,7 @@ export default class HeaderComponent extends React.Component<Props, State> {
           <div className='site-title-wrapper col-1'>
             <h2 className='site-title'>DrankReus</h2>
           </div>
+
           <div className='col-4'>
             <MainMenuComponent closeSubMenu={this.closeMenu} />
           </div>
