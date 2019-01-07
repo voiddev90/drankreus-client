@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {Redirect} from 'react-router-dom';
 import { ReactCookieProps, withCookies } from 'react-cookie';
-import { Shipment, User ,WithPostState} from '../model';
-import {isLoggedIn,getLoggedInuser, clearShoppingCart} from '../helpers'
+import { Shipment, User ,WithPostState, ShoppingCart, getAuthorizedAxiosInstance} from '../model';
+import {isLoggedIn,getLoggedInuser, clearShoppingCart, distinct} from '../helpers'
 import Axios, { AxiosResponse } from 'axios';
 
 type State = Shipment& WithPostState &{
@@ -11,6 +11,7 @@ type State = Shipment& WithPostState &{
     shipmentType: string
     saveUserDetails: boolean
 }
+
 class OrderComponent extends React.Component<ReactCookieProps,State> {
      constructor(props: ReactCookieProps){
         super(props)
@@ -19,6 +20,9 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
         this.state = {
             type: 'editing',
             step: 0,
+            email: '',
+            firstname: '',
+            lastname: '',
             paymentType: '',
             shipmentType: '',
             street: '',
@@ -30,14 +34,19 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
     }
     componentDidMount(){
         if(isLoggedIn()){
+            
             const user:User = getLoggedInuser()
-            if(user.buildingNumber != null)
+            console.log("hier");
             this.setState({...this.state,
+                firstname: user.firstName,
+                lastname: user.lastName,
+                email: user.email,
                 street:user.street,
                 buildingNumber:user.buildingNumber,
                 postalCode:user.postalCode,
                 area:user.area
             })
+            console.log(this.state.street)
         }
     }
     handleChange(e: React.ChangeEvent<HTMLInputElement>){
@@ -68,9 +77,29 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
         /* TODO:
         save user details
         */
-       const shoppingCart: number[] = this.props.cookies.get('shopping-cart')
-       console.log(shoppingCart);
-       const request = Axios.put('http://localhost:5000/api/product/purchased',shoppingCart)
+       const shoppingCart: ShoppingCart = this.props.cookies.get('shopping-cart')
+       const requestBody = shoppingCart.filter(distinct).map(productId =>{
+           return{
+               ProductId: productId,
+               amount: shoppingCart.filter(product => product == productId).length
+           }
+       })
+       const orderDetails = {
+           Email: this.state.email,
+           Firstname: this.state.firstname,
+           Lastname: this.state.lastname,
+           Street: this.state.street,
+           BuildingNumber: this.state.buildingNumber,
+           PostalCode: this.state.postalCode,
+           Area: this.state.area,
+           orderProductAmount: requestBody,
+           SaveAddress: this.state.saveUserDetails
+       }
+       console.log(requestBody);
+       let request;
+       if(isLoggedIn()?
+        request = getAuthorizedAxiosInstance().post('http://localhost:5000/api/Orders',orderDetails) 
+        :   request = Axios.post('http://localhost:5000/api/Orders',orderDetails))
        request.then((value: AxiosResponse) =>{
            console.log(value)
        })
@@ -89,9 +118,19 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
             <form>
                 {this.state.type == 'error' &&
             this.state.error && <small>{this.state.error}</small>} <br/>
-                <input name="street" placeholder= "Straat"  value={this.state.street} onChange={this.handleChange}/><br/>
+                <label>Email</label><br/>
+                <input name="email" placeholder= "Email address" value={this.state.email} onChange={this.handleChange}/><br/>
+                <label>Voornaam</label><br/>
+                <input name="firstname" placeholder= "Voornaam"  value={this.state.firstname} onChange={this.handleChange}/><br/>
+                <label>Achternaam</label><br/>
+                <input name="lastname" placeholder= "Achternaam"  value={this.state.lastname} onChange={this.handleChange}/><br/>
+                <label>Straat</label><br/>
+                <input name="street"   placeholder="Straat"value={this.state.street} onChange={this.handleChange}/><br/>
+                <label>Huisnummer</label><br/>
                 <input name="buildingNumber" placeholder= "Huisnummer"  value={this.state.buildingNumber}onChange={this.handleChange}/><br/>
+                <label>Postcode</label><br/>
                 <input name="postalCode" placeholder= "PostCode"  value={this.state.postalCode}onChange={this.handleChange}/><br/>
+                <label>Stad</label><br/>
                 <input name="area" placeholder= "Stad"  value={this.state.area}onChange={this.handleChange}/><br/>
                 <button onClick={(e) => this.handleOnSubmit(e)}>Submit</button>
             </form>
