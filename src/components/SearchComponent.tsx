@@ -52,13 +52,13 @@ export default class SearchComponent extends React.Component<Props,State> {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleFieldChange('search')(e.target.value)
               }
+                className='search-input sm'
               />
               <Link to={{
                pathname:`/search/${this.state.search}`,
                state:{test: this.state.search}
               }}> 
-              <button >
-              <p>Search</p>
+              <button >Search
            </button></Link>
               </form>
               </div>

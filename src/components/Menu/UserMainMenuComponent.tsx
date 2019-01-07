@@ -5,6 +5,7 @@ import { isLoggedIn } from '../../helpers';
 import ShoppingCartMenuItem from './ShoppingCartMenuItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import SearchComponent from '../SearchComponent';
 
 type Props = {
   toggleSubMenu: () => void
@@ -35,14 +36,7 @@ export class UserMainMenuComponent extends React.Component<Props, State> {
         <MenuComponent classes='user-main-menu float-right'>
           {this.state.showSearch &&
             <div className='search-wrapper'>
-              <form className='search-form'>
-                <input
-                  type='text'
-                  name='search'
-                  placeholder='Voer zoekterm in en druk op enter..'
-                  className='search-input sm'
-                />
-              </form>
+            <SearchComponent/> 
             </div>
           }
           {this.state.showSearch ?
