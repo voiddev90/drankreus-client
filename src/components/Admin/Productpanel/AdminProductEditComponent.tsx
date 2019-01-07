@@ -99,6 +99,7 @@ export default class AdminProductEditComponent extends React.Component<
         }
         this.setState({
           ...this.state,
+          deleting: newState,
           editing: newState
         })
       })
