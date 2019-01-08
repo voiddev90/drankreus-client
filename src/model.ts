@@ -38,6 +38,27 @@ export class Product {
   categoryId: number
 }
 
+export class OrderProduct {
+  orderid: number
+  id: number
+  productid: number
+  product: Product
+  amount: number
+  price: number
+
+}
+
+export class Order {
+  id: number
+  taxpercentage: number
+  street: string
+  buildingnumber: string
+  postalcode: string
+  orderproducts: OrderProduct[]
+  map: any;
+}
+
+
 export class Tag {
   id: number
   name: string
@@ -194,6 +215,8 @@ export type LoginResponse = {
 }
 
 export type WishlistResponse = Product[]
+
+export type OrderResponse = Order[]
 
 export type ProductResponse = Page<Product>
 
