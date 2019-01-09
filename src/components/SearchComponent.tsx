@@ -57,7 +57,7 @@ export default class SearchComponent extends React.Component<Props,State> {
               <Link to={{
                pathname:`/search/${this.state.search}`,
                state:{test: this.state.search}
-              }}> 
+              }} className='search-button-wrapper'> 
               <button >Search
            </button></Link>
               </form>

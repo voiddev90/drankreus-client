@@ -324,6 +324,10 @@ input.lg {
   background-color: #FFCCB3;
 }
 
+.site-header .search-wrapper .search-button-wrapper {
+  display: none;
+}
+
 /*
 * - Login
 */
