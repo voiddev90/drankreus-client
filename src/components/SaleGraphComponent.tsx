@@ -4,6 +4,7 @@ import Axios, { AxiosError } from 'axios';
 import Select from 'react-select';
 import { valueContainerCSS } from 'react-select/lib/components/containers';
 import { handleFieldChange } from '../helpers';
+import { getAuthorizedAxiosInstance } from '../model';
 
 type Props = {}
 type State = {
@@ -45,7 +46,8 @@ export default class SaleGraphComponent extends React.Component<Props,State>{
       this.getData();
     }
     getData(){
-       Axios.get(`http://localhost:5000/api/Stats/products/?Month=${this.state.month}&Year=${this.state.year}`)
+    getAuthorizedAxiosInstance()
+       .get(`Stats/products/?Month=${this.state.month}&Year=${this.state.year}`)
             .then((value: any) => {
                 this.setState({
                     ...this.state,
@@ -54,6 +56,7 @@ export default class SaleGraphComponent extends React.Component<Props,State>{
             })
     }
     CreateGraphData(){
+      console.log(this.state.data);
       if (this.state.data.length <= 0){
         this.setState({...this.state,isLoaded:false})      
         return;
