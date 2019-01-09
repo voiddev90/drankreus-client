@@ -1,7 +1,7 @@
 import * as React from "react"
 import Axios from "axios";
 import { ProductComponent } from "./Products/ProductComponent";
-import { Product } from "../model";
+import { Product, getAuthorizedAxiosInstance } from "../model";
 import { addToCart, isLoggedIn} from "../helpers";
 import { ReactCookieProps } from "react-cookie";
 type Props = ReactCookieProps 
@@ -21,7 +21,8 @@ export default class HomeComponent extends React.Component<ReactCookieProps, Sta
   }
   componentDidMount(){
     let date = new Date(Date.now());
-    Axios.get(`http://localhost:5000/api/Stats/products/?Month=${date.getMonth() + 1}&Year=${date.getFullYear()}`)
+    getAuthorizedAxiosInstance()
+    .get(`Stats/products/?Month=${date.getMonth() + 1}&Year=${date.getFullYear()}`)
     .then((value: any) => {
       let min: number[] = [0,0,0];
       let mostPopular: number[] = [0,0,0];
@@ -51,7 +52,7 @@ export default class HomeComponent extends React.Component<ReactCookieProps, Sta
                   return (  
                     <ProductComponent
                       product={value.product}
-                      key={value.id}
+                      key={value.product.id}
                       onAdd={addToCart(this.props.cookies)}
                     />
                   )
