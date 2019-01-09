@@ -16,7 +16,10 @@ export class User {
   admin: boolean
 }
 
-export class Shipment {
+export class Shipment{
+  email: string
+  firstname: string
+  lastname: string
   street?: string
   buildingNumber?: string
   postalCode?: string
