@@ -69,7 +69,9 @@ export default class FilterComponent extends React.Component<Props, State> {
         string = string + `Price=${this.state.Price[0]}&Price=${this.state.Price[1]}&`;
         string = string + `Percentage=${this.state.AlchoholPercentage[0]}&Percentage=${this.state.AlchoholPercentage[1]}&`;
         string = string + `Ascending=${this.state.ascending}&`;
+        console.log(string);
         this.props.getQueryString(string);
+        
     }
     componentDidMount() {
         Axios.get('http://localhost:5000/api/Brand')

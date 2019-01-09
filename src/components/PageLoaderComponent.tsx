@@ -10,7 +10,9 @@ import ProductOverviewComponent from './ProductOverviewComponent';
 import { AdminDashboardComponent } from './Admin/AdminDashboardComponent';
 import { AdminLoaderComponent } from './Admin/AdminLoaderComponent';
 
-type Props = RouteComponentProps<{ slug: string }>
+type Props = RouteComponentProps<{ 
+  slug: string }> 
+
 
 export const PageLoaderComponent: React.SFC<Props> = (props: Props) => {
   switch (props.match.params.slug) {
@@ -31,7 +33,7 @@ export const PageLoaderComponent: React.SFC<Props> = (props: Props) => {
     case 'cart':
       return <ShoppingCartComponent />
     case 'products':
-        return <ProductOverviewComponent />
+        return <ProductOverviewComponent/>
     default:
       return <NotFoundComponent />
   }
