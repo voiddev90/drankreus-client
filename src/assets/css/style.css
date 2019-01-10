@@ -142,26 +142,32 @@ input[type='number'] {
   color: #FFCCB3;
 }
 
-.btn-primary {
+.btn-primary,
+.btn-primary:not(:disabled):not(.disabled).active {
   background-color: #CC4400;
   border-color: #CC4400;
+  color: #FFFFFF;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:hover:not(:disabled):not(.disabled).active {
   background-color: #FFFFFF;
   color: #CC4400;
   border-color: #CC4400;
 }
 
-.btn-outline-primary {
+.btn-outline-primary,
+.btn-outline-primary:not(:disabled):not(.disabled).active {
   border-color: #CC4400;
   color: #CC4400;
   background-color: inherit;
 }
 
-.btn-outline-primary:hover {
+.btn-outline-primary:hover,
+.btn-outline-primary:hover:not(:disabled):not(.disabled).active {
   background-color: #CC4400;
   border-color: #CC4400;
+  color: #FFFFFF;
 }
 
 .btn-primary:disabled  {
@@ -189,26 +195,32 @@ input[type='number'] {
   color: #FFCCB3;
 }
 
-.btn-secondary {
+.btn-secondary,
+.btn-secondary:not(:disabled):not(.disabled).active {
   background-color: #E3360B;
   border-color: #E3360B;
+  color: #FFFFFF;
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover,
+.btn-secondary:hover:not(:disabled):not(.disabled).active {
   background-color: #FFFFFF;
   color: #E3360B;
   border-color: #E3360B;
 }
 
-.btn-outline-secondary {
+.btn-outline-secondary,
+.btn-outline-secondary:not(:disabled):not(.disabled).active {
   border-color: #E3360B;
   color: #E3360B;
   background-color: inherit;
 }
 
-.btn-outline-secondary:hover {
+.btn-outline-secondary:hover,
+.btn-outline-secondary:hover:not(:disabled):not(.disabled).active {
   background-color: #E3360B;
   border-color: #E3360B;
+  color: #FFFFFF;
 }
 
 .btn-secondary:disabled  {
@@ -600,6 +612,30 @@ table th {
 table td,
 table th {
   padding: 8px 0;
+}
+
+/*
+* -- Sidebar with image
+*/
+.sidebar {
+  padding: 46px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar.background-image {
+  height: 803px;
+  background-image: url('./../images/sidebar-background-image.jpg');
+  background-size: cover;
+  color: #ffffff;
+}
+
+.sidebar.blank {
+  background-color: #ffd28a;
+}
+
+.site-header .search-wrapper .search-button-wrapper {
+  display: none;
 }
 
 /*
