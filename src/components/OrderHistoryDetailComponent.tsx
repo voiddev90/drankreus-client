@@ -14,7 +14,7 @@ export const OrderHistoryDetailComponent: React.SFC<Props> = (props: Props) => {
     <section>
     <div className="order-container" key={props.order.id}>
         <h1 className="order-name">Order #{props.order.id}</h1>
-        {this.state.data.value.items.map((value: OrderProduct) => {
+        {props.orderproducts.map((value: OrderProduct) => {
                   return (
                     <OrderHistoryProductComponent
                     orderproducts={value}

@@ -55,15 +55,16 @@ export default class OrderHistoryComponent extends React.Component<
           case 'some':
             return (
               <section>
-                <h1>Bestelgeschiedenis</h1>
+                <h3>Bestelgeschiedenis</h3>
                 <p>Hieronder is een lijst te zien met jouw orders</p>
                  <div>
                  {this.state.data.value.map((value: Order) => {
+                   console.log(value)
                     return (
                       <OrderHistoryDetailComponent
                         order={value}
                         key={value.id}
-                        orderproducts={value.orderproducts}                       
+                        orderproducts={value.orderProduct}                       
                       />
                     )
                   })}

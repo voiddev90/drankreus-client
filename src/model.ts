@@ -261,7 +261,7 @@ export const getAuthorizedAxiosInstance = () => {
       : {}
   })
   instance.interceptors.response.use(res => res, (error: AxiosError) => {
-    if (error.response.status == 401) {
+    if (error.response && error.response.status && error.response.status == 401) {
       logOut()
     }
     return error
