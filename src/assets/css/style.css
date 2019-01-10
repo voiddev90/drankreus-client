@@ -4,7 +4,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: bennet-text-four, sans-serif;
   font-size: 16px;
   color: #222222;
 }
@@ -13,7 +13,9 @@ small {
   font-size: 0.750em;
 }
 
-h1, h2, h3, h4, h5, h6 {}
+h1, h2, h3, h4, h5, h6 {
+  font-family: omnes-pro, sans-serif;
+}
 
 h1 {
   font-size: 3.000em;
@@ -46,6 +48,7 @@ a:active {
 
 ::placeholder {
   color: #989898;
+  font-family: omnes-pro, sans-serif;
 }
 
 input,
@@ -54,6 +57,7 @@ textarea {
   outline: none;
   border: 2px solid #989898;
   background-color: inherit;
+  font-family: omnes-pro, sans-serif;
 }
 
 input:focus,
@@ -85,17 +89,7 @@ textarea {
 .max-width {
   max-width: 1652px;
   margin: 0 auto;
-}
-
-.row {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-[class*=" col-"],
-[class*="col-"] {
-  padding-left: 6px;
-  padding-right: 6px;
+  width: 100%;
 }
 
 /*
@@ -110,10 +104,13 @@ textarea {
   padding: 12px;
   min-width: 100px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.16);
+  font-family: omnes-pro, serif;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .btn-sm {
-  font-size: 0.750em;
+  font-size: 0.857em;
   padding: 7.5px;
   height: 35px;
   min-width: 100px;
@@ -422,12 +419,32 @@ textarea.error {
   font-size: 0.875em;
 }
 
+.nav-item:first-of-type .nav-link {
+  padding-left: 0;
+}
+
+.nav-item:last-of-type .nav-link {
+  padding-right: 0;
+}
+
+.nav-link {
+  font-family: omnes-pro, serif;
+  font-weight: 600;
+}
+
 /*
 * - Header
 */
+.site-header-wrapper {
+  align-items: center;
+}
+
 .site-title {
   color: #CC4400;
   font-size: 1.375em;
+  font-weight: 700;
+  margin: 0;
+  padding-bottom: 5px;
 }
 
 .site-header {
