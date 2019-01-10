@@ -46,9 +46,10 @@ export default class HeaderComponent extends React.Component<Props, State> {
         </div>
         {this.state.showSubMenu && <div className='profile-submenu'>
           <MenuComponent classes='submenu'>
-            <MenuItemComponent to='/profile' onClick={() => this.closeMenu()}>Mijn profiel</MenuItemComponent>
-            <MenuItemComponent to='/favourites' onClick={() => this.closeMenu()}>Mijn wenslijst</MenuItemComponent>
-            <MenuItemComponent to='/history' onClick={() => this.closeMenu()}>Mijn bestelgeschiedenis</MenuItemComponent>
+            <MenuItemComponent to='/account/profile' onClick={() => this.closeMenu()}>Mijn profiel</MenuItemComponent>
+            <MenuItemComponent to='/account/favourites' onClick={() => this.closeMenu()}>Mijn wenslijst</MenuItemComponent>
+            <MenuItemComponent to='/account/history' onClick={() => this.closeMenu()}>Mijn bestelgeschiedenis</MenuItemComponent>
+            <MenuItemComponent to='/account/points' onClick={() => this.closeMenu()}>Mijn punten</MenuItemComponent>
             <MenuItemComponent to='/' onClick={() => {
               logOut()
               this.closeMenu()
