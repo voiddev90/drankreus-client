@@ -74,7 +74,12 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
           ) : (
             this.state.data.type == 'some' &&
             this.state.data.value && (
-              <>
+              <table className='shopping-cart-table'>
+                <tr>
+                  <th className='product' colSpan={5}>Product</th>
+                  <th className='price'>Prijs</th>
+                  <th className='amount' colSpan={2}>Aantal</th>
+                </tr>
                 {this.state.data.value.items
                   .filter(
                     (product: Product) => shoppingCart.indexOf(product.id) != -1
@@ -90,7 +95,7 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
                       onAdd={addToCart(this.props.cookies)}
                     />
                   ))}
-              </>
+              </table>
             )
           )}
         </div>
