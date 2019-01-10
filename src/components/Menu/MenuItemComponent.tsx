@@ -3,9 +3,10 @@ import { NavLink } from "react-router-dom"
 import * as H from 'history'
 
 type Props = {
-  to: H.LocationDescriptor
+  to: string
   navLinkProps?: React.AnchorHTMLAttributes<HTMLAnchorElement>
   onClick?: () => void
+  useLink?: boolean
 }
 type State = {}
 
@@ -17,9 +18,9 @@ export default class MenuItemComponent extends React.Component<Props, State> {
   render() {
     return (
       <li className="menu-item nav-item">
-        <NavLink {...this.props.navLinkProps} to={this.props.to} onClick={this.props.onClick} className='nav-link'>
+        {!this.props.useLink ? <NavLink {...this.props.navLinkProps} to={this.props.to} onClick={this.props.onClick} className='nav-link'>
           {this.props.children}
-        </NavLink>
+        </NavLink> : <a href={this.props.to} onClick={this.props.onClick} className='nav-link'>{this.props.children}</a>}
       </li>
     )
   }
