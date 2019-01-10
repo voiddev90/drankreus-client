@@ -92,7 +92,7 @@ input[type='number'] {
   border-radius: 2px;
 }
 
-h1.site-title {
+h1.page-title {
   color: #CC4400;
 }
 
@@ -640,6 +640,17 @@ table th {
 
 .site-header .search-wrapper .search-button-wrapper {
   display: none;
+}
+
+/*
+* - Shoppingcart
+*/
+.shopping-cart .shopping-cart-inner {
+  align-items: baseline;
+}
+
+.shopping-cart .shopping-cart-inner .cart-items .shopping-cart-table td.image img {
+  width: 100%;
 }
 
 /*
