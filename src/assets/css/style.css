@@ -453,10 +453,6 @@ textarea.error {
 /*
 * -- Menu
 */
-.nav{
-  align-items: center;
-}
-
 .nav-item {
   text-transform: uppercase;
   font-size: 0.875em;
@@ -467,6 +463,11 @@ textarea.error {
 }
 
 .nav-item:last-of-type .nav-link {
+  padding-right: 0;
+}
+
+.nav.flex-column .nav-item .nav-link {
+  padding-left: 0;
   padding-right: 0;
 }
 
