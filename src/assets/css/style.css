@@ -546,6 +546,33 @@ footer.site-footer .site-footer-inner .footer-menu .footer-menu-title {
 }
 
 /*
+* -- Pagination
+*/
+.pagination-container .pagination .page-link {
+  background-color: initial;
+  color: #CC4400;
+  border: none;
+  font-family: omnes-pro, sans-serif;
+  font-size: 0.750em;
+  font-weight: 700;
+}
+
+.pagination-container .pagination .current .page-link,
+.pagination-container .pagination .current .page-link:hover {
+  color: #222222;
+}
+
+.pagination-container .pagination .page-link:disabled,
+.pagination-container .pagination .page-link:hover:disabled {
+  color: #FFCCB3;
+  cursor: default;
+}
+
+.pagination-container .pagination .page-link:hover {
+  color: #D9150B;
+}
+
+/*
 * - Login
 */
 .content .login .button {
