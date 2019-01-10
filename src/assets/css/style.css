@@ -603,6 +603,26 @@ table th {
 }
 
 /*
+* -- Sidebar with image
+*/
+.sidebar {
+  padding: 46px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar.background-image {
+  height: 803px;
+  background-image: url('./../images/sidebar-background-image.jpg');
+  background-size: cover;
+  color: #ffffff;
+}
+
+.sidebar.blank {
+  background-color: #ffd28a;
+}
+
+/*
 * - Login
 */
 .content .login .button {
