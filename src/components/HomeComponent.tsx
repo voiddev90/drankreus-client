@@ -3,42 +3,43 @@ import Axios from "axios";
 import { ProductComponent } from "./Products/ProductComponent";
 import { Product, getAuthorizedAxiosInstance } from "../model";
 import { addToCart, isLoggedIn} from "../helpers";
-import { ReactCookieProps } from "react-cookie";
+import { ReactCookieProps, withCookies } from "react-cookie";
 type Props = ReactCookieProps 
 type State = {
-  data :any,
-  isLoaded :boolean
+  data: any,
+  isLoaded: boolean
 }
 
-export default class HomeComponent extends React.Component<ReactCookieProps, State> {
+class HomeComponent extends React.Component<ReactCookieProps, State> {
   onAdd: (products: number[]) => void
   constructor(props: Props) {
     super(props)
-    this.state={
+    this.state = {
       data: null,
       isLoaded: false
     }
   }
-  componentDidMount(){
+  componentDidMount() {
     let date = new Date(Date.now());
     getAuthorizedAxiosInstance()
-    .get(`Stats/products/?Month=${date.getMonth() + 1}&Year=${date.getFullYear()}`)
+    .get(`Stats/popular/?Month=${date.getMonth() + 1}&Year=${date.getFullYear()}`)
     .then((value: any) => {
+      if(value < 3) return;
       let min: number[] = [0,0,0];
       let mostPopular: number[] = [0,0,0];
-      value.data.forEach((element:any) => {
+      value.data.value.forEach((element:any) => {
         let minVal = Math.min(...min)
         if(element.amount >= minVal){
           let arr = min.indexOf(minVal);
           min[arr] = element.amount
-          mostPopular[arr] = element;
+          mostPopular[arr] = element.product;
         }
       });
       this.setState({
         ...this.state,
         data: mostPopular,
         isLoaded:true
-      })
+      }, ()=> console.log(this.state.data))
     })
   }
   render() {
@@ -48,11 +49,11 @@ export default class HomeComponent extends React.Component<ReactCookieProps, Sta
         <h1 className="content-title">Welkom bij DrankReus!</h1>
         <p>Wij hebben een alcoholisten korting voor onze leden!</p>
         {this.state.isLoaded ? <section className='product-overview'>
-                {this.state.data.map((value: any) => {                  
+                {this.state.data.map((value: Product) => {                  
                   return (  
                     <ProductComponent
-                      product={value.product}
-                      key={value.product.id}
+                      product={value}
+                      key={value.id}
                       onAdd={addToCart(this.props.cookies)}
                     />
                   )
@@ -63,3 +64,4 @@ export default class HomeComponent extends React.Component<ReactCookieProps, Sta
     )
   }
 }
+export default withCookies((HomeComponent) as any)
