@@ -499,6 +499,26 @@ input.lg {
     0 15px 45px 0 rgba(0, 0, 0, 0.19);
 }
 
-/*
-* -Account
-*/
+/* order */
+
+.content .row .col .shipment-details h1 {
+  text-align: center;
+}
+.content .row .col .shipment-details .form-control {
+  /* height: 20px;
+  padding: 20px;
+  border-left: 200px; */
+  display: inline-block;
+  margin: 1% 35%;
+  padding: 15px 30px;
+  width: 25%;
+}
+
+.content .row .col-2 {
+  text-align: center;
+  padding: 500px 250px;
+}
+
+.content .payment-options h1 {
+  text-align: center;
+}
