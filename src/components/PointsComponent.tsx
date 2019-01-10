@@ -66,6 +66,7 @@ export default class PointsComponent extends React.Component<Props, PointsState>
                             <p>Op deze pagina kun je het aantal punten zien dat je hebt verdiend. Je verdient punten door bestellingen te plaatsen op onze webshop. Je ontvangt bij elke bestelling een punt en bij 10 punten krijg je 10% korting op je eerstvolgende bestelling.</p>
                             <h3>Jouw aantal punten:</h3>
                             <h1>{this.state.data.value.discountPoints}</h1>
+                            <h3>/10</h3>
                         </div>
         )
     }
