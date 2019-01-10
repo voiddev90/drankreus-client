@@ -51,6 +51,10 @@ a:active {
   font-family: omnes-pro, sans-serif;
 }
 
+label {
+  font-family: omnes-pro, sans-serif;
+}
+
 input,
 textarea {
   padding: 5.5px 10px;
@@ -79,7 +83,7 @@ input[type='tel'],
 textarea {
   width: 360px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.16);
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
 /*
@@ -405,6 +409,45 @@ input.lg {
 input.error,
 textarea.error {
   border-color: #D9150B;
+}
+
+/*
+* ---Checkboxes and Radios
+*/
+.checkbox-radio input {
+  position: absolute;
+  left: -99999px;
+}
+
+.checkbox-radio input:checked + label.checkbox-radio-label {
+  border-color: #cc4400;
+}
+
+.checkbox-radio label.checkbox-radio-label {
+  max-height: 88px;
+  height: 88px;
+  padding: 0 28px;
+  text-transform: uppercase;
+  color: #cc4400;
+  font-weight: 600;
+  background-color: #ffccb3;
+  border: 2px solid #ffccb3;
+  border-radius: 2px;
+  line-height: 88px;
+  display: inline-block;
+}
+
+.checkbox-radio label.checkbox-radio-label svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.checkbox-radio label.checkbox-radio-label svg:first-child {
+  margin-right: 10px;
+}
+
+.checkbox-radio label.checkbox-radio-label svg:last-child {
+  margin-left: 10px;
 }
 
 /*
