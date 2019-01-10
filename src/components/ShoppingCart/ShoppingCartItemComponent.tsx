@@ -4,8 +4,9 @@ import { fillArray, handleFieldChange } from '../../helpers'
 
 type Props = Product & {
   amount: number
-  onDel: (productId: number) => void
-  onAdd: (products: number[]) => void
+  onDel?: (productId: number) => void
+  onAdd?: (products: number[]) => void
+  allowEdits?: boolean
 }
 
 type State = {
@@ -36,7 +37,8 @@ export class ShoppingCartItemComponent extends React.Component<Props, State> {
           <p>€{props.price.toFixed(2)}</p>
           <p>Aantal: {props.amount}</p>
           <p>Totaal: €{(props.price * props.amount).toFixed(2)}</p>
-          <p>
+          
+            {this.props.allowEdits ? <p>
             <input
               type='number'
               value={this.state.amountToAdd}
@@ -44,19 +46,14 @@ export class ShoppingCartItemComponent extends React.Component<Props, State> {
                 const newValue = +e.target.value < 1 ? 1 : e.target.value
                 this.handleFieldChange('amountToAdd')(newValue)
               }}
-            />
-            <button
-              type='button'
+            /><button type='button'
               onClick={() =>
                 props.onAdd(fillArray(this.state.amountToAdd)(props.id))
-              }
-            >
-              Toevoegen
-            </button>
-            <button type='button' onClick={() => props.onDel(props.id)}>
+              }> Toevoegen</button> 
+              <button type='button' onClick={() => props.onDel(props.id)}>
               Verwijderen
-            </button>
-          </p>
+            </button> </p>
+            : <div></div>}
         </main>
       </article>
     )

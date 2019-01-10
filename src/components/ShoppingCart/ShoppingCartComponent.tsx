@@ -88,6 +88,7 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
                       }
                       onDel={deleteItemFromShoppingCart(this.props.cookies)}
                       onAdd={addToCart(this.props.cookies)}
+                      allowEdits={true}
                     />
                   ))}
               </>

@@ -1,15 +1,17 @@
 import * as React from 'react'
 import {Redirect} from 'react-router-dom';
 import { ReactCookieProps, withCookies } from 'react-cookie';
-import { Shipment, User ,WithPostState, ShoppingCart, getAuthorizedAxiosInstance} from '../model';
+import { Shipment, User ,WithPostState, ShoppingCart, getAuthorizedAxiosInstance, CartResponse, ProductResponse, Product} from '../model';
 import {isLoggedIn,getLoggedInuser, clearShoppingCart, distinct} from '../helpers'
-import Axios, { AxiosResponse } from 'axios';
+import Axios, { AxiosResponse, AxiosError } from 'axios';
+import { ShoppingCartItemComponent } from './ShoppingCart/ShoppingCartItemComponent';
 
 type State = Shipment& WithPostState &{
     step : number
     paymentType: string
     shipmentType: string
-    saveUserDetails: boolean
+    saveUserDetails: boolean,
+    cartData: any
 }
 
 class OrderComponent extends React.Component<ReactCookieProps,State> {
@@ -29,7 +31,8 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
             buildingNumber: '',
             postalCode:'',
             area: '',
-            saveUserDetails: false
+            saveUserDetails: false,
+            cartData: null
     }
     }
     componentDidMount(){
@@ -48,6 +51,7 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
             })
             console.log(this.state.street)
         }
+       this.recap(); 
     }
     handleChange(e: React.ChangeEvent<HTMLInputElement>){
         const key = e.currentTarget.name as keyof string;
@@ -65,18 +69,8 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
         else{
             this.incr()
         }
-        /*const shipment: Shipment = {
-            street: this.state.street,
-            buildingNumber : this.state.buildingNumber,
-            postalCode : this.state.postalCode,
-            area : this.state.area,
-        }*/
-        //
     }
     processing(){
-        /* TODO:
-        save user details
-        */
        const shoppingCart: ShoppingCart = this.props.cookies.get('shopping-cart')
        const requestBody = shoppingCart.filter(distinct).map(productId =>{
            return{
@@ -84,6 +78,7 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
                amount: shoppingCart.filter(product => product == productId).length
            }
        })
+       console.log(requestBody);
        const orderDetails = {
            Email: this.state.email,
            Firstname: this.state.firstname,
@@ -109,7 +104,24 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
     incr(){
         this.setState({...this.state,step: this.state.step + 1});
     }
+    recap(){
+    const shoppingCart: number[] = this.props.cookies.get('shopping-cart')
+    if (shoppingCart) {
+      const url: string = shoppingCart
+        .filter(distinct)
+        .map((productId: number) => `products=${productId}`)
+        .join('&')
+      Axios.get(`http://localhost:5000/api/product/?index=0&size=100&${url}`)
+      .then((value: AxiosResponse<Product[]>) =>{
+          this.setState({
+              cartData: value.data
+          }, ()=> console.log(this.state.cartData.items))
+      })
+
+    }
+    }
     render(){
+        const shoppingCart: number[] = this.props.cookies.get('shopping-cart')
         switch(this.state.step){
             case 0:
         return(
@@ -149,8 +161,23 @@ class OrderComponent extends React.Component<ReactCookieProps,State> {
             case 2:
         return(
             <div id="confirmation">
+                {this.state.cartData.items
+                  .filter(
+                    (product: Product) => shoppingCart.indexOf(product.id) != -1
+                  )
+                  .map((product: Product) => (
+                    <ShoppingCartItemComponent
+                      {...product}
+                      key={product.id}
+                      amount={
+                        shoppingCart.filter(value => value == product.id).length
+                      }
+                      allowEdits={false}
+                    />
+                  ))}
             <p>Bevestiging</p>
                 Uw informatie <br/>
+                <label>Naam: {`${this.state.firstname} ${this.state.lastname}`}</label><br/>
                 <label>Straat: {this.state.street}</label> <br/>
                 <label>Huisnummer: {this.state.buildingNumber}</label> <br/>
                 <label>PostCode: {this.state.postalCode}</label> <br/>
