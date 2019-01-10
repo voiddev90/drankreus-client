@@ -92,6 +92,10 @@ input[type='number'] {
   border-radius: 2px;
 }
 
+h1.site-title {
+  color: #CC4400;
+}
+
 /*
 * - Generic components
 * -- Grid
