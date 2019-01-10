@@ -6,20 +6,20 @@ import { addToCart, isLoggedIn} from "../helpers";
 import { ReactCookieProps, withCookies } from "react-cookie";
 type Props = ReactCookieProps 
 type State = {
-  data :any,
-  isLoaded :boolean
+  data: any,
+  isLoaded: boolean
 }
 
 class HomeComponent extends React.Component<ReactCookieProps, State> {
   onAdd: (products: number[]) => void
   constructor(props: Props) {
     super(props)
-    this.state={
+    this.state = {
       data: null,
       isLoaded: false
     }
   }
-  componentDidMount(){
+  componentDidMount() {
     let date = new Date(Date.now());
     getAuthorizedAxiosInstance()
     .get(`Stats/popular/?Month=${date.getMonth() + 1}&Year=${date.getFullYear()}`)
