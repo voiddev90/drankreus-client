@@ -60,27 +60,37 @@ class ShoppingCartRecap extends React.Component<Props, State> {
     const shoppingCart: ShoppingCart = this.props.cookies.get('shopping-cart')
     return shoppingCart && shoppingCart.length > 0 ? (
       <div className='recap'>
-        <p className='tax'>
-          BTW (21%): €
-          {this.state.type == 'loading' ? (
-            <>BTW ophalen..</>
-          ) : (
-              this.state.type == 'loaded' &&
-              this.state.data.type == 'some' &&
-              this.state.data.value.tax.toFixed(2)
-            )}
-        </p>
-        <p className='total'>
-          Totaal: €
-          {this.state.type == 'loading' ? (
-            <>Totaal ophalen..</>
-          ) : (
+        <table>
+          <tr>
+            <th>BTW (21 %)</th>
+            <td>{this.state.type == 'loading' ? (
+              <>BTW ophalen..</>
+            ) : (
+                this.state.type == 'loaded' &&
+                this.state.data.type == 'some' &&
+                `€ ${this.state.data.value.tax.toFixed(2)}`
+              )}</td>
+          </tr>
+          <tr>
+            <th>Verzendkosten</th>
+            <td>Gratis</td>
+          </tr>
+          <tr>
+            <th>Korting</th>
+            <td>{this.state.type == 'loading' ? <>Korting aan het ophalen..</> : this.state.type == 'error' ? <>Fout bij het ophalen van de korting</> : this.state.data.type == 'some' ? <>€ {this.state.data.value.discountAmount}</> : <>Geen korting</>}</td>
+          </tr>
+          <tr>
+            <th>Totaal</th>
+            <td>{this.state.type == 'loading' ? (
+              <>Totaal ophalen..</>
+            ) : (
 
-              this.state.type == 'loaded' &&
-              this.state.data.type == 'some' &&
-              this.state.data.value.grandTotal.toFixed(2)
-            )}
-        </p>
+                this.state.type == 'loaded' &&
+                this.state.data.type == 'some' &&
+                `€ ${this.state.data.value.grandTotal.toFixed(2)}`
+              )}</td>
+          </tr>
+        </table>
       </div>
     ) : null
   }

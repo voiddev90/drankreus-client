@@ -7,21 +7,28 @@ import {
   distinct,
   deleteItemFromShoppingCart,
   clearShoppingCart,
-  addToCart
+  addToCart,
+  handleFieldChange
 } from '../helpers'
 import ShoppingCartRecap from './ShoppingCart/ShoppingCartRecap'
 import { Link } from 'react-router-dom';
 import { SideBar } from './UI/SideBar';
 
-type State = WithGetState<ProductResponse>
+type State = WithGetState<ProductResponse> & {
+  notes: string
+}
 
 class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
+  handleFieldChange: <T>(field: string) => (value: T) => void
   constructor(props: ReactCookieProps) {
     super(props)
 
     this.state = {
-      type: 'loading'
+      type: 'loading',
+      notes: ''
     }
+
+    this.handleFieldChange = handleFieldChange.bind(this)
   }
 
   componentDidMount() {
@@ -34,6 +41,7 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
       Axios.get(`http://localhost:5000/api/product/?index=0&size=100&${url}`)
         .then((value: AxiosResponse<ProductResponse>) => {
           this.setState({
+            ...this.state,
             type: 'loaded',
             data: Option(value.data)
           })
@@ -45,6 +53,7 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
         })
     } else {
       this.setState({
+        ...this.state,
         type: 'loaded',
         data: {
           type: 'some',
@@ -106,6 +115,7 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
                   disabled={!shoppingCart || shoppingCart.length == 0}
                   type='button'
                   onClick={() => clearShoppingCart(this.props.cookies)}
+                  className='btn btn-outline-primary btn-sm'
                 >
                   Leegmaken
                   </button>
@@ -114,7 +124,10 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
           </div>
           <SideBar type='blank' size={4} >
             <ShoppingCartRecap />
-            <div className='order-button'><p><Link to='/checkout/order' className="button">Bestellen</Link></p></div>
+            <form>
+              <p><textarea placeholder='Opmerkingen' value={this.state.notes} onChange={e => this.handleFieldChange('notes')(e.target.value)} /></p>
+            </form>
+            <div className='order-button'><p><Link to='/checkout/order' className="btn btn-primary btn-sm">Bestellen</Link></p></div>
           </SideBar>
         </div>
       </section>
