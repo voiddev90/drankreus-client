@@ -103,6 +103,12 @@ h1.page-title {
   color: #CC4400;
 }
 
+svg.svg-inline--fa {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 16px;
+}
+
 /*
 * - Generic components
 * -- Grid
@@ -643,10 +649,14 @@ table th {
 }
 
 .sidebar.background-image {
-  height: 803px;
   background-image: url('./../images/sidebar-background-image.jpg');
   background-size: cover;
   color: #ffffff;
+}
+
+.sidebar.background-image,
+.sidebar.height {
+  height: 803px;
 }
 
 .sidebar.blank {
@@ -729,6 +739,17 @@ table th {
 
 .account .account-inner .password-area {
   background-color: #FFCCB3;
+}
+
+.account-side-menu-wrapper .account-menu .nav-link:link,
+.account-side-menu-wrapper .account-menu .nav-link:visited {
+  color: #222222;
+}
+
+.account-side-menu-wrapper .account-menu .nav-link:hover {}
+
+.account-side-menu-wrapper .account-menu .nav-link:active {
+  color: #222222;
 }
 
 /* order */

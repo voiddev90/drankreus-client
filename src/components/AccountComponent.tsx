@@ -204,7 +204,7 @@ export default class AccountComponent extends React.Component<Props, State> {
                     </form>
                   </div>
                 </div>
-                <SideBar type='blank' size={3}>
+                <SideBar type='blank' size={3} extraClasses={['height', 'account-side-menu-wrapper']}>
                   <AccountMenuComponent />
                 </SideBar>
               </div>
