@@ -14,7 +14,7 @@ export default class BaseComponent extends React.Component<Props, State>{
         return (
             <>
                 <HeaderComponent />
-                <main className="content">
+                <main className="content max-width">
                     {this.props.children}
                 </main>
                 <FooterComponent />

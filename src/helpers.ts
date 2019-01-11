@@ -130,6 +130,22 @@ const addToCart = (cookies: Cookies) => (products: number[]) => {
   }
 }
 
+const replaceItems = (cookies: Cookies) => (productId: number, newItems: number[]) => {
+  if (cookies.get('shopping-cart')) {
+    const newShoppingcart: number[] = cookies.get('shopping-cart').filter((val: number) => val != productId).concat(newItems)
+    cookies.set('shopping-cart', newShoppingcart)
+  } else {
+    cookies.set('shopping-cart', newItems)
+  }
+}
+
+const removeAllItemsOfProduct = (cookies: Cookies) => (productId: number) => {
+  if (cookies.get('shopping-cart')) {
+    const newShoppingcart: number[] = cookies.get('shopping-cart').filter((val: number) => val != productId)
+    cookies.set('shopping-cart', newShoppingcart)
+  }
+}
+
 function ObjectToArray(object: Object) {
   return Object.keys(object).map(field => {
     return Object.create(object)[field]
@@ -177,5 +193,7 @@ export {
   deduceInputType,
   loggedInUserIsAdmin,
   ageValidated,
-  validateAge
+  validateAge,
+  replaceItems,
+  removeAllItemsOfProduct
 }
