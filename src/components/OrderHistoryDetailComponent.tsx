@@ -5,7 +5,7 @@ import { OrderHistoryProductComponent } from './OrderHistoryProductComponent'
 
 type Props = {
   order: Order
-  orderproducts: OrderProduct[]
+  orderProduct: OrderProduct[]
 }
 
 
@@ -13,11 +13,11 @@ export const OrderHistoryDetailComponent: React.SFC<Props> = (props: Props) => {
   return (
     <section>
     <div className="order-container" key={props.order.id}>
-        <h1 className="order-name">Order #{props.order.id}</h1>
-        {props.orderproducts.map((value: OrderProduct) => {
+        <p className="order-name">Hieronder is een overzicht te zien van de orders met daarin producten die je in het verleden via onze webshop hebt besteld.</p>
+        {props.orderProduct.map((value: OrderProduct) => {
                   return (
                     <OrderHistoryProductComponent
-                    orderproducts={value}
+                    orderProduct={value}
                     key={value.id}
                     product={value.product}
                     
