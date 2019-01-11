@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { Product } from '../../model'
 import { fillArray, handleFieldChange } from '../../helpers'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 type Props = Product & {
   amount: number
@@ -28,34 +30,17 @@ export class ShoppingCartItemComponent extends React.Component<Props, State> {
   render() {
     const props = this.props
     return (
-      <article className='cart-item'>
-        <header className='image-wrapper'>
-          <img src={props.url} />
-        </header>
-        <main className='content'>
-          <h5 className='title'>{props.name}</h5>
-          <p>€{props.price.toFixed(2)}</p>
-          <p>Aantal: {props.amount}</p>
-          <p>Totaal: €{(props.price * props.amount).toFixed(2)}</p>
-          
-            {this.props.allowEdits ? <p>
-            <input
-              type='number'
-              value={this.state.amountToAdd}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                const newValue = +e.target.value < 1 ? 1 : e.target.value
-                this.handleFieldChange('amountToAdd')(newValue)
-              }}
-            /><button type='button'
-              onClick={() =>
-                props.onAdd(fillArray(this.state.amountToAdd)(props.id))
-              }> Toevoegen</button> 
-              <button type='button' onClick={() => props.onDel(props.id)}>
-              Verwijderen
-            </button> </p>
-            : <div></div>}
-        </main>
-      </article>
+      <tr className='shopping-cart-item'>
+        <td className='image'><img src={props.url} /></td>
+        <td className='name' colSpan={4}>{props.name}</td>
+        <td className='price'>€{props.price}</td>
+        <td className='amount'>
+          <form className='amount-form'>
+            <input type='number' onChange={(e) => this.handleFieldChange('amount')(e.target.value)} value={props.amount} />
+          </form>
+        </td>
+        <td className='delete'><button type='button' className='btn btn-link' onClick={() => props.onDel(props.id)}><FontAwesomeIcon icon={faTrash} /></button></td>
+      </tr>
     )
   }
 }
