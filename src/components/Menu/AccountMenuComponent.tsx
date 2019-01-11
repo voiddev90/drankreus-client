@@ -9,6 +9,7 @@ export const AccountMenuComponent: React.SFC<Props> = (props: Props) => {
   return (
     <div className='account-menu-wrapper'>
       <MenuComponent classes='account-menu' menuClasses='flex-column'>
+        <MenuItemComponent to='/profile'>Account</MenuItemComponent>
         <MenuItemComponent to='/cart'>Winkelwagen</MenuItemComponent>
         <MenuItemComponent to='/account/favourites'>Favorieten</MenuItemComponent>
         <MenuItemComponent to='/account/history'>Bestelgeschiedenis</MenuItemComponent>
