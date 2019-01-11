@@ -497,6 +497,10 @@ textarea.error {
   font-size: 0.875em;
 }
 
+.nav-item.icon svg.svg-inline--fa {
+  margin-right: 0;
+}
+
 .nav-item:first-of-type .nav-link {
   padding-left: 0;
 }

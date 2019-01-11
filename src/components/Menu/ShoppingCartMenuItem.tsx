@@ -13,12 +13,13 @@ const ShoppingCartMenuItemComponent: React.SFC<Props> = (props: Props) => {
   const liClasses = [
     "menu-item",
     "shoppinger-cart",
-    'nav-link',
+    'nav-item',
+    'icon',
     amountOfCookies == 0 ? 'empty' : 'has-content'
   ]
   return (
     <li className={liClasses.join(' ')}>
-      <NavLink to="/cart">
+      <NavLink to="/cart" className='nav-link'>
         <Badge badgeContent={amountOfCookies} color='secondary' className='quartair'>
           <FontAwesomeIcon icon={faShoppingCart} size='lg' />
         </Badge>

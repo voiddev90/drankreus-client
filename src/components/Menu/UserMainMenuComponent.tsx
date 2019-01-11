@@ -40,18 +40,18 @@ export class UserMainMenuComponent extends React.Component<Props, State> {
             </div>
           }
           {this.state.showSearch ?
-            (<li className="menu-item nav-item">
+            (<li className="menu-item nav-item icon">
               <a href="#" className='nav-link' onClick={(e: React.MouseEvent<HTMLAnchorElement>) => this.toggleSearchForm()} >
                 <FontAwesomeIcon icon={faTimes} size='lg' />
               </a>
-            </li>) : (<li className="menu-item nav-item">
+            </li>) : (<li className="menu-item nav-item icon">
               <a href="#" className='nav-link' onClick={(e: React.MouseEvent<HTMLAnchorElement>) => this.toggleSearchForm()} >
                 <FontAwesomeIcon icon={faSearch} size='lg' />
               </a>
             </li>)}
           < ShoppingCartMenuItem />
           {isLoggedIn() ?
-            <li className="menu-item nav-item">
+            <li className="menu-item nav-item icon">
               <a href="#" className='nav-link' onClick={(e: React.MouseEvent<HTMLAnchorElement>) => this.props.toggleSubMenu()} >
                 <FontAwesomeIcon icon={faUser} size='lg' />
               </a>
