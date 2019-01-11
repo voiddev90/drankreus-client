@@ -66,6 +66,7 @@ textarea {
   background-color: inherit;
   font-family: omnes-pro, sans-serif;
   background-color: #FFFFFF;
+  max-width: 100%;
 }
 
 input:focus,
@@ -88,16 +89,24 @@ textarea {
   width: 360px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.16);
   border-radius: 2px;
+  max-width: 100%;
 }
 
 input[type='number'] {
   width: 100px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.16);
   border-radius: 2px;
+  max-width: 100%;
 }
 
 h1.page-title {
   color: #CC4400;
+}
+
+svg.svg-inline--fa {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 16px;
 }
 
 /*
@@ -424,6 +433,23 @@ textarea.error {
   border-color: #D9150B;
 }
 
+.form-field-row {
+  max-width: 390px;
+}
+
+.form-field.submit {
+  max-width: 360px;
+}
+
+.form-field.right-align {
+  text-align: right;
+}
+
+.form-area {
+  padding: 32px 16px;
+  max-width: 396px;
+}
+
 /*
 * ---Checkboxes and Radios
 */
@@ -469,6 +495,10 @@ textarea.error {
 .nav-item {
   text-transform: uppercase;
   font-size: 0.875em;
+}
+
+.nav-item.icon svg.svg-inline--fa {
+  margin-right: 0;
 }
 
 .nav-item:first-of-type .nav-link {
@@ -623,10 +653,14 @@ table th {
 }
 
 .sidebar.background-image {
-  height: 803px;
   background-image: url('./../images/sidebar-background-image.jpg');
   background-size: cover;
   color: #ffffff;
+}
+
+.sidebar.background-image,
+.sidebar.height {
+  height: 803px;
 }
 
 .sidebar.blank {
@@ -701,60 +735,25 @@ table th {
 }
 
 /*
-* - Register
+* - Account
 */
-.content .signup-form {
-  color: rgb(0, 0, 0);
-  text-align: center;
+.account .account-inner h3 {
+  padding: 0 16px;
 }
 
-.content .signup-form .fields-signup .signup-name {
-  color: rgb(0, 0, 0);
-  position: relative;
+.account .account-inner .password-area {
+  background-color: #FFCCB3;
 }
 
-.content .signup-form .fields-signup .signup-surname {
-  color: rgb(0, 0, 0);
+.account-side-menu-wrapper .account-menu .nav-link:link,
+.account-side-menu-wrapper .account-menu .nav-link:visited {
+  color: #222222;
 }
 
-.content .signup-form .fields-signup .signup-email {
-  color: rgb(0, 0, 0);
-}
+.account-side-menu-wrapper .account-menu .nav-link:hover {}
 
-.content .signup-form .fields-signup .signup-emailconfirm {
-  color: rgb(0, 0, 0);
-}
-
-.content .signup-form .fields-signup .signup-pass {
-  color: rgb(0, 0, 0);
-}
-
-.content .signup-form .fields-signup .signup-passconfirm {
-  color: rgb(0, 0, 0);
-}
-
-.content .signup-form .submit {
-  background-color: #008cba;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  padding: 15px 32px;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 20px 2px;
-  cursor: pointer;
-  -webkit-transition-duration: 0.1s; /* Safari */
-  transition-duration: 0.3s;
-  width: 250px;
-  text-align: center;
-}
-
-.content .signup-form .submit:hover {
-  background-color: #bd5417;
-  color: white;
-  box-shadow: 0 9px 12px 0 rgba(34, 34, 34, 0.24),
-    0 15px 45px 0 rgba(0, 0, 0, 0.19);
+.account-side-menu-wrapper .account-menu .nav-link:active {
+  color: #222222;
 }
 
 /* order */
