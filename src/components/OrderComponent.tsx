@@ -142,6 +142,7 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
             <div className='col'>
               <div className='shipment-details'>
                 <h1>Adresgegevens</h1>
+                <h2>Stap 1 van de 3</h2>
                 <form>
                   {this.state.type == 'error' && this.state.error && (
                     <small>{this.state.error}</small>
@@ -206,14 +207,17 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
                 </form>
               </div>
             </div>
-            <div className='alert alert-warning' role='alert'>
-              Stap 1 van de 4
-            </div>
+
             <div className='col-2'>
-              <button onClick={e => this.handleOnSubmit(e)}>Volgende</button>
               <NavLink to='/cart' className='button'>
                 Terug
               </NavLink>
+              <button
+                className='btn-primary'
+                onClick={e => this.handleOnSubmit(e)}
+              >
+                Volgende
+              </button>
             </div>
           </div>
         )
@@ -221,48 +225,56 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
         return (
           <div className='payment-options'>
             <h1>Verzendmethode</h1>
-            bezorgen
-            <input
-              type='radio'
-              name='shipmentType'
-              value='bezorgen'
-              onChange={this.handleChange}
-            />
+            <h2>Stap 2 van de 3</h2>
+            <div className='opties'>
+              <h3>Bezorg opties</h3>
+              Bezorgen
+              <input
+                type='radio'
+                name='shipmentType'
+                value='bezorgen'
+                onChange={this.handleChange}
+              />
+              <br />
+              Ophalen
+              <input
+                type='radio'
+                name='shipmentType'
+                value='ophalen'
+                onChange={this.handleChange}
+              />
+              <br />
+              <h3>Betaal opties</h3>
+              iDEAL
+              <input
+                type='radio'
+                name='paymentType'
+                value='contant'
+                onChange={this.handleChange}
+              />
+              <br />
+              Paypal
+              <input
+                type='radio'
+                name='paymentType'
+                value='paypal'
+                onChange={this.handleChange}
+              />
+            </div>
             <br />
-            ophalen
-            <input
-              type='radio'
-              name='shipmentType'
-              value='ophalen'
-              onChange={this.handleChange}
-            />
-            <br />
-            iDEAL
-            <input
-              type='radio'
-              name='paymentType'
-              value='contant'
-              onChange={this.handleChange}
-            />
-            <br />
-            paypal
-            <input
-              type='radio'
-              name='paymentType'
-              value='paypal'
-              onChange={this.handleChange}
-            />
-            <br />
-            <button onClick={() => this.incr()}>Submit</button>
+            <button className='btn-primary' onClick={() => this.incr()}>
+              Volgende
+            </button>
           </div>
         )
       case 2:
         return (
           <div className='row'>
             <div className='col'>
-              <div id='confirmation'>
-                <h1>Begrepen, wij gaan voor u aan het werk!</h1>
-                Uw informatie <br />
+              <div className='confirmation'>
+                <h1>Uw informatie</h1>
+                <h2>Stap 3 van de 3</h2>
+                <br />
                 <label>Straat: {this.state.street}</label> <br />
                 <label>Huisnummer: {this.state.buildingNumber}</label> <br />
                 <label>PostCode: {this.state.postalCode}</label> <br />
@@ -288,15 +300,20 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
                 ) : (
                   ''
                 )}
-                <button onClick={() => this.processing()}>Betalen</button>
                 <button
+                  className='btn-primary'
+                  onClick={() => this.processing()}
+                >
+                  Betalen
+                </button>
+                <button
+                  className='btn-primary'
                   onClick={() => this.setState({ ...this.state, step: 0 })}
                 >
                   Veranderen
                 </button>
               </div>
             </div>
-            <p>foto</p>
           </div>
         )
       case 3:
