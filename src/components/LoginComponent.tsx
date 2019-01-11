@@ -4,6 +4,7 @@ import * as EmailValidator from 'email-validator'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
 import { LoginResponse, WithPostState } from '../model'
 import { handleFieldChange, validateField } from '../helpers'
+import { SideBar } from './UI/SideBar';
 
 type Props = {}
 type State = WithPostState & {
@@ -78,92 +79,94 @@ export default class LoginComponent extends React.Component<Props, State> {
   render() {
     document.title = 'Drankreus - Inloggen'
     return (
-      <div className='row'>
-        <div className='col'>
-          <h3>Inloggen</h3>
+      <section className='login container-fluid'>
+        <div className='login-inner row align-center-vh'>
+          <div className='login-form-wrapper col-4'>
+            <h3>Inloggen</h3>
 
-          <form
-            className='e-mail_en_Wachtwoord'
-            onSubmit={e => {
-              e.preventDefault()
-              this.handleLogin()
-            }}
-          >
-            {this.state.type == 'error' && this.state.error && (
-              <p className={this.state.type}>
-                <small>
-                  <i>{this.state.error}</i>
-                </small>
-              </p>
-            )}
-            {this.state.type == 'success' && this.state.message && (
-              <p className={this.state.type}>
-                <small>
-                  <i>{this.state.message}</i>
-                </small>
-              </p>
-            )}
-            {this.state.type == 'validating' && (
-              <p className='info'>
-                <small>
-                  <i>
-                    Aan het inloggen
+            <form
+              className='login-form'
+              onSubmit={e => {
+                e.preventDefault()
+                this.handleLogin()
+              }}
+            >
+              {this.state.type == 'error' && this.state.error && (
+                <p className={this.state.type}>
+                  <small>
+                    <i>{this.state.error}</i>
+                  </small>
+                </p>
+              )}
+              {this.state.type == 'success' && this.state.message && (
+                <p className={this.state.type}>
+                  <small>
+                    <i>{this.state.message}</i>
+                  </small>
+                </p>
+              )}
+              {this.state.type == 'validating' && (
+                <p className='info'>
+                  <small>
+                    <i>
+                      Aan het inloggen
                     <span>...</span>
-                  </i>
-                </small>
+                    </i>
+                  </small>
+                </p>
+              )}
+              {this.state.redirect && <Redirect to={{ pathname: '/profile' }} />}
+              <p className='validText'>
+                <input
+                  type='email'
+                  className='form-control'
+                  id='exampleInputEmail1'
+                  aria-describedby='emailHelp'
+                  placeholder='E-mailadres'
+                  value={this.state.email}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    this.handleFieldChange('email')(e.target.value)
+                  }
+                  onBlur={() =>
+                    this.validateField('emailIsValid', 'emailIsValidated')(
+                      EmailValidator.validate(this.state.email),
+                      true
+                    )
+                  }
+                />
               </p>
-            )}
-            {this.state.redirect && <Redirect to={{ pathname: '/profile' }} />}
-            <p className='validText'>
-              <input
-                type='email'
-                className='form-control'
-                id='exampleInputEmail1'
-                aria-describedby='emailHelp'
-                placeholder='E-mailadres'
-                value={this.state.email}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  this.handleFieldChange('email')(e.target.value)
-                }
-                onBlur={() =>
-                  this.validateField('emailIsValid', 'emailIsValidated')(
-                    EmailValidator.validate(this.state.email),
-                    true
-                  )
-                }
-              />
-            </p>
-            <p className='field field-pass'>
-              <input
-                type='password'
-                className='form-control'
-                id='exampleInputPassword1'
-                placeholder='Wachtwoord'
-                value={this.state.pass}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  this.handleFieldChange('pass')(e.target.value)
-                }
-                onBlur={() =>
-                  this.validateField('passwordIsValid', 'passwordIsValidated')(
-                    this.regexChar.test(this.state.pass) &&
+              <p className='field field-pass'>
+                <input
+                  type='password'
+                  className='form-control'
+                  id='exampleInputPassword1'
+                  placeholder='Wachtwoord'
+                  value={this.state.pass}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    this.handleFieldChange('pass')(e.target.value)
+                  }
+                  onBlur={() =>
+                    this.validateField('passwordIsValid', 'passwordIsValidated')(
+                      this.regexChar.test(this.state.pass) &&
                       this.regexNum.test(this.state.pass),
-                    true
-                  )
-                }
-              />
-            </p>
-            <button type='submit' className='button'>
-              Inloggen
+                      true
+                    )
+                  }
+                />
+              </p>
+              <button type='submit' className='btn btn-primary btn-sm'>
+                Inloggen
             </button>
-          </form>
-        </div>
-        <div className='col'>
-          <h4>Nog geen account?</h4>
-          <NavLink to='/register' className='button'>
-            Registreer
+            </form>
+          </div>
+          <SideBar type='background-image' size={4}>
+            <h4>Nog geen account?</h4>
+            <NavLink to='/register' className='btn btn-primary btn-sm'>
+              Registreer
           </NavLink>
+          </SideBar>
         </div>
-      </div>
+      </section>
     )
   }
 }
