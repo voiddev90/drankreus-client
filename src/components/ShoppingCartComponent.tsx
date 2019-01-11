@@ -8,7 +8,9 @@ import {
   deleteItemFromShoppingCart,
   clearShoppingCart,
   addToCart,
-  handleFieldChange
+  handleFieldChange,
+  replaceItems,
+  removeAllItemsOfProduct
 } from '../helpers'
 import ShoppingCartRecap from './ShoppingCart/ShoppingCartRecap'
 import { Link } from 'react-router-dom';
@@ -102,8 +104,9 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
                               amount={
                                 shoppingCart.filter(value => value == product.id).length
                               }
+                              onChange={replaceItems(this.props.cookies)}
                               onDel={deleteItemFromShoppingCart(this.props.cookies)}
-                              onAdd={addToCart(this.props.cookies)}
+                              deleteAllItemsOfProduct={removeAllItemsOfProduct(this.props.cookies)}
                             />
                           ))}
                       </table>
