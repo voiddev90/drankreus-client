@@ -127,7 +127,7 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
             <form>
               <p><textarea placeholder='Opmerkingen' value={this.state.notes} onChange={e => this.handleFieldChange('notes')(e.target.value)} /></p>
             </form>
-            <div className='order-button'><p><Link to='/checkout/order' className="btn btn-primary btn-sm">Bestellen</Link></p></div>
+            <div className='order-button'><p><Link to='/checkout/order' className="btn btn-primary btn-sm" type='button'>Bestellen</Link></p></div>
           </SideBar>
         </div>
       </section>

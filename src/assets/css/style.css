@@ -33,16 +33,16 @@ h4, h5, h6 {
   font-size: 1.125em;
 }
 
-a:link,
-a:visited {
+a:link:not(.btn),
+a:visited:not(.btn) {
   color: #CC4400;
 }
 
-a:hover {
+a:hover:not(.btn) {
   color: #D9150B;
 }
 
-a:active {
+a:active:not(.btn) {
   color: #CC4400;
 }
 
@@ -650,9 +650,7 @@ table th {
 /*
 * - Shoppingcart
 */
-.shopping-cart .shopping-cart-inner {
-  align-items: baseline;
-}
+.shopping-cart .shopping-cart-inner {}
 
 .shopping-cart .shopping-cart-inner .cart-items .shopping-cart-table td.image img {
   width: 100%;
