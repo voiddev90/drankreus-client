@@ -4,7 +4,7 @@ import { ReactCookieProps, withCookies } from 'react-cookie';
 import { Shipment, User ,WithPostState, ShoppingCart, getAuthorizedAxiosInstance} from '../model';
 import {isLoggedIn,getLoggedInuser, clearShoppingCart, distinct} from '../helpers'
 import Axios, { AxiosResponse } from 'axios';
-import { OrderCompleteComponent } from './OrderCompleteComponent';
+import OrderCompleteComponent from './OrderCompleteComponent';
 
 type State = Shipment& WithPostState &{
     step : number
