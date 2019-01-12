@@ -3,6 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import WishListComponent from './WishListComponent';
 import AccountComponent from './AccountComponent';
 import PointsComponent from './PointsComponent';
+import  OrderHistoryComponent from './OrderHistoryComponent'
 
 type Props = RouteComponentProps<{ slug: string }>
 
@@ -11,7 +12,7 @@ export const AccountLoaderComponent: React.SFC<Props> = (props: Props) => {
     case 'favourites':
       return <WishListComponent/>
     case 'history':
-      return <>Geschiedenis</>
+      return <OrderHistoryComponent/>
     case 'points':
       return <PointsComponent/>
     default:

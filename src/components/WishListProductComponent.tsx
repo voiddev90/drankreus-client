@@ -45,7 +45,7 @@ export default class WishListProductComponent extends React.Component<Props, Sta
     render(){
         return (
             <div>
-                <Link to={`/product/${this.props.product.id}`}>
+                <Link to={{ pathname: `/product/${this.props.product.id}`, state: this.props.product }}>
                 <img src={this.props.product.url}></img> 
                 <div className='wishlist-product-name'>{this.props.product.name}</div>
                 <div className='wishlist-product-price'>€{this.props.product.price}</div>
