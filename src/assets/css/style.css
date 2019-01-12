@@ -689,6 +689,57 @@ table th {
 }
 
 /*
+* - Product detail
+*/
+.product-detail .product-detail-inner .product-title,
+.product-detail .product-detail-inner .product-price,
+.product-detail .product-detail-inner .section-title,
+.product-detail .product-detail-inner .order-info p {
+  color: #CC4400;
+}
+
+.product-detail .product-detail-inner .product-volume {
+  color: #989898;
+}
+
+.product-detail .product-detail-inner .order-info p,
+.product-detail .product-detail-inner .read-more {
+  font-family: omnes-pro, sans-serif;
+  font-weight: 600;
+}
+
+.product-detail .product-detail-inner .product-price,
+.product-detail .product-detail-inner .product-volume {
+  font-weight: 600;
+}
+
+.product-detail .product-detail-inner .product-details td {
+  text-align: right;
+}
+
+.product-detail .product-detail-inner .product-header {
+  margin-bottom: 48px;
+}
+
+.product-detail .product-detail-inner .product-header .product-cart-wrapper,
+.product-detail .product-detail-inner .product-header .order-info {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.product-detail .product-detail-inner .product-header .product-cart-wrapper .item,
+.product-detail .product-detail-inner .product-header .order-info .item {
+  margin-right: 47px;
+}
+
+.product-detail .product-detail-inner .product-image {
+  display: block;
+  margin: 0 auto;
+}
+
+
+
+/*
 * - Product overview
 */
 
