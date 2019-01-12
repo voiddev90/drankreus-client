@@ -14,27 +14,27 @@ small {
   font-size: 0.75em;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: omnes-pro, sans-serif;
   margin-bottom: 1rem;
   font-weight: 400;
 }
 
-h1 {
+h1, .h1 {
   font-size: 3em;
 }
 
-h2 {
+h2, .h2 {
   font-size: 2.25em;
 }
 
-h3 {
+h3, .h2 {
   font-size: 1.75em;
 }
 
-h4,
-h5,
-h6 {
+h4, .h4,
+h5, .h5,
+h6, .h6 {
   font-size: 1.125em;
 }
 
@@ -830,4 +830,17 @@ table th {
 */
 .order-shipment-details .logged-in-user-full-name {
   font-family: omnes-pro, sans-serif;
+}
+
+.order-payment-shipment-options .payment-shopment-options-forms .checkbox-radio-label {
+  width: 100%;
+  text-align: center;
+}
+
+.order-recap .order-recap-inner .recap-table .shopping-cart-item .image img {
+  width: 100%;
+}
+
+.order-recap .order-recap-inner .recap-table .shopping-cart-item .amount {
+  text-align: right;
 }
