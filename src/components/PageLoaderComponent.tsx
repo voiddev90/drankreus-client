@@ -6,13 +6,14 @@ import { isLoggedIn } from '../helpers'
 import RegisterComponent from './RegisterComponent'
 import AccountComponent from './AccountComponent'
 import ShoppingCartComponent from './ShoppingCartComponent'
-import ProductOverviewComponent from './ProductOverviewComponent';
-import { AdminDashboardComponent } from './Admin/AdminDashboardComponent';
-import { AdminLoaderComponent } from './Admin/AdminLoaderComponent';
+import ProductOverviewComponent from './ProductOverviewComponent'
+import { AdminDashboardComponent } from './Admin/AdminDashboardComponent'
+import { AdminLoaderComponent } from './Admin/AdminLoaderComponent'
+import { ContactComponent } from './ContactComponent'
 
-type Props = RouteComponentProps<{ 
-  slug: string }> 
-
+type Props = RouteComponentProps<{
+  slug: string
+}>
 
 export const PageLoaderComponent: React.SFC<Props> = (props: Props) => {
   switch (props.match.params.slug) {
@@ -33,8 +34,10 @@ export const PageLoaderComponent: React.SFC<Props> = (props: Props) => {
     case 'cart':
       return <ShoppingCartComponent />
     case 'products':
-        return <ProductOverviewComponent/>
+      return <ProductOverviewComponent />
     default:
       return <NotFoundComponent />
+    case 'contact':
+      return <ContactComponent />
   }
 }
