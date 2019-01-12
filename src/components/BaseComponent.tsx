@@ -1,5 +1,6 @@
 import * as React from 'react'
 import HeaderComponent from './HeaderComponent'
+import { FooterComponent } from './FooterComponent';
 
 type Props = {}
 type State = {}
@@ -13,9 +14,10 @@ export default class BaseComponent extends React.Component<Props, State>{
         return (
             <>
                 <HeaderComponent />
-                <main className="content">
+                <main className="content max-width">
                     {this.props.children}
                 </main>
+                <FooterComponent />
             </>
         )
     }

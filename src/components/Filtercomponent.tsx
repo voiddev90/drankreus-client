@@ -12,7 +12,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Slider, {Range} from 'rc-slider';
-import '!style-loader!css-loader!rc-slider/assets/index.css'; 
+//import '!style-loader!css-loader!rc-slider/assets/index.css'; 
+//import '!style-loader!css-loader!../../../src/assets/css/rcslider.css';
+//import 'src/assets/css/rcslider.css';
+
 type Props = {
     getQueryString: (e: string) => void
 }
