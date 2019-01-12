@@ -3,6 +3,8 @@ import { User, WithPostState } from '../model'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
 import * as EmailValidator from 'email-validator'
 import { handleFieldChange, validateField } from '../helpers'
+import { SideBar } from './UI/SideBar';
+import { NavLink } from 'react-router-dom';
 
 type Props = {}
 type State = WithPostState &
@@ -149,142 +151,138 @@ export default class RegisterComponent extends React.Component<Props, State> {
   render() {
     document.title = 'Drankreus - Registreren'
     return (
-      <div className="signup-form">
-        <h2>Registreren</h2>
-        <p>
-          Vul hier uw gegevens in, zodat wij een account voor u kunnen maken.
-        </p>
-        {this.state.registered && <small>Gebruiker geregistreerd!</small>}
-        {this.state.type == 'error' &&
-          this.state.error && <small>{this.state.error}</small>}
-        {this.state.type == 'success' &&
-          this.state.message && <small>{this.state.message}</small>}
-        <div className="fields-signup">
-          <p className="signup-name">
-            <label htmlFor="name">Voornaam</label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              placeholder=""
-              value={this.state.firstName}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                this.handleFieldChange('firstName')(e.target.value)
-              }
-            />
-          </p>
-          <p className="signup-prefix">
-            <label htmlFor="name">Tussenvoegsel</label>
-            <input
-              type="text"
-              name="prefix"
-              id="prefix"
-              placeholder=""
-              value={this.state.prefix}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                this.handleFieldChange('prefix')(e.target.value)
-              }
-            />
-          </p>
-          <p className="signup-surname">
-            <label htmlFor="surname">Achternaam</label>
-            <input
-              type="text"
-              name="surname"
-              id="surname"
-              placeholder=""
-              value={this.state.lastName}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                this.handleFieldChange('lastName')(e.target.value)
-              }
-            />
-          </p>
-          <p className="signup-email">
-            <label htmlFor="email">E-mailadres</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="voorbeeld@voorbeeld.nl"
-              value={this.state.email}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                this.handleFieldChange('email')(e.target.value)
-              }
-              onBlur={() =>
-                this.validateField('emailIsValid', 'emailIsValidated')(
-                  EmailValidator.validate(this.state.email),
-                  true
-                )
-              }
-            />
-          </p>
-          <p className="signup-emailconfirm">
-            <label htmlFor="emailconfirm">Herhaal uw e-mailadres</label>
-            <input
-              type="email"
-              name="emailconfirm"
-              id="emailconfirm"
-              placeholder="voorbeeld@voorbeeld.nl"
-              value={this.state.emailconfirm}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                this.handleFieldChange('emailconfirm')(e.target.value)
-              }
-              onBlur={() =>
-                this.validateField('emailMatch', 'emailIsMatched')(
-                  this.state.email === this.state.emailconfirm,
-                  true
-                )
-              }
-            />
-          </p>
-          <p className="signup-pass">
-            <label htmlFor="pass">
-              Wachtwoord (minimaal één hoofdletter en één cijfer)
-            </label>
-            <input
-              type="password"
-              name="pass"
-              id="pass"
-              placeholder=""
-              value={this.state.password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                this.handleFieldChange('password')(e.target.value)
-              }
-              onBlur={() =>
-                this.validateField('passwordIsValid', 'passwordIsValidated')(
-                  this.regexChar.test(this.state.password) &&
-                    this.regexNum.test(this.state.password),
-                  true
-                )
-              }
-            />
-          </p>
-          <p className="signup-passconfirm">
-            <label htmlFor="passconfirm">Herhaal uw wachtwoord</label>
-            <input
-              type="password"
-              name="passconfirm"
-              id="passconfirm"
-              placeholder=""
-              value={this.state.passconfirm}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                this.handleFieldChange('passconfirm')(e.target.value)
-              }
-              onBlur={() =>
-                this.validateField('passwordMatch', 'passwordIsMatched')(
-                  this.state.password == this.state.passconfirm,
-                  true
-                )
-              }
-            />
-          </p>
+      <section className='register container-fluid'>
+        <div className='register-inner align-center-vh row'>
+          <div className="register-form col-4">
+            <h3>Registreren</h3>
+            {this.state.registered && <p><small>Gebruiker geregistreerd!</small></p>}
+            {this.state.type == 'error' &&
+              this.state.error && <p><small>{this.state.error}</small></p>}
+            {this.state.type == 'success' &&
+              this.state.message && <p><small>{this.state.message}</small></p>}
+            <div className="form-fields">
+              <p className="form-field">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  placeholder="Voornaam"
+                  value={this.state.firstName}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    this.handleFieldChange('firstName')(e.target.value)
+                  }
+                />
+              </p>
+              <p className="form-field">
+                <input
+                  type="text"
+                  name="prefix"
+                  id="prefix"
+                  placeholder="Tussenvoegsel"
+                  value={this.state.prefix}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    this.handleFieldChange('prefix')(e.target.value)
+                  }
+                />
+              </p>
+              <p className="form-field">
+                <input
+                  type="text"
+                  name="surname"
+                  id="surname"
+                  placeholder="Achternaam"
+                  value={this.state.lastName}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    this.handleFieldChange('lastName')(e.target.value)
+                  }
+                />
+              </p>
+              <p className="form-field">
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="E-mailadres"
+                  value={this.state.email}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    this.handleFieldChange('email')(e.target.value)
+                  }
+                  onBlur={() =>
+                    this.validateField('emailIsValid', 'emailIsValidated')(
+                      EmailValidator.validate(this.state.email),
+                      true
+                    )
+                  }
+                />
+              </p>
+              <p className="form-field">
+                <input
+                  type="email"
+                  name="emailconfirm"
+                  id="emailconfirm"
+                  placeholder="E-mailadres bevestigen"
+                  value={this.state.emailconfirm}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    this.handleFieldChange('emailconfirm')(e.target.value)
+                  }
+                  onBlur={() =>
+                    this.validateField('emailMatch', 'emailIsMatched')(
+                      this.state.email === this.state.emailconfirm,
+                      true
+                    )
+                  }
+                />
+              </p>
+              <p className="form-field">
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder='Wachtwoord'
+                  value={this.state.password}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    this.handleFieldChange('password')(e.target.value)
+                  }
+                  onBlur={() =>
+                    this.validateField('passwordIsValid', 'passwordIsValidated')(
+                      this.regexChar.test(this.state.password) &&
+                      this.regexNum.test(this.state.password),
+                      true
+                    )
+                  }
+                />
+              </p>
+              <p className="form-field">
+                <input
+                  type="password"
+                  name="passwordconfirm"
+                  id="passwordconfirm"
+                  placeholder='Wachtwoord bevestigen'
+                  value={this.state.passconfirm}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    this.handleFieldChange('passconfirm')(e.target.value)
+                  }
+                  onBlur={() =>
+                    this.validateField('passwordMatch', 'passwordIsMatched')(
+                      this.state.password == this.state.passconfirm,
+                      true
+                    )
+                  }
+                />
+              </p>
+              <p className='form-field submit-button'>
+                <button type='submit' className="btn btn-primary btn-sm" onClick={this.onSubmit}>
+                  Registreren
+                </button>
+              </p>
+            </div>
+          </div>
+          <SideBar type='background-image' size={4} >
+            <h4>Al een account?</h4>
+            <p><NavLink to='/login' className='btn btn-primary btn-sm'>Inloggen</NavLink></p>
+          </SideBar>
         </div>
-        <div>
-          <button className="submit" onClick={this.onSubmit}>
-            Verzenden
-          </button>
-        </div>
-      </div>
+      </section>
     )
   }
 }

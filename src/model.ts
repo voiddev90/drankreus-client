@@ -39,6 +39,7 @@ export class Product {
   brandId: number
   countryId: number
   categoryId: number
+  inventory: number
 }
 
 export class OrderProduct {

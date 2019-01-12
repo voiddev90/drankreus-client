@@ -43,7 +43,8 @@ export default class AdminProductAddComponent extends React.Component<
                 countryEntity: null,
                 brandId: null,
                 categoryId: null,
-                countryId: null
+                countryId: null,
+                inventory: 1000
             }
         }
         this.handleFieldChange = this.handleFieldChange.bind(this)

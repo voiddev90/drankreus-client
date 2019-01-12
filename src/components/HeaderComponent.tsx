@@ -3,7 +3,7 @@ import { MainMenuComponent } from './Menu/MainMenuComponent';
 import { UserMainMenuComponent } from './Menu/UserMainMenuComponent';
 import { MenuComponent } from './Menu/MenuComponent';
 import MenuItemComponent from './Menu/MenuItemComponent';
-import { logOut } from '../helpers';
+import { logOut, loggedInUserIsAdmin } from '../helpers';
 
 type Props = {}
 type State = {
@@ -46,9 +46,13 @@ export default class HeaderComponent extends React.Component<Props, State> {
         </div>
         {this.state.showSubMenu && <div className='profile-submenu'>
           <MenuComponent classes='submenu'>
-            <MenuItemComponent to='/account/profile' onClick={() => this.closeMenu()}>Mijn profiel</MenuItemComponent>
+
+            <MenuItemComponent to='/profile' onClick={() => this.closeMenu()}>Mijn profiel</MenuItemComponent>
             <MenuItemComponent to='/account/favourites' onClick={() => this.closeMenu()}>Mijn wenslijst</MenuItemComponent>
             <MenuItemComponent to='/account/history' onClick={() => this.closeMenu()}>Mijn bestelgeschiedenis</MenuItemComponent>
+            {loggedInUserIsAdmin() && (
+              <MenuItemComponent to='/admin'>Administratie</MenuItemComponent>
+            )}
             <MenuItemComponent to='/' onClick={() => {
               logOut()
               this.closeMenu()
