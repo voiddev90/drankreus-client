@@ -844,3 +844,26 @@ table th {
 .order-recap .order-recap-inner .recap-table .shopping-cart-item .amount {
   text-align: right;
 }
+
+.order-recap .order-recap-inner .recap {
+  margin-bottom: 32px;
+}
+
+.order-recap .order-recap-inner .recap td,
+.order-recap .order-recap-inner .confirmation .info p {
+  text-align: right;
+}
+
+.order-recap .order-recap-inner .personal-info {
+  justify-content: center;
+  align-items: center;
+}
+
+.order-recap .order-recap-inner .confirmation .info p {
+  margin: 0;
+  font-family: omnes-pro, sans-serif;
+}
+
+.order-recap .order-recap-inner .save input {
+  margin-right: 16px;
+}

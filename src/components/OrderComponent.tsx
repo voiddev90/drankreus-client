@@ -310,7 +310,7 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
                 <h4>Verzendmethode</h4>
                 <p className='shipment-type'>{this.state.shipmentType == 'Bezorgen' ? <FontAwesomeIcon icon={faTruck} className='first' /> : <FontAwesomeIcon icon={faCar} className='first' />}<span>{this.state.shipmentType}</span></p>
                 {isLoggedIn() ?
-                  <p className='form-field'><label><input type="checkbox" checked={this.state.saveUserDetails}
+                  <p className='form-field save'><label><input type="checkbox" checked={this.state.saveUserDetails}
                     onChange={() => this.setState({ ...this.state, saveUserDetails: !this.state.saveUserDetails })} />Gegevens opslaan</label></p>
                   : ""
                 }
@@ -318,7 +318,7 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
                   <p className='form-field form-field-submit col-6'><button type='button' onClick={() => this.processing()} className='btn btn-sm btn-primary'>
                     <FontAwesomeIcon icon={faChevronLeft} className='first' />Vorige
                   </button></p>
-                  <p className='form-field form-field-submit right-align col-6'><button type='button' onClick={() => this.setState({ ...this.state, step: 0 })} className='btn btn-sm btn-primary'>Betalen</button></p>
+                  <p className='form-field form-field-submit right-align col-6'><button type='button' onClick={() => this.processing()} className='btn btn-sm btn-primary'>Betalen</button></p>
                 </div>
               </div>
               <SideBar type='blank' size={3}>
