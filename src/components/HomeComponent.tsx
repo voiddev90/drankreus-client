@@ -1,7 +1,7 @@
 import * as React from "react"
-import Axios from "axios";
+import Axios, { AxiosResponse } from "axios";
 import { ProductComponent } from "./Products/ProductComponent";
-import { Product, getAuthorizedAxiosInstance } from "../model";
+import { Product, getAuthorizedAxiosInstance, ProductResponse } from "../model";
 import { addToCart, isLoggedIn} from "../helpers";
 import { ReactCookieProps, withCookies } from "react-cookie";
 type Props = ReactCookieProps 
@@ -24,7 +24,10 @@ class HomeComponent extends React.Component<ReactCookieProps, State> {
     getAuthorizedAxiosInstance()
     .get(`Stats/popular/?Month=${date.getMonth() + 1}&Year=${date.getFullYear()}`)
     .then((value: any) => {
-      if(value.data.value.length < 3) return;
+      if(value.data.value.length < 3) {
+          this.getRandomProduct();
+        }
+      else{
       let min: number[] = [0,0,0];
       let mostPopular: any = [0,0,0];
       value.data.value.forEach((element:any) => {
@@ -35,19 +38,23 @@ class HomeComponent extends React.Component<ReactCookieProps, State> {
           mostPopular[arr] = element.product;
         }
       });
-      mostPopular.forEach((element:any) => {
-        Axios.get(`http://localhost:5000/api/Brand/${element.brandId}`)
-        .then((value: any) => {
-          element.brandEntity = value.data[0]
-        })
-      });
-      console.log(mostPopular[1]);
       this.setState({
         ...this.state,
         data: mostPopular,
         isLoaded:true
       })
-    })
+    }})
+    
+  }
+  getRandomProduct(){
+      Axios.get(`http://localhost:5000/api/product/?Products=233&Products=334&products=889&ndex=0&size=100`)
+      .then((value: AxiosResponse<ProductResponse>) =>{
+        this.setState({
+          ...this.state,
+          data: value.data.items,
+          isLoaded:true
+        })
+      })
   }
   render() {
     document.title = "Drankreus - Home"
@@ -58,7 +65,6 @@ class HomeComponent extends React.Component<ReactCookieProps, State> {
         <p>Wij hebben een alcoholisten korting voor onze leden!</p>
         {(this.state.isLoaded) ? <section className='product-overview'>
                 {this.state.data.map((value: Product) => {
-                  console.log(value.brandEntity)   
                   return (  
                     <ProductComponent
                       product={value}
