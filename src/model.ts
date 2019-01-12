@@ -42,6 +42,27 @@ export class Product {
   inventory: number
 }
 
+export class OrderProduct {
+  orderid: number
+  id: number
+  productid: number
+  product: Product
+  amount: number
+  price: number
+
+}
+
+export class Order {
+  id: number
+  taxpercentage: number
+  street: string
+  buildingnumber: string
+  postalcode: string
+  orderproducts: OrderProduct[]
+  map: any;
+}
+
+
 export class Tag {
   id: number
   name: string
@@ -199,6 +220,8 @@ export type LoginResponse = {
 
 export type WishlistResponse = Product[]
 
+export type OrderResponse = Order[]
+
 export type ProductResponse = Page<Product>
 
 export type UserResponse = Page<User>
@@ -239,7 +262,7 @@ export const getAuthorizedAxiosInstance = () => {
       : {}
   })
   instance.interceptors.response.use(res => res, (error: AxiosError) => {
-    if (error.response.status == 401) {
+    if (error.response && error.response.status && error.response.status == 401) {
       logOut()
     }
     return error
