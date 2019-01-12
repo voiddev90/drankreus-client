@@ -1,7 +1,7 @@
 import * as React from "react"
 import Axios, { AxiosResponse } from "axios";
 import { ProductComponent } from "./Products/ProductComponent";
-import { Product, getAuthorizedAxiosInstance, ProductResponse } from "../model";
+import { Product, getAuthorizedAxiosInstance, ProductResponse, Tag, Brand, Country} from "../model";
 import { addToCart, isLoggedIn} from "../helpers";
 import { ReactCookieProps, withCookies } from "react-cookie";
 type Props = ReactCookieProps 
@@ -29,7 +29,7 @@ class HomeComponent extends React.Component<ReactCookieProps, State> {
         }
       else{
       let min: number[] = [0,0,0];
-      let mostPopular: any = [0,0,0];
+      let mostPopular: Product[] = [];
       value.data.value.forEach((element:any) => {
         let minVal = Math.min(...min)
         if(element.amount >= minVal){
@@ -37,6 +37,18 @@ class HomeComponent extends React.Component<ReactCookieProps, State> {
           min[arr] = element.amount
           mostPopular[arr] = element.product;
         }
+      });
+      mostPopular.forEach(element => {
+        Axios.get(`http://localhost:5000/api/Brand/${element.brandId}`)
+        .then((value: AxiosResponse<Brand[]>) => {
+          let f:Brand = {id: value.data[0].id, name: value.data[0].name}
+          element.brandEntity = f
+        })
+        Axios.get(`http://localhost:5000/api/Country/${element.countryId}`)
+        .then((value: AxiosResponse<Country[]>) => {
+          let f:Country = {id: value.data[0].id, name: value.data[0].name}
+          element.countryEntity = f
+        })
       });
       this.setState({
         ...this.state,
@@ -58,7 +70,6 @@ class HomeComponent extends React.Component<ReactCookieProps, State> {
   }
   render() {
     document.title = "Drankreus - Home"
-    console.log(this.state.isLoaded);
     return (
       <section className="home">
         <h1 className="content-title">Welkom bij DrankReus!</h1>
