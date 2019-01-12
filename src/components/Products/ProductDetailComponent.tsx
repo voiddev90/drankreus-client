@@ -130,7 +130,7 @@ export class ProductDetailComponent extends React.Component<Props, State> {
           case 'some':
             return this.renderProduct(this.state.retrieving.data.value)
           case 'none':
-            return <>404 not found</>
+            return <>error</>
         }
     }
   }

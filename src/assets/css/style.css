@@ -107,7 +107,6 @@ h1.page-title {
 
 svg.svg-inline--fa {
   display: inline-block;
-  vertical-align: middle;
   margin-right: 16px;
 }
 
@@ -476,6 +475,7 @@ textarea.error {
   border-radius: 2px;
   line-height: 88px;
   display: inline-block;
+  cursor: pointer;
 }
 
 .checkbox-radio label.checkbox-radio-label svg {
