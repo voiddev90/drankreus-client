@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router'
-import { Product } from '../../model'
+import { Product, WithGetState, Option } from '../../model'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { handleFieldChange, fillArray } from '../../helpers';
+import { handleFieldChange, fillArray, OptionIsSome } from '../../helpers';
 
 type Props = RouteComponentProps<{ slug: string }> & {
   onAdd: (products: number[]) => void
@@ -12,6 +12,7 @@ type Props = RouteComponentProps<{ slug: string }> & {
 type State = {
   descriptionShowMore: boolean
   amountToAdd: number
+  retrieving: WithGetState<Product>
 }
 
 export class ProductDetailComponent extends React.Component<Props, State> {
@@ -20,9 +21,21 @@ export class ProductDetailComponent extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
+    const productOption = Option(props.location.state)
+    let retrievingState: WithGetState<Product> = {
+      type: 'loading'
+    }
+    if (OptionIsSome(productOption)) {
+      retrievingState = {
+        type: 'loaded',
+        data: productOption
+      }
+    }
+
     this.state = {
       descriptionShowMore: false,
-      amountToAdd: 1
+      amountToAdd: 1,
+      retrieving: retrievingState
     }
 
     this.handleFieldChange = handleFieldChange.bind(this)
@@ -33,8 +46,7 @@ export class ProductDetailComponent extends React.Component<Props, State> {
     this.setState({ ...this.state, descriptionShowMore: !this.state.descriptionShowMore })
   }
 
-  render() {
-    const product: Product = this.props.location.state
+  renderProduct(product: Product) {
     return (
       <section className='product-detail container-fluid'>
         <div className='product-detail-inner'>
@@ -65,10 +77,10 @@ export class ProductDetailComponent extends React.Component<Props, State> {
                   </button>
                 </div>
               </div>
-            <div className='order-info'>
-              <p className='stock item'>Op voorraad</p>
-              <p className='delivery-time item'>Voor 21:00 uur besteld, morgen in huis</p>
-            </div>
+              <div className='order-info'>
+                <p className='stock item'>Op voorraad</p>
+                <p className='delivery-time item'>Voor 21:00 uur besteld, morgen in huis</p>
+              </div>
             </div>
           </header>
           <main className='product-content row'>
@@ -105,5 +117,21 @@ export class ProductDetailComponent extends React.Component<Props, State> {
         </div>
       </section>
     )
+  }
+
+  render () {
+    switch (this.state.retrieving.type) {
+      case 'loading':
+        return <>Loading</>
+      case 'error':
+        return <>error</>
+      case 'loaded':
+        switch (this.state.retrieving.data.type) {
+          case 'some':
+            return this.renderProduct(this.state.retrieving.data.value)
+          case 'none':
+            return <>error</>
+        }
+    }
   }
 }
