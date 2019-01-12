@@ -67,17 +67,16 @@ export default class WishListComponent extends React.Component<
           case 'none':
             return <>Er staan geen producten in je favorietenlijst.</>
           case 'some':
-          console.log(JSON.stringify(this.state.data))
             return (
               <div className='Wishlist'>
                 <h1 className='WistList_text'>Dit is uw favorietenlijst</h1>
                 <div>
-                  {this.state.data.value.map((value: Product) => {
+                  {this.state.data.value.map((value: any) => {
                     return (
                       <WishListProductComponent
-                        product={value}
-                        key={value.id}
-                        
+                        wishId={value.wishId}
+                        product={value.product}
+                        key={value.product.id}
                       />
                     )
                   })}

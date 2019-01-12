@@ -52,7 +52,8 @@ export default class RegisterComponent extends React.Component<Props, State> {
       passwordMatch: false,
       passwordIsMatched: false,
       registered: false,
-      admin: false
+      admin: false,
+      discountPoints: 0
     }
 
     this.handleFieldChange = handleFieldChange.bind(this)
@@ -106,7 +107,8 @@ export default class RegisterComponent extends React.Component<Props, State> {
           password: this.state.password,
           firstName: this.state.firstName,
           lastName: this.state.lastName,
-          admin: false
+          admin: false,
+          discountPoints: 0
         }
         if (this.state.prefix !== '') user.prefix = this.state.prefix
 

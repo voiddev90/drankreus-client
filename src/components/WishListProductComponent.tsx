@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 type Props = {
     product: Product
+    wishId: number
 }
 type State = WithDeleteState<Product>
 
@@ -24,7 +25,7 @@ export default class WishListProductComponent extends React.Component<Props, Sta
                 ...this.state, type: 'loading'
             }
         )
-        getAuthorizedAxiosInstance().delete(`http://localhost:5000/api/wishlists/${this.props.product.id}`)
+        getAuthorizedAxiosInstance().delete(`http://localhost:5000/api/wishlists/${this.props.wishId}`)
           .then((response: AxiosResponse<ProductResponse>) => {
             this.setState({
               ...this.state,

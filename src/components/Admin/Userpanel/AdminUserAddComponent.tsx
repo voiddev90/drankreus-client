@@ -33,7 +33,8 @@ export default class AdminUserAddComponent extends React.Component<
                 buildingNumber: null,
                 postalCode: '',
                 area: '',
-                admin: false
+                admin: false,
+                discountPoints: 0
             },
             confirmPassword: ''
         }

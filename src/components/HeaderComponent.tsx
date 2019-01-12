@@ -50,6 +50,7 @@ export default class HeaderComponent extends React.Component<Props, State> {
             <MenuItemComponent to='/profile' onClick={() => this.closeMenu()}>Mijn profiel</MenuItemComponent>
             <MenuItemComponent to='/account/favourites' onClick={() => this.closeMenu()}>Mijn wenslijst</MenuItemComponent>
             <MenuItemComponent to='/account/history' onClick={() => this.closeMenu()}>Mijn bestelgeschiedenis</MenuItemComponent>
+            <MenuItemComponent to='/account/points' onClick={() => this.closeMenu()}>Mijn punten</MenuItemComponent>
             {loggedInUserIsAdmin() && (
               <MenuItemComponent to='/admin'>Administratie</MenuItemComponent>
             )}

@@ -5,6 +5,7 @@ import { Shipment, User, WithPostState, ShoppingCart, getAuthorizedAxiosInstance
 import { isLoggedIn, getLoggedInuser, clearShoppingCart, distinct } from '../helpers'
 import Axios, { AxiosResponse, AxiosError } from 'axios';
 import { ShoppingCartItemComponent } from './ShoppingCart/ShoppingCartItemComponent';
+import OrderCompleteComponent from './OrderCompleteComponent';
 
 type State = Shipment &
   WithPostState & {
@@ -205,9 +206,10 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
             <p>foto</p>
           </div>
         )
-      case 3:
-        return <Redirect to={{ pathname: '/' }} />
-      default:
+        case 3:
+        return <OrderCompleteComponent/>
+        default:
+
         return <></>
     }
   }
