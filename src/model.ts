@@ -1,6 +1,7 @@
 import { Map, List } from 'immutable'
 import Axios, { AxiosError } from 'axios'
 import { isLoggedIn, getJWT, getTokenType, logOut } from './helpers'
+import { prefix } from '@fortawesome/free-solid-svg-icons';
 
 export class User {
   id?: number
@@ -19,6 +20,7 @@ export class User {
 export class Shipment{
   email: string
   firstname: string
+  prefix: string
   lastname: string
   street?: string
   buildingNumber?: string

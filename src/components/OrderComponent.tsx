@@ -5,6 +5,9 @@ import { Shipment, User, WithPostState, ShoppingCart, getAuthorizedAxiosInstance
 import { isLoggedIn, getLoggedInuser, clearShoppingCart, distinct } from '../helpers'
 import Axios, { AxiosResponse, AxiosError } from 'axios';
 import { ShoppingCartItemComponent } from './ShoppingCart/ShoppingCartItemComponent';
+import { SideBar } from './UI/SideBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight, faUser } from '@fortawesome/free-solid-svg-icons';
 
 type State = Shipment &
   WithPostState & {
@@ -25,6 +28,7 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
       step: 0,
       email: '',
       firstname: '',
+      prefix: '',
       lastname: '',
       paymentType: '',
       shipmentType: '',
@@ -40,10 +44,10 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
     if (isLoggedIn()) {
 
       const user: User = getLoggedInuser()
-      console.log("hier");
       this.setState({
         ...this.state,
         firstname: user.firstName,
+        prefix: user.prefix,
         lastname: user.lastName,
         email: user.email,
         street: user.street,
@@ -51,7 +55,6 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
         postalCode: user.postalCode,
         area: user.area
       })
-      console.log(this.state.street)
     }
     this.recap();
   }
@@ -132,28 +135,55 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
     switch (this.state.step) {
       case 0:
         return (
-          <div id="shipment-details">
-            <p>Gegevens</p>
-            <form>
-              {this.state.type == 'error' &&
-                this.state.error && <small>{this.state.error}</small>} <br />
-              <label>Email</label><br />
-              <input name="email" placeholder="Email address" value={this.state.email} onChange={this.handleChange} /><br />
-              <label>Voornaam</label><br />
-              <input name="firstname" placeholder="Voornaam" value={this.state.firstname} onChange={this.handleChange} /><br />
-              <label>Achternaam</label><br />
-              <input name="lastname" placeholder="Achternaam" value={this.state.lastname} onChange={this.handleChange} /><br />
-              <label>Straat</label><br />
-              <input name="street" placeholder="Straat" value={this.state.street} onChange={this.handleChange} /><br />
-              <label>Huisnummer</label><br />
-              <input name="buildingNumber" placeholder="Huisnummer" value={this.state.buildingNumber} onChange={this.handleChange} /><br />
-              <label>Postcode</label><br />
-              <input name="postalCode" placeholder="PostCode" value={this.state.postalCode} onChange={this.handleChange} /><br />
-              <label>Stad</label><br />
-              <input name="area" placeholder="Stad" value={this.state.area} onChange={this.handleChange} /><br />
-              <button onClick={(e) => this.handleOnSubmit(e)}>Submit</button>
-            </form>
-          </div>
+          <section className='order order-shipment-details container-fluid'>
+            <div className='order-inner order-shipment-details-inner row align-center-vh'>
+              <div className="shipment-details col-5">
+                <h1>Adresgegevens</h1>
+                <form>
+                  {this.state.type == 'error' &&
+                    this.state.error && <small>{this.state.error}</small>}
+                  {isLoggedIn() ? <>
+                    <p className='logged-in-user-full-name'><FontAwesomeIcon icon={faUser} size='2x' className='first' />{`${this.state.firstname} ${this.state.prefix && `${this.state.prefix} `}${this.state.lastname}`}</p>
+                  </> : <>
+                      <p className='form-field'>
+                        <input name="email" type='text' placeholder="Email address" value={this.state.email} onChange={this.handleChange} />
+                      </p>
+                      <div className='form-field-row row'>
+                        <p className='form-field'>
+                          <input name="firstname" type='text' placeholder="Voornaam" value={this.state.firstname} onChange={this.handleChange} />
+                        </p>
+                        <p className='form-field'>
+                          <input name="prefix" type='text' placeholder="Tussenvoegsel" value={this.state.prefix} onChange={this.handleChange} />
+                        </p>
+                      </div>
+                      <p className='form-field'>
+                        <input name="lastname" type='text' placeholder="Achternaam" value={this.state.lastname} onChange={this.handleChange} />
+                      </p>
+                    </>}
+                  <div className='form-field-row row'>
+                    <p className='form-field col-8'>
+                      <input name="postalCode" type='text' placeholder="Postcode" value={this.state.postalCode} onChange={this.handleChange} />
+                    </p>
+                    <p className='form-field col-4'>
+                      <input name="buildingNumber" type='text' placeholder="Huisnr." value={this.state.buildingNumber} onChange={this.handleChange} />
+                    </p>
+                  </div>
+                  <p className='form-field'>
+                    <input name="street" type='text' placeholder="Straat" value={this.state.street} onChange={this.handleChange} />
+                  </p>
+                  <p className='form-field'>
+                    <input name="area" type='text' placeholder="Stad" value={this.state.area} onChange={this.handleChange} />
+                  </p>
+                  <p className='form-field form-field-submit right-align'>
+                    <button className='btn btn-sm btn-primary' onClick={(e) => this.handleOnSubmit(e)}>Volgende <FontAwesomeIcon icon={faChevronRight} className='last' /></button>
+                  </p>
+                </form>
+              </div>
+              <SideBar type='blank' size={3}>
+                Bla
+              </SideBar>
+            </div>
+          </section>
         )
       case 1:
         return (

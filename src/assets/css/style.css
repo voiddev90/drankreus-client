@@ -105,9 +105,25 @@ h1.page-title {
   color: #CC4400;
 }
 
-svg.svg-inline--fa {
-  display: inline-block;
+svg.first {
   margin-right: 16px;
+}
+
+svg.last {
+  margin-left: 16px;
+}
+
+svg.fa-2x,
+svg.fa-3x,
+svg.fa-4x,
+svg.fa-5x,
+svg.fa-6x,
+svg.fa-7x,
+svg.fa-8x,
+svg.fa-9x,
+svg.fa-10x,
+svg.fa-lg {
+  vertical-align: middle;
 }
 
 /*
@@ -809,26 +825,9 @@ table th {
   color: #222222;
 }
 
-/* order */
-
-.content .row .col .shipment-details h1 {
-  text-align: center;
-}
-.content .row .col .shipment-details .form-control {
-  /* height: 20px;
-  padding: 20px;
-  border-left: 200px; */
-  display: inline-block;
-  margin: 1% 35%;
-  padding: 15px 30px;
-  width: 25%;
-}
-
-.content .row .col-2 {
-  text-align: center;
-  padding: 500px 250px;
-}
-
-.content .payment-options h1 {
-  text-align: center;
+/*
+* - Order
+*/
+.order-shipment-details .logged-in-user-full-name {
+  font-family: omnes-pro, sans-serif;
 }
