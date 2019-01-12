@@ -45,9 +45,9 @@ export class ProductDetailComponent extends React.Component<Props, State> {
             <div className='product-info col-7'>
               <h1 className='product-title'>{product.name}</h1>
               <h4 className='product-subtitle product-volume'>{product.volume}</h4>
-              <div className='product-cart-wrapper row'>
-                <h3 className='product-price col'>€ {product.price}</h3>
-                <div className='amount-form-wrapper col'>
+              <div className='product-cart-wrapper'>
+                <h3 className='product-price item'>€ {product.price}</h3>
+                <div className='amount-form-wrapper item'>
                   <form className='amount-form'>
                     <input className='amount' type='number' value={this.state.amountToAdd} onChange={(e) => {
                       if (parseInt(e.target.value) > 0) {
@@ -56,7 +56,7 @@ export class ProductDetailComponent extends React.Component<Props, State> {
                     }} />
                   </form>
                 </div>
-                <div className='product add-to-cart-button-wrapper col'>
+                <div className='product-add-to-cart-button-wrapper item'>
                   <button type='submit' className='btn btn-sm btn-primary' onClick={() => {
                     this.props.onAdd(fillArray(this.state.amountToAdd)(product.id))
                     this.setState({ ...this.state, amountToAdd: 1 })
@@ -65,6 +65,10 @@ export class ProductDetailComponent extends React.Component<Props, State> {
                   </button>
                 </div>
               </div>
+            <div className='order-info'>
+              <p className='stock item'>Op voorraad</p>
+              <p className='delivery-time item'>Voor 21:00 uur besteld, morgen in huis</p>
+            </div>
             </div>
           </header>
           <main className='product-content row'>
@@ -74,7 +78,7 @@ export class ProductDetailComponent extends React.Component<Props, State> {
               <p><a href="#" onClick={(e) => {
                 e.preventDefault()
                 this.toggleShowMore()
-              }}>{this.state.descriptionShowMore ? 'Lees minder' : 'Lees meer'}</a></p>
+              }} className='read-more'>{this.state.descriptionShowMore ? 'Lees minder' : 'Lees meer'}</a></p>
             </div>
             <div className='product-content-section details col-5'>
               <h3 className='section-title'>Details</h3>
