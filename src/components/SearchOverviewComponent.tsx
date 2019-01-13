@@ -12,6 +12,7 @@ import { ProductComponent } from './Products/ProductComponent';
 import { PaginationComponent } from './PaginationComponent';
 import { addToCart } from '../helpers'
 import { ReactCookieProps } from 'react-cookie';
+import { Loader } from './Loader';
 
 type Props = ReactCookieProps & RouteProps & {
 }
@@ -63,7 +64,7 @@ export default class SearchOverviewComponent extends React.Component<Props,State
       case 'loaded':
         switch (this.state.data.type) {
           case 'none':
-          return <div>Loading</div>
+          return <Loader />
           case 'some':
             return (
               <section className='product-overview'>

@@ -4,6 +4,7 @@ import { Product, WithGetState, Option } from '../../model'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { handleFieldChange, fillArray, OptionIsSome } from '../../helpers';
+import { Loader } from '../Loader';
 
 type Props = RouteComponentProps<{ slug: string }> & {
   onAdd: (products: number[]) => void
@@ -122,7 +123,7 @@ export class ProductDetailComponent extends React.Component<Props, State> {
   render () {
     switch (this.state.retrieving.type) {
       case 'loading':
-        return <>Loading</>
+        return <Loader />
       case 'error':
         return <>error</>
       case 'loaded':

@@ -22,6 +22,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { AddBrandComponent, AddCountryComponent } from './AddCategoryComponent'
 import { Map } from 'immutable';
+import { Loader } from '../../Loader';
 
 type Props = RouteComponentProps<{ slug: string }>
 type State = {
@@ -202,7 +203,7 @@ export default class AdminProductEditComponent extends React.Component<
             return <>Product succesvol verwijderd.</>
           }
         } else {
-          return <>Loading</>
+          return <Loader />
         }
       default:
       case 'error':

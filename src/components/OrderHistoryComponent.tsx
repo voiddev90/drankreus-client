@@ -5,6 +5,7 @@ import { render } from 'react-dom'
 import { OrderHistoryDetailComponent } from './OrderHistoryDetailComponent'
 import { SideBar } from './UI/SideBar';
 import { AccountMenuComponent } from './Menu/AccountMenuComponent';
+import { Loader } from './Loader';
 
 type Props = {
 }
@@ -50,7 +51,7 @@ export default class OrderHistoryComponent extends React.Component<
   render() {
     switch (this.state.type) {
       case 'loading':
-        return <>Orders worden geladen </>
+        return <Loader />
       case 'loaded':
         switch (this.state.data.type) {
           case 'none':

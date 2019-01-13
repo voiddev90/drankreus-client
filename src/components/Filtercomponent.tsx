@@ -14,6 +14,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Slider, { Range, Handle } from 'rc-slider';
 import Tooltip from 'rc-tooltip';
 import { AddCountryComponent, AddBrandComponent } from './Admin/Productpanel/AddCategoryComponent';
+import { Loader } from './Loader';
 //import '!style-loader!css-loader!rc-slider/assets/index.css'; 
 //import '!style-loader!css-loader!../../../src/assets/css/rcslider.css';
 //import 'src/assets/css/rcslider.css';
@@ -189,7 +190,7 @@ export default class FilterComponent extends React.Component<Props, State> {
             }
         }
         else {
-            return <div>none</div>
+            return <Loader />
         }
     }
 }

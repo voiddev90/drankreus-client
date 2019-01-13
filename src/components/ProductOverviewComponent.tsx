@@ -14,6 +14,7 @@ import FilterComponent from './Filtercomponent';
 import { Select } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronCircleUp, faChevronCircleDown, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { Loader } from './Loader';
 type ProductOverviewProps = ReactCookieProps & {
 }
 type ProductOverviewState = WithGetState<ProductResponse> & {
@@ -143,7 +144,7 @@ class ProductOverviewComponent extends React.Component<
             )
         }
       case 'loading':
-        return <>loading</>
+        return <Loader />
       case 'error':
       default:
         return <>error</>

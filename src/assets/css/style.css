@@ -1115,3 +1115,10 @@ table th {
   display: flex;
   align-items: center;
 }
+
+/*
+* - Loader
+*/
+.loader .loader-inner {
+  text-align: center;
+}

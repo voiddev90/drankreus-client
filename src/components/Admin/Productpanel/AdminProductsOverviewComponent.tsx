@@ -12,6 +12,7 @@ import { AxiosResponse, AxiosError } from 'axios'
 import { PaginationComponent } from '../../PaginationComponent'
 import AdminProductComponent from './AdminProductComponent'
 import { Grid } from '@material-ui/core'
+import { Loader } from '../../Loader';
 
 type Props = {}
 type State = WithGetState<ProductResponse> & {
@@ -60,7 +61,7 @@ export default class AdminProductsOverviewComponent extends React.Component<
   renderState() {
     switch (this.state.type) {
       case 'loading':
-        return <>Loading</>
+        return <Loader />
       default:
       case 'error':
         return <>Fout bij het laden van de producten</>

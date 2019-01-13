@@ -7,6 +7,7 @@ import { ReactCookieProps, withCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { Loader } from "./Loader";
 type Props = ReactCookieProps
 type State = {
   data: any,
@@ -103,7 +104,7 @@ class HomeComponent extends React.Component<ReactCookieProps, State> {
                 />
               )
             })}
-          </div> : <div>aan het laden</div>}
+          </div> : <Loader />}
         </div>
       </section>
     )
