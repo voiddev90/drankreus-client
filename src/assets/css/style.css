@@ -45,6 +45,7 @@ a:visited:not(.btn) {
 
 a:hover:not(.btn) {
   color: #D9150B;
+  text-decoration: none;
 }
 
 a:active:not(.btn) {
@@ -407,6 +408,16 @@ svg.fa-lg {
   cursor: default;
 }
 
+.btn-outline-white {
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+  background-color: transparent;
+}
+
+.btn-outline-white:hover {
+  color: #FFFFFF;
+}
+
 .btn-round,
 .btn-square {
   min-width: initial;
@@ -613,6 +624,14 @@ footer.site-footer .site-footer-inner .footer-menu .footer-menu-title {
 /*
 * -- Pagination
 */
+.pagination-container {
+  margin: 48px 0;
+}
+
+.pagination-container .pagination {
+  justify-content: center;
+}
+
 .pagination-container .pagination .page-link {
   background-color: initial;
   color: #CC4400;
@@ -760,7 +779,52 @@ table th {
 /*
 * - Product overview
 */
+.product {
+  margin: 48px 0;
+}
 
+.product .product-image-wrapper {
+  text-align: center;
+}
+
+.product .product-info-wrapper {
+  padding: 16px;
+  background-color: #CC4400;
+  border-radius: 4px;
+}
+
+.product .product-info-wrapper {
+  margin-top: 0;
+}
+
+.product .product-info-wrapper h4 {
+  text-align: center;
+}
+
+.product .product-info-wrapper .product-info {
+  align-items: center;
+}
+
+.product .product-info-wrapper .product-info .product-info-item {
+  text-align: center;
+}
+
+.product .product-info-wrapper .product-info p {
+  margin-bottom: 0;
+  font-family: omnes-pro, sans-serif;
+  font-size: 0.857em;
+}
+
+.product .product-info-wrapper a:link,
+.product .product-info-wrapper a:visited {
+  color: #FFFFFF;
+}
+
+.product .product-info-wrapper a:hover {}
+
+.product .product-info-wrapper a:active {
+  color: #FFFFFF;
+}
 
 /*
 * - Account
