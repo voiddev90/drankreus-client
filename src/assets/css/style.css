@@ -1020,7 +1020,7 @@ table th {
 }
 
 /*
-* -- Home
+* - Home
 */
 .home .description .why-drankreus .reason {
   padding: 0;
@@ -1077,7 +1077,7 @@ table th {
 }
 
 /*
-* -- Order history
+* - Order history
 */
 .history .history-inner .history-items-table thead,
 .history .history-inner .history-items-table tbody {
@@ -1106,4 +1106,12 @@ table th {
 
 .history .history-inner .history-items-table thead th {
   padding: 16px;
+}
+
+/*
+* - Points
+*/
+.points .points-wrapper {
+  display: flex;
+  align-items: center;
 }
