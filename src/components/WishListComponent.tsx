@@ -9,18 +9,22 @@ import {
 } from '../model'
 import { WishlistResponse } from '../model'
 import WishListProductComponent from './WishListProductComponent'
+import { ReactCookieProps, withCookies } from 'react-cookie';
+import { addToCart } from '../helpers';
+import { SideBar } from './UI/SideBar';
+import { AccountMenuComponent } from './Menu/AccountMenuComponent';
 
 type WishListOverviewState = WithGetState<WishlistResponse> & {
   perPage: number
   page: number
 }
-type Props = {}
+type Props = ReactCookieProps
 //onAddtoWishList: (products: number[]) => void
 
-export default class WishListComponent extends React.Component<
+class WishListComponent extends React.Component<
   Props,
   WishListOverviewState
-> {
+  > {
   constructor(props: Props) {
     super(props)
 
@@ -68,29 +72,32 @@ export default class WishListComponent extends React.Component<
             return <>Er staan geen producten in je favorietenlijst.</>
           case 'some':
             return (
-              <div className='Wishlist'>
-                <h1 className='WistList_text'>Dit is uw favorietenlijst</h1>
-                <div>
-                  {this.state.data.value.map((value: any) => {
-                    return (
-                      <WishListProductComponent
-                        wishId={value.wishId}
-                        product={value.product}
-                        key={value.product.id}
-                      />
-                    )
-                  })}
+              <section className='wishlist container-fluid'>
+                <div className='wishlist-inner align-center-vh row'>
+                  <div className='wishlist-products col-5'>
+                    <h1>Favorieten</h1>
+                    <div>
+                      {this.state.data.value.map((value: any) => {
+                        return (
+                          <WishListProductComponent
+                            wishId={value.wishId}
+                            product={value.product}
+                            key={value.product.id}
+                            onAdd={addToCart(this.props.cookies)}
+                          />
+                        )
+                      })}
+                    </div>
+                  </div>
+                <SideBar type='blank' size={3} extraClasses={['height', 'account-side-menu-wrapper']}>
+                  <AccountMenuComponent />
+                </SideBar>
                 </div>
-              </div>
+              </section>
             )
         }
     }
   }
 }
 
-// export const WishListComponentProps: React.SFC<Props> = (props: Props) => {
-//   switch (props.match.params.slug) {
-//     case 'favourites':
-//       return <>Geschiedenis</>
-//   }
-// }
+export default withCookies(WishListComponent)

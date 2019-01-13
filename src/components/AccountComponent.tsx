@@ -151,7 +151,7 @@ export default class AccountComponent extends React.Component<Props, State> {
             <section className='account container-fluid'>
               <div className='account-inner align-center-vh row'>
                 <div className='account-edit-container col-5'>
-                  <h3>Account</h3>
+                  <h1>Account</h1>
                   <div className='form-area personal-info-area'>
                     <form>
                       <p className='form-field e-mail'>
