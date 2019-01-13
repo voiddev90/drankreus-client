@@ -826,6 +826,38 @@ table th {
   color: #FFFFFF;
 }
 
+.product-filters .product-filter {
+  margin: 16px 0;
+}
+
+.product-filters .product-filter .slider-wrapper {
+  padding: 0 5px;
+}
+
+.product-filters .product-filter .rc-slider {
+  width: 100%;
+  margin-top: 50px;
+}
+
+.product-filters .product-filter .rc-slider .rc-slider-rail {
+  background-color: #989898;
+  height: 10px;
+}
+
+.product-filters .product-filter .rc-slider .rc-slider-track {
+  background-color: #222222;
+  height: 10px;
+}
+
+.product-filters .product-filter .rc-slider .rc-slider-handle {
+  margin-top: -3px;
+  width: 16px;
+  height: 16px;
+  background-color: #222222;
+  border-color: #FFFFFF;
+  border-width: 2px;
+}
+
 /*
 * - Account
 */

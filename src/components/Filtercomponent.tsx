@@ -130,46 +130,50 @@ export default class FilterComponent extends React.Component<Props, State> {
                         <div className='product-filters-inner'>
                             <div className='product-filter alcoholpercentage'>
                                 <h4>Alcoholpercentage</h4>
-                                <Range
-                                    min={0}
-                                    max={100}
-                                    defaultValue={[0, 100]}
-                                    value={this.state.AlchoholPercentage}
-                                    onChange={p => this.setState({ AlchoholPercentage: p })}
-                                    onAfterChange={this.createQueryString}
-                                    handle={props => {
-                                        return (
-                                            <Tooltip prefixCls='rc-slider-tooltip' overlay={props.value} visible={true} placement='top' key={props.index}>
-                                                <Handle {...props} />
-                                            </Tooltip>
-                                        )
-                                    }}
-                                />
+                                <div className='slider-wrapper'>
+                                    <Range
+                                        min={0}
+                                        max={100}
+                                        defaultValue={[0, 100]}
+                                        value={this.state.AlchoholPercentage}
+                                        onChange={p => this.setState({ AlchoholPercentage: p })}
+                                        onAfterChange={this.createQueryString}
+                                        handle={props => {
+                                            return (
+                                                <Tooltip prefixCls='rc-slider-tooltip' overlay={props.value} visible={true} placement='top' key={props.index}>
+                                                    <Handle {...props} />
+                                                </Tooltip>
+                                            )
+                                        }}
+                                    />
+                                </div>
                             </div>
                             <div className='product-filter price'>
                                 <h4>Prijs</h4>
-                                <Range
-                                    min={0}
-                                    max={3370}
-                                    defaultValue={[0, 3370]}
-                                    value={this.state.Price}
-                                    onChange={p => this.setState({ Price: p })}
-                                    onAfterChange={this.createQueryString}
-                                    handle={props => {
-                                        return (
-                                            <Tooltip prefixCls='rc-slider-tooltip' overlay={props.value} visible={true} placement='top' key={props.index}>
-                                                <Handle {...props} />
-                                            </Tooltip>
-                                        )
-                                    }}
-                                />
+                                <div className='slider-wrapper'>
+                                    <Range
+                                        min={0}
+                                        max={3370}
+                                        defaultValue={[0, 3370]}
+                                        value={this.state.Price}
+                                        onChange={p => this.setState({ Price: p })}
+                                        onAfterChange={this.createQueryString}
+                                        handle={props => {
+                                            return (
+                                                <Tooltip prefixCls='rc-slider-tooltip' overlay={props.value} visible={true} placement='top' key={props.index}>
+                                                    <Handle {...props} />
+                                                </Tooltip>
+                                            )
+                                        }}
+                                    />
+                                </div>
                             </div>
                             <div className='product-filter brand'>
                                 <h4>Merk</h4>
                                 <AddBrandComponent endpoint='brand' getId={brand => brand.id} getName={brand => brand.name} placeholder='Selecteer Merk' default={this.state.brandname} onChange={(brands: Country[]) => this.handleChangeWithoutEvent('countryname')(brands)} multiple={true} />
                             </div>
                             <div className='product-filter country'>
-                                    <h4>Land van herkomst</h4>
+                                <h4>Land van herkomst</h4>
                                 <AddCountryComponent endpoint='country' getId={country => country.id} getName={country => country.name} placeholder='Selecteer land' default={this.state.countryname} onChange={(countries: Country[]) => this.handleChangeWithoutEvent('countryname')(countries)} multiple={true} />
                             </div>
                             <div className='product-filter reset'>
