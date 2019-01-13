@@ -11,6 +11,7 @@ import { PaginationComponent } from './PaginationComponent'
 import { ReactCookieProps, withCookies } from 'react-cookie'
 import { addToCart } from '../helpers'
 import FilterComponent from './Filtercomponent';
+import { Select } from '@material-ui/core';
 type ProductOverviewProps = ReactCookieProps & {
 }
 type ProductOverviewState = WithGetState<ProductResponse> & {
@@ -22,7 +23,7 @@ type ProductOverviewState = WithGetState<ProductResponse> & {
 class ProductOverviewComponent extends React.Component<
   ProductOverviewProps,
   ProductOverviewState
-> {
+  > {
 
   constructor(props: ProductOverviewProps) {
     super(props)
@@ -39,7 +40,7 @@ class ProductOverviewComponent extends React.Component<
 
   getData() {
     Axios.get(`http://localhost:5000/api/product/?${this.state.query}index=${this.state.page}&size=${
-        this.state.perPage}`
+      this.state.perPage}`
     )
       .then((value: AxiosResponse<ProductResponse>) => {
         this.setState({
@@ -56,11 +57,10 @@ class ProductOverviewComponent extends React.Component<
         })
       })
   }
-  getString(e: string){
+  getString(e: string) {
     this.setState({
       query: e
     }, this.getData)
-    console.log(e + "ProductOverview");
   }
   componentDidMount() {
     this.getData()
@@ -70,29 +70,42 @@ class ProductOverviewComponent extends React.Component<
       case 'loaded':
         switch (this.state.data.type) {
           case 'none':
-            return <section><FilterComponent getQueryString={this.getString}/> </section>
+            return <>Er zijn geen producten gevonden.</>
           case 'some':
             return (
-              <section><FilterComponent getQueryString={this.getString}/>
-              <section className='product-overview'>
-                {this.state.data.value.items.map((value: Product) => {
-                  return (
-                    <ProductComponent
-                      product={value}
-                      key={value.id}
-                      onAdd={addToCart(this.props.cookies)}
+              <section className='product-overview container-fluid'>
+                <div className='product-overview-inner row'>
+                  <div className='filter col-3'><FilterComponent getQueryString={this.getString} /></div>
+                  <div className='products-wrapper col-9'>
+                    <PaginationComponent
+                      totalPages={this.state.data.value.totalPages}
+                      route='product'
+                      currentPage={this.state.page}
+                      onClick={(page: number) => {
+                        this.setState({ ...this.state, page: page }, this.getData)
+                      }}
                     />
-                  )
-                })}
-                <PaginationComponent
-                  totalPages={this.state.data.value.totalPages}
-                  route='product'
-                  currentPage={this.state.page}
-                  onClick={(page: number) => {
-                    this.setState({ ...this.state, page: page }, this.getData)
-                  }}
-                />
-              </section>
+                    <div className='products row'>
+                      {this.state.data.value.items.map((value: Product) => {
+                        return (
+                          <ProductComponent
+                            product={value}
+                            key={value.id}
+                            onAdd={addToCart(this.props.cookies)}
+                          />
+                        )
+                      })}
+                    </div>
+                    <PaginationComponent
+                      totalPages={this.state.data.value.totalPages}
+                      route='product'
+                      currentPage={this.state.page}
+                      onClick={(page: number) => {
+                        this.setState({ ...this.state, page: page }, this.getData)
+                      }}
+                    />
+                  </div>
+                </div>
               </section>
             )
         }

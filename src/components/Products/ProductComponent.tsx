@@ -1,7 +1,9 @@
 import * as React from 'react'
 import { Product } from '../../model'
 import { Link } from 'react-router-dom'
-import  WishListButtonComponent  from '../WishListButtonComponent'
+import WishListButtonComponent from '../WishListButtonComponent'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
   product: Product
@@ -10,26 +12,51 @@ type Props = {
 
 export const ProductComponent: React.SFC<Props> = (props: Props) => {
   return (
-    <div className="product-container" key={props.product.id}>
-      <Link
-        to={{ pathname: `/product/${props.product.id}`, state: props.product }}
-      >
-        <h1 className="product-name">{props.product.name}</h1>
-        <img src={props.product.url} />
-        <p className="product-price">€{props.product.price.toFixed(2)}</p>
-        <p className="product-volume">{props.product.volume}</p>
-        <p className="product-alcoholpercentage">
-          {props.product.alcoholpercentage}%
-        </p>
-      </Link>
-      <button
-        className="product-button"
-        onClick={() => props.onAdd([props.product.id])}
-      >
-        Toevoegen
-      </button>
-      <WishListButtonComponent product={props.product}
-      />
-    </div>
+    <article className="product col-4" key={props.product.id}>
+      <header className='product-image-wrapper'>
+        <img src={props.product.url} className='product-image' />
+      </header>
+      <main className='product-info-wrapper'>
+        <h4>
+          <Link
+            to={{ pathname: `/product/${props.product.id}`, state: props.product }}
+          >
+            {props.product.name}
+          </Link>
+        </h4>
+        <div className='product-info row'>
+          <p className='product-info-item volume col'>
+            <Link
+              to={{ pathname: `/product/${props.product.id}`, state: props.product }}
+            >
+              {props.product.volume}
+            </Link>
+          </p>
+          <p className='product-info-item alcoholpercentage col'>
+            <Link
+              to={{ pathname: `/product/${props.product.id}`, state: props.product }}
+            >
+              {props.product.alcoholpercentage}%
+            </Link>
+          </p>
+          <p className='product-info-item price col'>
+            <Link
+              to={{ pathname: `/product/${props.product.id}`, state: props.product }}
+            >
+              € {props.product.price}
+            </Link>
+          </p>
+          <div className='product-info-item add-to-cart col'>
+            <button
+              className="btn btn-sm btn-square btn-outline-white"
+              onClick={() => props.onAdd([props.product.id])}
+            >
+              <FontAwesomeIcon icon={faShoppingCart} />
+            </button>
+          </div>
+          <div className='product-info-item wishlist col'><WishListButtonComponent product={props.product} /></div>
+        </div>
+      </main>
+    </article>
   )
 }
