@@ -67,7 +67,18 @@ export default class SearchOverviewComponent extends React.Component<Props,State
           return <Loader />
           case 'some':
             return (
-              <section className='product-overview'>
+              <section className='product-overview container-fluid'>
+              <section className='product-overview-inner row'>
+              <div className="products-wrapper col-9">
+              <PaginationComponent
+                  totalPages={this.state.data.value.totalPages}
+                  route='product'
+                  currentPage={this.state.page}
+                  onClick={(page: number) => {
+                    this.setState({ ...this.state, page: page }, this.getData)
+                  }}
+                />
+              <div className='products row'>
                 {this.state.data.value.items.map((value: Product) => {
                   return (
                     <ProductComponent
@@ -77,6 +88,7 @@ export default class SearchOverviewComponent extends React.Component<Props,State
                     />
                   )
                 })}
+                </div>
                 <PaginationComponent
                   totalPages={this.state.data.value.totalPages}
                   route='product'
@@ -85,6 +97,8 @@ export default class SearchOverviewComponent extends React.Component<Props,State
                     this.setState({ ...this.state, page: page }, this.getData)
                   }}
                 />
+                </div>
+              </section>
               </section>
             )
         }
