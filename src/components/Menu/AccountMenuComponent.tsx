@@ -9,7 +9,7 @@ type Props = {}
 
 export const AccountMenuComponent: React.SFC<Props> = (props: Props) => {
   const loggedInUser = getLoggedInuser()
-  const name = `${loggedInUser.firstName} ${loggedInUser.prefix && ` ${loggedInUser.prefix} `}${loggedInUser.lastName}`
+  const name = `${loggedInUser.firstName} ${(loggedInUser.prefix != null) ? ` ${loggedInUser.prefix} ` : " "}${loggedInUser.lastName}`
   return (
     <div className='account-menu-wrapper'>
       <MenuComponent classes='account-menu' menuClasses='flex-column'>

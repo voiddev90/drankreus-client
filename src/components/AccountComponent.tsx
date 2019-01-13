@@ -1,12 +1,14 @@
 import * as React from 'react'
-import { AxiosResponse, AxiosError } from 'axios'
+import Axios, { AxiosResponse, AxiosError } from 'axios'
 import {
   isLoggedIn,
   getLoggedInuser,
   logOut,
   ObjectToArrayExtra,
   deduceInputType,
-  handleFieldChange
+  handleFieldChange,
+  getTokenType,
+  getJWT
 } from '../helpers'
 import { Redirect } from 'react-router'
 import {
@@ -111,7 +113,12 @@ export default class AccountComponent extends React.Component<Props, State> {
       })
     }
   }
-
+  changeDetails = (data: User) => (event:any) => {
+    event.preventDefault();
+    const user: User = data;
+    Axios.put(`http://localhost:5000/api/users/${user.id}`,user,{headers: {Authorization: `${getTokenType()} ${getJWT()}`}})
+    console.log(user);
+  }
   render() {
     document.title = 'DrankReus - Account'
     switch (this.state.type) {
@@ -187,7 +194,7 @@ export default class AccountComponent extends React.Component<Props, State> {
                         <input type='text' placeholder='Plaatsnaam' value={this.state.data.value.area} onChange={e => this.handleFieldChange('area')(e.target.value)} />
                       </p>
                       <p className='form-field submit right-align'>
-                        <button type='submit' className='btn btn-sm btn-primary'>Gegevens wijzigen</button>
+                        <button type='submit' className='btn btn-sm btn-primary' onClick={this.changeDetails(this.state.data.value)}>Gegevens wijzigen</button>
                       </p>
                     </form>
                   </div>
