@@ -11,7 +11,8 @@ import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Slider, {Range} from 'rc-slider';
+import Slider, { Range, Handle } from 'rc-slider';
+import Tooltip from 'rc-tooltip';
 //import '!style-loader!css-loader!rc-slider/assets/index.css'; 
 //import '!style-loader!css-loader!../../../src/assets/css/rcslider.css';
 //import 'src/assets/css/rcslider.css';
@@ -35,8 +36,8 @@ export default class FilterComponent extends React.Component<Props, State> {
         super(props)
 
         this.state = {
-            AlchoholPercentage: [0,100],
-            Price: [0,3370],
+            AlchoholPercentage: [0, 100],
+            Price: [0, 3370],
             FilterString: '',
             brandname: [],
             countryname: [],
@@ -74,7 +75,7 @@ export default class FilterComponent extends React.Component<Props, State> {
         string = string + `Ascending=${this.state.ascending}&`;
         console.log(string);
         this.props.getQueryString(string);
-        
+
     }
     componentDidMount() {
         Axios.get('http://localhost:5000/api/Brand')
@@ -124,101 +125,95 @@ export default class FilterComponent extends React.Component<Props, State> {
         if (this.state.brand.type === "loaded" && this.state.country.type === "loaded") {
             if (this.state.brand.data.type === 'some' && this.state.country.data.type === 'some') {
                 return (
-                    <section className="product-filter">
+                    <div className="product-filter">
                         <div>
-                            <h1>Alcoholpercentage (%)</h1>
-                            {this.state.AlchoholPercentage[0]} Min
+                            <h4>Alcoholpercentage</h4>
                             <Range
-                             min={0}
-                             max={100}
-                             defaultValue={[0,100]}
-                             value={this.state.AlchoholPercentage}
-                             onChange={p => this.setState({AlchoholPercentage: p})}
-                             onAfterChange={this.createQueryString}
+                                min={0}
+                                max={100}
+                                defaultValue={[0, 100]}
+                                value={this.state.AlchoholPercentage}
+                                onChange={p => this.setState({ AlchoholPercentage: p })}
+                                onAfterChange={this.createQueryString}
+                                handle={props => {
+                                    return (
+                                        <Tooltip prefixCls='rc-slider-tooltip' overlay={props.value} visible={true} placement='top' key={props.index}>
+                                            <Handle {...props} />
+                                        </Tooltip>
+                                    )
+                                }}
                             />
-                            {this.state.AlchoholPercentage[1]} Max
-                           <h1>Prijs (€)</h1>
-                            {this.state.Price[0]} Min
+                            <h4>Prijs</h4>
                             <Range
-                             min={0}
-                             max={3370}
-                             defaultValue={[0,3370]}
-                             value={this.state.Price}
-                             onChange={p => this.setState({Price: p})}
-                             onAfterChange={this.createQueryString}
+                                min={0}
+                                max={3370}
+                                defaultValue={[0, 3370]}
+                                value={this.state.Price}
+                                onChange={p => this.setState({ Price: p })}
+                                onAfterChange={this.createQueryString}
+                                handle={props => {
+                                    return (
+                                        <Tooltip prefixCls='rc-slider-tooltip' overlay={props.value} visible={true} placement='top' key={props.index}>
+                                            <Handle {...props} />
+                                        </Tooltip>
+                                    )
+                                }}
                             />
-                            {this.state.Price[1]} Max
                         </div>
-                        <section>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={this.state.ascending}
-                                        onChange={this.handleChange('ascending')}
-                                        value="checkedA"
-                                        color="secondary"
-                                    />}
-                                label={(this.state.ascending) ? "Laag naar Hoog" : "Hoog naar Laag" } />
-                            <button onClick={e => this.setState({
-                                AlchoholPercentage: [0,100],
-                                Price: [0,3370],
-                                FilterString: '',
-                                brandname: [],
-                                countryname: [],
-                                ascending: false
-                            }, this.createQueryString)
-                            }>Reset</button>
-                        </section>
-                        
-                        <section className="brand-filter">
-                            <FormControl className="brand-multi-select-form">
-                                <InputLabel htmlFor="select-multiple-brand">Merk</InputLabel>
-                                <Select
-                                    multiple
-                                    value={this.state.brandname}
-                                    onChange={this.changeData('brandname')}
-                                    input={<Input id="select-multiple-brand" />}
-                                    renderValue={(selected: any) => (
-                                        <div className="selected-brands">
-                                            {selected.map((value: any) => (
-                                                <Chip key={JSON.parse(value).id} label={JSON.parse(value).name} />
-                                            ))}
-                                        </div>
-                                    )}
-                                >
-                                    {this.state.brand.data.value.map(tag => (
-                                        <MenuItem key={tag.id} value={JSON.stringify(tag)}>
-                                            {tag.name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </section>
-                        <section className="country-filter">
-                            <FormControl className="country-multi-select-form">
-                                <InputLabel htmlFor="select-multiple-country">Land</InputLabel>
-                                <Select
-                                    multiple
-                                    value={this.state.countryname}
-                                    onChange={this.changeData('countryname')}
-                                    input={<Input id="select-multiple-country" />}
-                                    renderValue={(selected: any) => (
-                                        <div className="selected-countries">
-                                            {selected.map((value: any) => (
-                                                <Chip key={JSON.parse(value).id} label={JSON.parse(value).name} />
-                                            ))}
-                                        </div>
-                                    )}
-                                >
-                                    {this.state.country.data.value.map(tag => (
-                                        <MenuItem key={tag.id} value={JSON.stringify(tag)}>
-                                            {tag.name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </section>
-                    </section>
+                        <FormControl className="brand-multi-select-form">
+                            <InputLabel htmlFor="select-multiple-brand">Merk</InputLabel>
+                            <Select
+                                multiple
+                                value={this.state.brandname}
+                                onChange={this.changeData('brandname')}
+                                input={<Input id="select-multiple-brand" />}
+                                renderValue={(selected: any) => (
+                                    <div className="selected-brands">
+                                        {selected.map((value: any) => (
+                                            <Chip key={JSON.parse(value).id} label={JSON.parse(value).name} />
+                                        ))}
+                                    </div>
+                                )}
+                            >
+                                {this.state.brand.data.value.map(tag => (
+                                    <MenuItem key={tag.id} value={JSON.stringify(tag)}>
+                                        {tag.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl className="country-multi-select-form">
+                            <InputLabel htmlFor="select-multiple-country">Land</InputLabel>
+                            <Select
+                                multiple
+                                value={this.state.countryname}
+                                onChange={this.changeData('countryname')}
+                                input={<Input id="select-multiple-country" />}
+                                renderValue={(selected: any) => (
+                                    <div className="selected-countries">
+                                        {selected.map((value: any) => (
+                                            <Chip key={JSON.parse(value).id} label={JSON.parse(value).name} />
+                                        ))}
+                                    </div>
+                                )}
+                            >
+                                {this.state.country.data.value.map(tag => (
+                                    <MenuItem key={tag.id} value={JSON.stringify(tag)}>
+                                        {tag.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <button onClick={e => this.setState({
+                            AlchoholPercentage: [0, 100],
+                            Price: [0, 3370],
+                            FilterString: '',
+                            brandname: [],
+                            countryname: [],
+                            ascending: false
+                        }, this.createQueryString)
+                        }>Reset</button>
+                    </div>
 
                 )
             }
