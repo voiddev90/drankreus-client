@@ -13,7 +13,7 @@ import { addToCart } from '../helpers'
 import FilterComponent from './Filtercomponent';
 import { Select } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronCircleUp,faChevronCircleDown} from '@fortawesome/free-solid-svg-icons'
+import { faChevronCircleUp, faChevronCircleDown, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 type ProductOverviewProps = ReactCookieProps & {
 }
 type ProductOverviewState = WithGetState<ProductResponse> & {
@@ -71,14 +71,14 @@ class ProductOverviewComponent extends React.Component<
   componentDidMount() {
     this.getData()
   }
-  handleChange = (event:any) =>{
-    this.setState({...this.state, perPage: event.target.value},this.getData)
+  handleChange = (event: any) => {
+    this.setState({ ...this.state, perPage: event.target.value }, this.getData)
   }
   toggleSort = () => {
-    this.setState({...this.state, ascending: !this.state.ascending},this.getData)
+    this.setState({ ...this.state, ascending: !this.state.ascending }, this.getData)
   }
   toggleType = () => {
-    this.setState({...this.state, filtertype: !this.state.filtertype}, this.getData)
+    this.setState({ ...this.state, filtertype: !this.state.filtertype }, this.getData)
   }
   render() {
     switch (this.state.type) {
@@ -92,17 +92,24 @@ class ProductOverviewComponent extends React.Component<
                 <div className='product-overview-inner row'>
                   <div className='filter col-3'><FilterComponent getQueryString={this.getString} /></div>
                   <div className='products-wrapper col-9'>
-                  <div className="sort-bar">
-                  <select name="perPage" value={this.state.perPage} onChange={this.handleChange}>
-                  <option value={20}>20</option>
-                  <option value={40}>40</option>
-                  <option value={60}>60</option>
-                  </select> Producten per pagina
-                  
-                  {this.state.ascending ? <div onClick={this.toggleSort}>Sorteer <FontAwesomeIcon icon={faChevronCircleUp}/></div>: <div onClick={this.toggleSort}>Sorteer <FontAwesomeIcon icon={faChevronCircleDown}/></div> }
-                  {this.state.filtertype ? <div onClick={this.toggleType}><u>Prijs</u> AlcoholPercentage</div> : <div onClick={this.toggleType}>Prijs <u>AlcoholPercentage</u></div>}
+                    <div className="sort-bar row">
+                      <div className='per-page-wrapper col'>
+                        <p className='per-page'><select name="perPage" className='per-page-select' value={this.state.perPage} onChange={this.handleChange}>
+                          <option value={20}>20</option>
+                          <option value={40}>40</option>
+                          <option value={60}>60</option>
+                        </select> per pagina</p>
+                      </div>
 
-                  </div>
+                      <div className='sort-wrapper col'>
+                        <div className='sort sort-item'>
+                          {this.state.ascending ? <p onClick={this.toggleSort}>Sorteer <FontAwesomeIcon icon={faChevronUp} /></p> : <p onClick={this.toggleSort}>Sorteer <FontAwesomeIcon icon={faChevronDown} /></p>}
+                        </div>
+                        <div className='sort-entity sort-item'>
+                          {this.state.filtertype ? <p onClick={this.toggleType}><u>Prijs</u> AlcoholPercentage</p> : <p onClick={this.toggleType}>Prijs <u>AlcoholPercentage</u></p>}
+                        </div>
+                      </div>
+                    </div>
                     <PaginationComponent
                       totalPages={this.state.data.value.totalPages}
                       route='product'

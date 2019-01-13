@@ -127,6 +127,17 @@ svg.fa-lg {
   vertical-align: middle;
 }
 
+select {
+  width: 100px;
+  background-color: #ffffff;
+  border: 2px solid #989898;
+  border-radius: 2px;
+  padding: 8px;
+  -moz-appearance: none;
+  -ms-progress-appearance: none;
+  -webkit-appearance: none;
+}
+
 /*
 * - Generic components
 * -- Grid
@@ -856,6 +867,26 @@ table th {
   background-color: #222222;
   border-color: #FFFFFF;
   border-width: 2px;
+}
+
+.product-overview .sort-bar {
+  background-color: #ffd28a;
+  padding: 16px;
+}
+
+.product-overview .sort-bar p {
+  font-family: omnes-pro, sans-serif;
+  margin-bottom: 0;
+}
+
+.product-overview .sort-bar .sort-wrapper {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.product-overview .sort-bar .sort-wrapper .sort-item {
+  margin-right: 16px;
 }
 
 /*
