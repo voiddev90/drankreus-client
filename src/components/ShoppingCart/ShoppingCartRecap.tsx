@@ -4,10 +4,11 @@ import {
   CartResponse,
   ShoppingCart,
   Product,
-  Option
+  Option,
+  getAuthorizedAxiosInstance
 } from '../../model'
 import Axios, { AxiosResponse, AxiosError } from 'axios'
-import { distinct } from '../../helpers'
+import { distinct, isLoggedIn } from '../../helpers'
 import { withCookies, ReactCookieProps } from 'react-cookie'
 
 type Props = ReactCookieProps
@@ -40,8 +41,10 @@ class ShoppingCartRecap extends React.Component<Props, State> {
           amount: shoppingCart.filter(product => product == productId).length
         }
       })
-
-      Axios.post('http://localhost:5000/api/cart', requestBody)
+      if(isLoggedIn())
+      {
+        console.log("IK BEN INGELOGD!")
+        getAuthorizedAxiosInstance().post('http://localhost:5000/api/cart', requestBody)
         .then((response: AxiosResponse<CartResponse>) => {
           console.log(response.data)
           this.setState({ type: 'loaded', data: Option(response.data) })
@@ -49,6 +52,18 @@ class ShoppingCartRecap extends React.Component<Props, State> {
         .catch((error: AxiosError) =>
           this.setState({ type: 'error', reason: error.response.status })
         )
+      }
+      else
+      {
+        Axios.post('http://localhost:5000/api/cart', requestBody)
+        .then((response: AxiosResponse<CartResponse>) => {
+          console.log(response.data)
+          this.setState({ type: 'loaded', data: Option(response.data) })
+        })
+        .catch((error: AxiosError) =>
+          this.setState({ type: 'error', reason: error.response.status })
+        )
+      }
     }
   }
 
@@ -62,7 +77,7 @@ class ShoppingCartRecap extends React.Component<Props, State> {
       <div className='recap'>
         <table>
           <tr>
-            <th>BTW (21 %)</th>
+            <th>Incl. BTW (21 %)</th>
             <td>{this.state.type == 'loading' ? (
               <>BTW ophalen..</>
             ) : (
@@ -77,7 +92,7 @@ class ShoppingCartRecap extends React.Component<Props, State> {
           </tr>
           <tr>
             <th>Korting</th>
-            <td>{this.state.type == 'loading' ? <>Korting aan het ophalen..</> : this.state.type == 'error' ? <>Fout bij het ophalen van de korting</> : this.state.data.type == 'some' ? <>€ {this.state.data.value.discountAmount}</> : <>Geen korting</>}</td>
+            <td>{this.state.type == 'loading' ? <>Korting aan het ophalen..</> : this.state.type == 'error' ? <>Fout bij het ophalen van de korting</> : this.state.data.type == 'some' ? <>€ {this.state.data.value.discountAmount.toFixed(2)}</> : <>Geen korting</>}</td>
           </tr>
           <tr>
             <th>Totaal</th>
