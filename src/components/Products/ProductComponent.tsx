@@ -8,11 +8,12 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 type Props = {
   product: Product
   onAdd: (products: number[]) => void
+  className?: string
 }
 
 export const ProductComponent: React.SFC<Props> = (props: Props) => {
   return (
-    <article className="product col-4" key={props.product.id}>
+    <article className={`product col-4 ${props.className && props.className}`} key={props.product.id}>
       <header className='product-image-wrapper'>
         <img src={props.product.url} className='product-image' />
       </header>

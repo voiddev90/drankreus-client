@@ -987,3 +987,60 @@ table th {
 .order-confirmation .order-confirmation-inner .buttons .btn {
   margin-right: 16px;
 }
+
+/*
+* -- Home
+*/
+.home .description .why-drankreus .reason {
+  padding: 0;
+  border: none;
+  font-family: omnes-pro, sans-serif;
+  font-size: 0.750em;
+  display: flex;
+  align-items: center;
+}
+
+.home .description .why-drankreus .reason .icon {
+  color: #CC4400;
+}
+
+.home .product-overview {
+  align-items: end;
+}
+
+.home .product-overview .product.rank-1 {
+  order: 2;
+}
+
+.home .product-overview .product.rank-2 {
+  order: 1;
+}
+
+.home .product-overview .product.rank-3 {
+  order: 3;
+}
+
+.home .product-overview .product.rank-1::after{
+  content: '1';
+  padding-bottom: 84px;
+}
+
+.home .product-overview .product.rank-2::after{
+  content: '2';
+  padding-bottom: 42px;
+}
+
+.home .product-overview .product.rank-3::after{
+  content: '3';
+}
+
+.home .product-overview .product.rank-1::after,
+.home .product-overview .product.rank-2::after,
+.home .product-overview .product.rank-3::after {
+  display: block;
+  text-align: center;
+  font: 600 8.438em omnes-pro, sans-serif;
+  color: #ffd28a;
+  margin-top: 48px;
+  margin-bottom: 68px;
+}
