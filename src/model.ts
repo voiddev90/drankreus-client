@@ -57,6 +57,8 @@ export class OrderProduct {
 
 export class Order {
   id: number
+  orderStatus: number
+  orderDate: string
   taxpercentage: number
   street: string
   buildingnumber: string
@@ -223,7 +225,10 @@ export type LoginResponse = {
 
 export type WishlistResponse = Product[]
 
-export type OrderResponse = Order[]
+export type OrderResponse = {
+  order: Order
+  orderProduct: OrderProduct[]
+}
 
 export type ProductResponse = Page<Product>
 

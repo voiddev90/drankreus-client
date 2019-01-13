@@ -3,15 +3,17 @@ import Axios, { AxiosResponse, AxiosError } from 'axios'
 import { Order, Option, WithGetState, OrderResponse, getAuthorizedAxiosInstance } from '../model'
 import { render } from 'react-dom'
 import { OrderHistoryDetailComponent } from './OrderHistoryDetailComponent'
+import { SideBar } from './UI/SideBar';
+import { AccountMenuComponent } from './Menu/AccountMenuComponent';
 
 type Props = {
 }
-type OrderHistoryState = WithGetState<Order>
+type OrderHistoryState = WithGetState<OrderResponse[]>
 
 export default class OrderHistoryComponent extends React.Component<
   Props,
   OrderHistoryState
-> {
+  > {
   constructor(props: Props) {
     super(props)
 
@@ -24,7 +26,8 @@ export default class OrderHistoryComponent extends React.Component<
 
   GetOrders() {
     getAuthorizedAxiosInstance().get(`http://localhost:5000/api/orders`)
-      .then((value: AxiosResponse<OrderResponse>) => {
+      .then((value: AxiosResponse<OrderResponse[]>) => {
+        console.log(value)
         this.setState({
           ...this.state,
           type: 'loaded',
@@ -54,20 +57,34 @@ export default class OrderHistoryComponent extends React.Component<
             return <>We hebben geen orders van je kunnen vinden.</>
           case 'some':
             return (
-              <section>
-                <h3>Bestelgeschiedenis</h3>
-                <p>Hieronder is een lijst te zien met jouw orders met daarin de producten die je in het verleden via onze webshop hebt besteld.</p>
-                 <div>
-                 {this.state.data.value.map((value: any) => {
-                   console.log(value)
-                    return (
-                      <OrderHistoryDetailComponent
-                        order={value}
-                        key={value.id}
-                        orderProduct={value.orderProduct}                       
-                      />
-                    )
-                  })}
+              <section className='history container-fluid'>
+                <div className='history-inner row align-center-vh'>
+                  <div className='history-items-wrapper col-5'>
+                    <h3>Bestellingsgeschiedenis</h3>
+                    <div className='history-items-table-wrapper'>
+                      <table className='history-items-table'>
+                        <thead>
+                          <tr>
+                            <th className='product' colSpan={5}>Product</th>
+                            <th className='price'>Prijs</th>
+                            <th className='amount'>Aantal</th>
+                          </tr>
+                        </thead>
+                        {this.state.data.value.map((value: OrderResponse) => {
+                          return (
+                            <OrderHistoryDetailComponent
+                              order={value.order}
+                              key={value.order.id}
+                              orderProduct={value.orderProduct}
+                            />
+                          )
+                        })}
+                      </table>
+                    </div>
+                  </div>
+                  <SideBar type='blank' size={3} extraClasses={['height', 'account-side-menu-wrapper']}>
+                    <AccountMenuComponent />
+                  </SideBar>
                 </div>
               </section>
             )
