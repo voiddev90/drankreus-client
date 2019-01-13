@@ -11,7 +11,7 @@ type Props = {
 
 
 export const OrderHistoryDetailComponent: React.SFC<Props> = (props: Props) => {
-  const orderdate: Date = new Date(parseInt(props.order.orderDate))
+  const orderdate: Date = new Date((props.order.orderDate))
   console.log(props.order.orderDate)
   console.log(orderdate)
   return (
