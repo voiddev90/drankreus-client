@@ -242,6 +242,7 @@ export default class AdminProductAddComponent extends React.Component<
                                     }}
                                     placeholder='Selecteer brand'
                                     default={product.brandEntity}
+                                    multiple={false}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -254,6 +255,7 @@ export default class AdminProductAddComponent extends React.Component<
                                     }}
                                     placeholder='Selecteer land'
                                     default={product.countryEntity}
+                                    multiple={false}
                                 />
                             </Grid>
                             <Grid item xs={12} container spacing={24}>

@@ -11,14 +11,24 @@ import { AxiosResponse } from 'axios'
 import Select from 'react-select'
 import { ActionMeta, InputActionMeta } from 'react-select/lib/types'
 
-type Props<T> = {
+type Props<T> =
+| {
+  onChange: (item: T) => void
+  multiple: false
   endpoint: Endpoint
   getId: (item: T) => number
   getName: (item: T) => string
-  onChange: (item: T) => void
   placeholder: string
-  multiple?: boolean
   default: T
+}
+| {
+  onChange: (item: T[]) => void
+  multiple: true
+  endpoint: Endpoint
+  getId: (item: T) => number
+  getName: (item: T) => string
+  placeholder: string
+  default: T[]
 }
 
 type State<T> = WithGetState<T> & {
@@ -86,8 +96,15 @@ export default class AddCategoryComponent<T> extends React.Component<
                 isClearable
                 options={options}
                 getOptionLabel={option => this.props.getName(option)}
+                getOptionValue={option => this.props.getName(option)}
                 value={this.props.default}
-                onChange={value => this.props.onChange(value as T)}
+                onChange={value => {
+                  if (this.props.multiple) {
+                    this.props.onChange(value as T[])
+                  } else if (this.props.multiple == false) {
+                    this.props.onChange(value as T)
+                  }
+                }}
                 isMulti={this.props.multiple}
                 placeholder={this.props.placeholder}
               />

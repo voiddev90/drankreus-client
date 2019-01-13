@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ReactDOM from 'react-dom';
 import { handleFieldChange } from '../helpers'
-import { WithGetState, Tag, Option } from '../model';
+import { WithGetState, Tag, Option, Country, Brand } from '../model';
 import Axios, { AxiosResponse, AxiosError } from 'axios'
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -13,6 +13,7 @@ import Chip from '@material-ui/core/Chip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Slider, { Range, Handle } from 'rc-slider';
 import Tooltip from 'rc-tooltip';
+import { AddCountryComponent, AddBrandComponent } from './Admin/Productpanel/AddCategoryComponent';
 //import '!style-loader!css-loader!rc-slider/assets/index.css'; 
 //import '!style-loader!css-loader!../../../src/assets/css/rcslider.css';
 //import 'src/assets/css/rcslider.css';
@@ -23,8 +24,8 @@ type Props = {
 type State = {
     AlchoholPercentage: number[],
     Price: number[],
-    brandname: string[],
-    countryname: string[],
+    brandname: Brand[],
+    countryname: Country[],
     brand: WithGetState<Tag[]>
     country: WithGetState<Tag[]>
     ascending: boolean
@@ -54,7 +55,7 @@ export default class FilterComponent extends React.Component<Props, State> {
         this.handleFieldChange = handleFieldChange.bind(this)
     }
 
-    changeData = (data: any) => (event: any) => {
+    changeData = (data: keyof State) => (event: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({ ...this.state, [data]: event.target.value }, this.createQueryString);
     }
     createQueryString() {
@@ -63,17 +64,14 @@ export default class FilterComponent extends React.Component<Props, State> {
         let brand = this.state.brandname;
         let country = this.state.countryname;
         brand.forEach(i => {
-            let temp = JSON.parse(i)
-            string = string + "Brand=" + temp.id + "&"
+            string = string + "Brand=" + i.id + "&"
         });
         country.forEach(i => {
-            let temp = JSON.parse(i)
-            string = string + "Country=" + temp.id + "&"
+            string = string + "Country=" + i.id + "&"
         });
         string = string + `Price=${this.state.Price[0]}&Price=${this.state.Price[1]}&`;
         string = string + `Percentage=${this.state.AlchoholPercentage[0]}&Percentage=${this.state.AlchoholPercentage[1]}&`;
         string = string + `Ascending=${this.state.ascending}&`;
-        console.log(string);
         this.props.getQueryString(string);
 
     }
@@ -121,100 +119,72 @@ export default class FilterComponent extends React.Component<Props, State> {
     handleChangeWithoutCallback = (checked: any) => (event: any) => {
         this.setState({ ...this.state, [checked]: event.target.value });
     }
+    handleChangeWithoutEvent = (field: keyof State) => (value: any) => {
+        this.setState({ ...this.state, [field]: value }, this.createQueryString)
+    }
     render() {
         if (this.state.brand.type === "loaded" && this.state.country.type === "loaded") {
             if (this.state.brand.data.type === 'some' && this.state.country.data.type === 'some') {
                 return (
-                    <div className="product-filter">
-                        <div>
-                            <h4>Alcoholpercentage</h4>
-                            <Range
-                                min={0}
-                                max={100}
-                                defaultValue={[0, 100]}
-                                value={this.state.AlchoholPercentage}
-                                onChange={p => this.setState({ AlchoholPercentage: p })}
-                                onAfterChange={this.createQueryString}
-                                handle={props => {
-                                    return (
-                                        <Tooltip prefixCls='rc-slider-tooltip' overlay={props.value} visible={true} placement='top' key={props.index}>
-                                            <Handle {...props} />
-                                        </Tooltip>
-                                    )
-                                }}
-                            />
-                            <h4>Prijs</h4>
-                            <Range
-                                min={0}
-                                max={3370}
-                                defaultValue={[0, 3370]}
-                                value={this.state.Price}
-                                onChange={p => this.setState({ Price: p })}
-                                onAfterChange={this.createQueryString}
-                                handle={props => {
-                                    return (
-                                        <Tooltip prefixCls='rc-slider-tooltip' overlay={props.value} visible={true} placement='top' key={props.index}>
-                                            <Handle {...props} />
-                                        </Tooltip>
-                                    )
-                                }}
-                            />
+                    <div className="product-filters">
+                        <div className='product-filters-inner'>
+                            <div className='product-filter alcoholpercentage'>
+                                <h4>Alcoholpercentage</h4>
+                                <Range
+                                    min={0}
+                                    max={100}
+                                    defaultValue={[0, 100]}
+                                    value={this.state.AlchoholPercentage}
+                                    onChange={p => this.setState({ AlchoholPercentage: p })}
+                                    onAfterChange={this.createQueryString}
+                                    handle={props => {
+                                        return (
+                                            <Tooltip prefixCls='rc-slider-tooltip' overlay={props.value} visible={true} placement='top' key={props.index}>
+                                                <Handle {...props} />
+                                            </Tooltip>
+                                        )
+                                    }}
+                                />
+                            </div>
+                            <div className='product-filter price'>
+                                <h4>Prijs</h4>
+                                <Range
+                                    min={0}
+                                    max={3370}
+                                    defaultValue={[0, 3370]}
+                                    value={this.state.Price}
+                                    onChange={p => this.setState({ Price: p })}
+                                    onAfterChange={this.createQueryString}
+                                    handle={props => {
+                                        return (
+                                            <Tooltip prefixCls='rc-slider-tooltip' overlay={props.value} visible={true} placement='top' key={props.index}>
+                                                <Handle {...props} />
+                                            </Tooltip>
+                                        )
+                                    }}
+                                />
+                            </div>
+                            <div className='product-filter brand'>
+                                <h4>Merk</h4>
+                                <AddBrandComponent endpoint='brand' getId={brand => brand.id} getName={brand => brand.name} placeholder='Selecteer Merk' default={this.state.brandname} onChange={(brands: Country[]) => this.handleChangeWithoutEvent('countryname')(brands)} multiple={true} />
+                            </div>
+                            <div className='product-filter country'>
+                                    <h4>Land van herkomst</h4>
+                                <AddCountryComponent endpoint='country' getId={country => country.id} getName={country => country.name} placeholder='Selecteer land' default={this.state.countryname} onChange={(countries: Country[]) => this.handleChangeWithoutEvent('countryname')(countries)} multiple={true} />
+                            </div>
+                            <div className='product-filter reset'>
+                                <button onClick={e => this.setState({
+                                    AlchoholPercentage: [0, 100],
+                                    Price: [0, 3370],
+                                    FilterString: '',
+                                    brandname: [],
+                                    countryname: [],
+                                    ascending: false
+                                }, this.createQueryString)
+                                }>Reset</button>
+                            </div>
                         </div>
-                        <FormControl className="brand-multi-select-form">
-                            <InputLabel htmlFor="select-multiple-brand">Merk</InputLabel>
-                            <Select
-                                multiple
-                                value={this.state.brandname}
-                                onChange={this.changeData('brandname')}
-                                input={<Input id="select-multiple-brand" />}
-                                renderValue={(selected: any) => (
-                                    <div className="selected-brands">
-                                        {selected.map((value: any) => (
-                                            <Chip key={JSON.parse(value).id} label={JSON.parse(value).name} />
-                                        ))}
-                                    </div>
-                                )}
-                            >
-                                {this.state.brand.data.value.map(tag => (
-                                    <MenuItem key={tag.id} value={JSON.stringify(tag)}>
-                                        {tag.name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        <FormControl className="country-multi-select-form">
-                            <InputLabel htmlFor="select-multiple-country">Land</InputLabel>
-                            <Select
-                                multiple
-                                value={this.state.countryname}
-                                onChange={this.changeData('countryname')}
-                                input={<Input id="select-multiple-country" />}
-                                renderValue={(selected: any) => (
-                                    <div className="selected-countries">
-                                        {selected.map((value: any) => (
-                                            <Chip key={JSON.parse(value).id} label={JSON.parse(value).name} />
-                                        ))}
-                                    </div>
-                                )}
-                            >
-                                {this.state.country.data.value.map(tag => (
-                                    <MenuItem key={tag.id} value={JSON.stringify(tag)}>
-                                        {tag.name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        <button onClick={e => this.setState({
-                            AlchoholPercentage: [0, 100],
-                            Price: [0, 3370],
-                            FilterString: '',
-                            brandname: [],
-                            countryname: [],
-                            ascending: false
-                        }, this.createQueryString)
-                        }>Reset</button>
                     </div>
-
                 )
             }
         }
