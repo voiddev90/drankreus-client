@@ -12,12 +12,16 @@ import { ReactCookieProps, withCookies } from 'react-cookie'
 import { addToCart } from '../helpers'
 import FilterComponent from './Filtercomponent';
 import { Select } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronCircleUp,faChevronCircleDown} from '@fortawesome/free-solid-svg-icons'
 type ProductOverviewProps = ReactCookieProps & {
 }
 type ProductOverviewState = WithGetState<ProductResponse> & {
   perPage: number
   page: number
-  query: string
+  query: string,
+  ascending: boolean,
+  filtertype: boolean
 }
 
 class ProductOverviewComponent extends React.Component<
@@ -32,14 +36,16 @@ class ProductOverviewComponent extends React.Component<
       type: 'loading',
       perPage: 20,
       page: 0,
-      query: ''
+      query: '',
+      ascending: true,
+      filtertype: false
     }
     this.getData = this.getData.bind(this)
     this.getString = this.getString.bind(this)
   }
 
   getData() {
-    Axios.get(`http://localhost:5000/api/product/?${this.state.query}index=${this.state.page}&size=${
+    Axios.get(`http://localhost:5000/api/product/?${this.state.query}Ascending=${this.state.ascending}&FilterType=${this.state.filtertype}&index=${this.state.page}&size=${
       this.state.perPage}`
     )
       .then((value: AxiosResponse<ProductResponse>) => {
@@ -65,6 +71,15 @@ class ProductOverviewComponent extends React.Component<
   componentDidMount() {
     this.getData()
   }
+  handleChange = (event:any) =>{
+    this.setState({...this.state, perPage: event.target.value},this.getData)
+  }
+  toggleSort = () => {
+    this.setState({...this.state, ascending: !this.state.ascending},this.getData)
+  }
+  toggleType = () => {
+    this.setState({...this.state, filtertype: !this.state.filtertype}, this.getData)
+  }
   render() {
     switch (this.state.type) {
       case 'loaded':
@@ -77,6 +92,17 @@ class ProductOverviewComponent extends React.Component<
                 <div className='product-overview-inner row'>
                   <div className='filter col-3'><FilterComponent getQueryString={this.getString} /></div>
                   <div className='products-wrapper col-9'>
+                  <div className="sort-bar">
+                  <select name="perPage" value={this.state.perPage} onChange={this.handleChange}>
+                  <option value={20}>20</option>
+                  <option value={40}>40</option>
+                  <option value={60}>60</option>
+                  </select> Producten per pagina
+                  
+                  {this.state.ascending ? <div onClick={this.toggleSort}>Sorteer <FontAwesomeIcon icon={faChevronCircleUp}/></div>: <div onClick={this.toggleSort}>Sorteer <FontAwesomeIcon icon={faChevronCircleDown}/></div> }
+                  {this.state.filtertype ? <div onClick={this.toggleType}><u>Prijs</u> AlcoholPercentage</div> : <div onClick={this.toggleType}>Prijs <u>AlcoholPercentage</u></div>}
+
+                  </div>
                     <PaginationComponent
                       totalPages={this.state.data.value.totalPages}
                       route='product'

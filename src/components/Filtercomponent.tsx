@@ -28,7 +28,6 @@ type State = {
     countryname: Country[],
     brand: WithGetState<Tag[]>
     country: WithGetState<Tag[]>
-    ascending: boolean
     FilterString: string
 }
 export default class FilterComponent extends React.Component<Props, State> {
@@ -42,7 +41,6 @@ export default class FilterComponent extends React.Component<Props, State> {
             FilterString: '',
             brandname: [],
             countryname: [],
-            ascending: false,
             brand: {
                 type: 'loading'
             },
@@ -71,7 +69,6 @@ export default class FilterComponent extends React.Component<Props, State> {
         });
         string = string + `Price=${this.state.Price[0]}&Price=${this.state.Price[1]}&`;
         string = string + `Percentage=${this.state.AlchoholPercentage[0]}&Percentage=${this.state.AlchoholPercentage[1]}&`;
-        string = string + `Ascending=${this.state.ascending}&`;
         this.props.getQueryString(string);
 
     }
@@ -183,7 +180,6 @@ export default class FilterComponent extends React.Component<Props, State> {
                                     FilterString: '',
                                     brandname: [],
                                     countryname: [],
-                                    ascending: false
                                 }, this.createQueryString)
                                 } className='btn btn-sm btn-outline-primary'>Reset</button>
                             </div>
