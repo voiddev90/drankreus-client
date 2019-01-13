@@ -185,7 +185,7 @@ export default class FilterComponent extends React.Component<Props, State> {
                                     countryname: [],
                                     ascending: false
                                 }, this.createQueryString)
-                                }>Reset</button>
+                                } className='btn btn-sm btn-outline-primary'>Reset</button>
                             </div>
                         </div>
                     </div>
