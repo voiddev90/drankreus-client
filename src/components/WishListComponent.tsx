@@ -100,4 +100,4 @@ class WishListComponent extends React.Component<
   }
 }
 
-export default withCookies(WishListComponent)
+export default withCookies((WishListComponent) as any)
