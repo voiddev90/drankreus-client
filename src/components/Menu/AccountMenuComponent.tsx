@@ -15,7 +15,8 @@ export const AccountMenuComponent: React.SFC<Props> = (props: Props) => {
       <MenuComponent classes='account-menu' menuClasses='flex-column'>
         <MenuItemComponent to='/profile'><FontAwesomeIcon icon={faUserCircle} size='3x' className='first' />{name}</MenuItemComponent>
         <MenuItemComponent to='/account/history'>Bestelgeschiedenis</MenuItemComponent>
-        <MenuItemComponent to='/account/favourites'>Favorieten</MenuItemComponent>
+        <MenuItemComponent to='/account/favourites'>Mijn wenslijst</MenuItemComponent>
+        <MenuItemComponent to='/account/points'>Mijn punten</MenuItemComponent>
         {loggedInUserIsAdmin() && (
           <MenuItemComponent to='/admin'>Administratie</MenuItemComponent>
         )}
