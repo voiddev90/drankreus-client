@@ -761,47 +761,6 @@ table th {
 * - Product overview
 */
 
-.content .product-overview {
-  display: grid;
-  grid-template-columns: auto auto auto;
-  grid-gap: 30px;
-  max-width: 1465px;
-  margin: 0 auto;
-}
-
-.content .product-overview .product-container {
-  text-align: center;
-  padding: 0 5vw;
-  border: 1px solid;
-  /* margin: 0 50px;
-  margin-top: 10px;
-  margin-bottom: 10px; */
-}
-
-.content .product-overview .product-container .product-button {
-  background-color: red;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  padding: 15px 32px;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  -webkit-transition-duration: 0.2s;
-  transition-duration: 0.2s;
-  width: 250px;
-  text-align: center;
-}
-
-.content .product-overview .product-container .product-button:hover {
-  background-color: #ff7070;
-}
-
-.content .product-overview .product-container .product-price {
-  font-size: 20px;
-}
 
 /*
 * - Account
