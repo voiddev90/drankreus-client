@@ -51,7 +51,7 @@ export default class PointsComponent extends React.Component<Props, PointsState>
     }
 
     render() {
-        document.title = "Drankreus - Pagina niet gevonden"
+        document.title = "Drankreus - Jouw punten"
         switch (this.state.type) {
             case 'loading':
                 return <>Jouw bonuspunten worden opgehaald</>
