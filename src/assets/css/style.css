@@ -1044,3 +1044,35 @@ table th {
   margin-top: 48px;
   margin-bottom: 68px;
 }
+
+/*
+* -- Order history
+*/
+.history .history-inner .history-items-table thead,
+.history .history-inner .history-items-table tbody {
+  padding: 16px;
+}
+
+.history .history-inner .history-items-table tbody.order-history-item {
+  background-color: #FFCCB3;
+  border-bottom: 16px solid #FFFFFF;
+  border-radius: 4px;
+}
+
+.history .history-inner .history-items-table {
+  border-collapse: collapse;
+}
+
+.history .history-inner .history-items-table tbody.order-history-item .shopping-cart-item .image img {
+  width: 100%;
+}
+
+.history .history-inner .history-items-table tbody.order-history-item td,
+
+.history .history-inner .history-items-table tbody.order-history-item th ,
+
+.history .history-inner .history-items-table thead td ,
+
+.history .history-inner .history-items-table thead th {
+  padding: 16px;
+}
