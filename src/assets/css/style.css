@@ -842,15 +842,14 @@ table th {
 }
 
 .order-recap .order-recap-inner .recap-table .shopping-cart-item .amount {
-  text-align: right;
+  text-align: center;
 }
 
 .order-recap .order-recap-inner .recap {
   margin-bottom: 32px;
 }
 
-.order-recap .order-recap-inner .recap td,
-.order-recap .order-recap-inner .confirmation .info p {
+.order-recap .order-recap-inner .recap td {
   text-align: right;
 }
 
@@ -865,5 +864,71 @@ table th {
 }
 
 .order-recap .order-recap-inner .save input {
+  margin-right: 16px;
+}
+
+.order .order-inner .sidebar .order-sidebar-list {
+  position: relative;
+}
+
+.order .order-inner .sidebar .order-sidebar-list::before {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 4px;
+  background-color: #CC4400;
+  left: 38px;
+}
+
+.order .order-inner .sidebar .order-sidebar-list .order-sidebar-list-item {
+  background-color: transparent;
+  margin: 0;
+  border: none;
+  color: #CC4400;
+  margin-bottom: 112px;
+  padding: 0;
+}
+
+.order .order-inner .sidebar .order-sidebar-list .order-sidebar-list-item:last-of-type {
+  margin-bottom: 0;
+}
+
+.order .order-inner .sidebar .order-sidebar-list .order-sidebar-list-item h3 {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.order .order-inner .sidebar .order-sidebar-list .order-sidebar-list-item .number {
+  display: block;
+  margin-right: 32px;
+  border: 4px solid #CC4400;
+  border-radius: 50px;
+  width: 80px;
+  min-width: 80px;
+  height: 80px;
+  text-align: center;
+  font-size: 1.214em;
+  background-color: #ffd28a;
+}
+
+.order .order-inner .sidebar .order-sidebar-list .order-sidebar-list-item .number::before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+.order .order-inner .sidebar .order-sidebar-list .order-sidebar-list-item.current .number {
+  color: #FFFFFF;
+  background-color: #CC4400;
+}
+
+.order .order-inner .sidebar .order-sidebar-list .order-sidebar-list-item.current h3 {
+  font-weight: 600;
+}
+
+.order-confirmation .order-confirmation-inner .buttons .btn {
   margin-right: 16px;
 }

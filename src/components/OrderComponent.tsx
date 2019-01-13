@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { ReactCookieProps, withCookies } from 'react-cookie';
 import { Shipment, User, WithPostState, ShoppingCart, getAuthorizedAxiosInstance, CartResponse, ProductResponse, Product } from '../model';
 import { isLoggedIn, getLoggedInuser, clearShoppingCart, distinct } from '../helpers'
@@ -11,6 +11,8 @@ import { faChevronRight, faUser, faTruck, faCar, faMoneyBillAlt, faChevronLeft }
 import { CheckboxRadioElement } from './UI/CheckboxRadioElement';
 import { faPaypal } from '@fortawesome/free-brands-svg-icons'
 import ShoppingCartRecap from './ShoppingCart/ShoppingCartRecap';
+import { MenuComponent } from './Menu/MenuComponent';
+import MenuItemComponent from './Menu/MenuItemComponent';
 
 type State = Shipment &
   WithPostState & {
@@ -163,6 +165,7 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
   render() {
     const shoppingCart: number[] = this.props.cookies.get('shopping-cart')
     switch (this.state.step) {
+      default:
       case 0:
         return (
           <section className='order order-shipment-details container-fluid'>
@@ -210,7 +213,20 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
                 </form>
               </div>
               <SideBar type='blank' size={3}>
-                Bla
+                <ul className='list-group order-sidebar-list'>
+                  <li className='list-group-item order-sidebar-list-item current'>
+                    <h3><span className='number'>1</span>Adresgegevens</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>2</span>Verzend- en betaalmethodes</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>3</span>Overzicht</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>4</span>Bevestiging</h3>
+                  </li>
+                </ul>
               </SideBar>
             </div>
           </section>
@@ -219,7 +235,7 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
         return (
           <section className='order order-payment-shipment-options container-fluid'>
             <div className='order-inner order-shipment-details-inner row align-center-vh'>
-              <div className="payment-shopment-options-forms col-4">
+              <div className="payment-shopment-options-forms col-5">
                 <h2 className='h1'>Verzendmethode</h2>
                 {this.state.type == 'error' &&
                   this.state.error && <small>{this.state.error}</small>}
@@ -260,7 +276,20 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
                 </div>
               </div>
               <SideBar type='blank' size={3}>
-                Bla
+                <ul className='list-group order-sidebar-list'>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>1</span>Adresgegevens</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item current'>
+                    <h3><span className='number'>2</span>Verzend- en betaalmethodes</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>3</span>Overzicht</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>4</span>Bevestiging</h3>
+                  </li>
+                </ul>
               </SideBar>
             </div>
           </section>)
@@ -268,7 +297,7 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
         return (
           <section className='order order-recap container-fluid'>
             <div className='order-inner order-recap-inner row align-center-vh'>
-              <div className="confirmation col-4">
+              <div className="confirmation col-5">
                 <h2 className='h1'>Overzicht</h2>
                 {this.state.type == 'error' &&
                   this.state.error && <small>{this.state.error}</small>}
@@ -286,7 +315,7 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
                   <tr>
                     <th className='product' colSpan={5}>Product</th>
                     <th className='price'>Prijs</th>
-                    <th className='amount' colSpan={2}>Aantal</th>
+                    <th className='amount'>Aantal</th>
                   </tr>
                   {this.state.cartData.items
                     .filter(
@@ -322,15 +351,54 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
                 </div>
               </div>
               <SideBar type='blank' size={3}>
-                Bla
+                <ul className='list-group order-sidebar-list'>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>1</span>Adresgegevens</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>2</span>Verzend- en betaalmethodes</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item current'>
+                    <h3><span className='number'>3</span>Overzicht</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>4</span>Bevestiging</h3>
+                  </li>
+                </ul>
               </SideBar>
             </div>
           </section>
         )
       case 3:
-        return <Redirect to={{ pathname: '/' }} />
-      default:
-        return <></>
+        return (
+          <section className='order order-confirmation container-fluid'>
+            <div className='order-inner order-confirmation-inner row align-center-vh'>
+              <div className="ordered col-5">
+                <h2 className='h1'>Begrepen, wij gaan voor u aan het werk!</h2>
+                <p className='buttons'>
+                  <Link to='/account/history' className='btn btn-sm btn-outline-primary'>Naar bestellingen</Link>
+                  <Link to='/' className='btn btn-sm btn-primary'>Naar voorpagina</Link>
+                </p>
+              </div>
+              <SideBar type='blank' size={3}>
+                <ul className='list-group order-sidebar-list'>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>1</span>Adresgegevens</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>2</span>Verzend- en betaalmethodes</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>3</span>Overzicht</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item current'>
+                    <h3><span className='number'>4</span>Bevestiging</h3>
+                  </li>
+                </ul>
+              </SideBar>
+            </div>
+          </section>
+        )
     }
   }
 }
