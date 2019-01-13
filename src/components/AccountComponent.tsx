@@ -19,6 +19,7 @@ import {
 } from '../model'
 import { AccountMenuComponent } from './Menu/AccountMenuComponent';
 import { SideBar } from './UI/SideBar';
+import { Loader } from './Loader';
 
 type Props = {}
 type State = WithPutState<User> & {
@@ -115,7 +116,7 @@ export default class AccountComponent extends React.Component<Props, State> {
     document.title = 'DrankReus - Account'
     switch (this.state.type) {
       case 'loading':
-        return <>Account ophalen...</>
+        return <Loader />
       case 'error':
         switch (this.state.error.reason) {
           case 401:

@@ -15,6 +15,7 @@ import {
 import ShoppingCartRecap from './ShoppingCart/ShoppingCartRecap'
 import { Link } from 'react-router-dom';
 import { SideBar } from './UI/SideBar';
+import { Loader } from './Loader';
 
 type State = WithGetState<ProductResponse> & {
   notes: string
@@ -77,7 +78,7 @@ class ShoppingCartComponent extends React.Component<ReactCookieProps, State> {
           <div className='cart-items col-8'>
             <h1 className='page-title'>Winkelmand</h1>
             {this.state.type == 'loading' ? (
-              <>Loading</>
+              <Loader />
             ) : this.state.type == 'error' ? (
               <>Error</>
             ) : !shoppingCart ||

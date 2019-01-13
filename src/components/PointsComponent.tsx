@@ -13,6 +13,7 @@ import {
 } from '../model'
 import { SideBar } from './UI/SideBar';
 import { AccountMenuComponent } from './Menu/AccountMenuComponent';
+import { Loader } from './Loader';
 
 type Props = {}
 type PointsState = WithGetState<User>
@@ -54,7 +55,7 @@ export default class PointsComponent extends React.Component<Props, PointsState>
         document.title = "Drankreus - Jouw punten"
         switch (this.state.type) {
             case 'loading':
-                return <>Jouw bonuspunten worden opgehaald</>
+                return <Loader />
             case 'error':
                 return <>Er ging iets fout</>
             case 'loaded':
