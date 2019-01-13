@@ -59,7 +59,7 @@ export class ProductDetailComponent extends React.Component<Props, State> {
               <h1 className='product-title'>{product.name}</h1>
               <h4 className='product-subtitle product-volume'>{product.volume}</h4>
               <div className='product-cart-wrapper'>
-                <h3 className='product-price item'>€ {product.price}</h3>
+                <h3 className='product-price item'>€ {product.price.toFixed(2)}</h3>
                 <div className='amount-form-wrapper item'>
                   <form className='amount-form'>
                     <input className='amount' type='number' value={this.state.amountToAdd} onChange={(e) => {

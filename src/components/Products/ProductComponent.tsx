@@ -44,7 +44,7 @@ export const ProductComponent: React.SFC<Props> = (props: Props) => {
             <Link
               to={{ pathname: `/product/${props.product.id}`, state: props.product }}
             >
-              € {props.product.price}
+              € {props.product.price.toFixed(2)}
             </Link>
           </p>
           <div className='product-info-item add-to-cart col'>
