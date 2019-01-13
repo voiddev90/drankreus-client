@@ -1122,3 +1122,11 @@ table th {
 .loader .loader-inner {
   text-align: center;
 }
+
+/*
+* - Contact
+*/
+.contact .contact-info .info {
+  font-family: omnes-pro, sans-serif;
+  margin: 0;
+}

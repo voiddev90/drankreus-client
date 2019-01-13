@@ -14,7 +14,7 @@ export const MainMenuComponent: React.SFC<Props> = (props: Props) => {
       <MenuComponent classes='main-menu'>
         <MenuItemComponent to='/' onClick={() => props.closeSubMenu()}>Home</MenuItemComponent>
         <MenuItemComponent to='/products' onClick={() => props.closeSubMenu()}>Producten</MenuItemComponent>
-        <MenuItemComponent to='/' onClick={() => props.closeSubMenu()}>Contact</MenuItemComponent>
+        <MenuItemComponent to='/contact' onClick={() => props.closeSubMenu()}>Contact</MenuItemComponent>
       </MenuComponent>
     </div>
   )
