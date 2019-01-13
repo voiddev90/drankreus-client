@@ -13,6 +13,7 @@ import { ReactCookieProps, withCookies } from 'react-cookie';
 import { addToCart } from '../helpers';
 import { SideBar } from './UI/SideBar';
 import { AccountMenuComponent } from './Menu/AccountMenuComponent';
+import { Loader } from './Loader';
 
 type WishListOverviewState = WithGetState<WishlistResponse> & {
   perPage: number
@@ -63,7 +64,7 @@ class WishListComponent extends React.Component<
     document.title = 'Drankreus - Wishlist'
     switch (this.state.type) {
       case 'loading':
-        return <>favorietentlijst wordt geladen </>
+        return <Loader />
       case 'error':
         return <>Er ging iets fout</>
       case 'loaded':

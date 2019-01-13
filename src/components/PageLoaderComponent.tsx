@@ -4,6 +4,7 @@ import LoginComponent from './LoginComponent'
 import NotFoundComponent from './NotFoundComponent'
 import { isLoggedIn } from '../helpers'
 import RegisterComponent from './RegisterComponent'
+import { Contact } from './Contact'
 import AccountComponent from './AccountComponent'
 import ShoppingCartComponent from './ShoppingCartComponent'
 import ProductOverviewComponent from './ProductOverviewComponent';
@@ -22,6 +23,8 @@ export const PageLoaderComponent: React.SFC<Props> = (props: Props) => {
       ) : (
         <LoginComponent />
       )
+    case 'contact':
+      return <Contact />
     case 'register':
       return isLoggedIn() ? (
         <Redirect to={{ pathname: '/' }} />
