@@ -10,6 +10,7 @@ type Props = Product & {
   onChange?: (product: number, products: number[]) => void
   deleteAllItemsOfProduct?: (product: number) => void
   allowEdits?: boolean
+  checkout?: boolean
 }
 
 type State = {
@@ -36,7 +37,7 @@ export class ShoppingCartItemComponent extends React.Component<Props, State> {
         <td className='name' colSpan={4}>{props.name}</td>
         <td className='price'>€{props.price}</td>
         <td className='amount'>
-          <form className='amount-form'>
+          {props.checkout ? props.amount : <form className='amount-form'>
             <input type='number' onChange={(e) => {
               if (parseInt(e.target.value) != 0) {
                 const newProducts: number[] = fillArray(parseInt(e.target.value))(props.id)
@@ -45,9 +46,9 @@ export class ShoppingCartItemComponent extends React.Component<Props, State> {
                 props.deleteAllItemsOfProduct && props.deleteAllItemsOfProduct(props.id)
               }
             }} value={props.amount} />
-          </form>
+          </form>}
         </td>
-        <td className='delete'><button type='button' className='btn btn-link' onClick={() => props.onDel(props.id)}><FontAwesomeIcon icon={faTrash} /></button></td>
+        {!props.checkout && <td className='delete'><button type='button' className='btn btn-link' onClick={() => props.onDel(props.id)}><FontAwesomeIcon icon={faTrash} /></button></td>}
       </tr>
     )
   }

@@ -1,11 +1,18 @@
 import * as React from 'react'
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { ReactCookieProps, withCookies } from 'react-cookie';
 import { Shipment, User, WithPostState, ShoppingCart, getAuthorizedAxiosInstance, CartResponse, ProductResponse, Product } from '../model';
 import { isLoggedIn, getLoggedInuser, clearShoppingCart, distinct } from '../helpers'
 import Axios, { AxiosResponse, AxiosError } from 'axios';
 import { ShoppingCartItemComponent } from './ShoppingCart/ShoppingCartItemComponent';
-import OrderCompleteComponent from './OrderCompleteComponent';
+import { SideBar } from './UI/SideBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight, faUser, faTruck, faCar, faMoneyBillAlt, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { CheckboxRadioElement } from './UI/CheckboxRadioElement';
+import { faPaypal } from '@fortawesome/free-brands-svg-icons'
+import ShoppingCartRecap from './ShoppingCart/ShoppingCartRecap';
+import { MenuComponent } from './Menu/MenuComponent';
+import MenuItemComponent from './Menu/MenuItemComponent';
 
 type State = Shipment &
   WithPostState & {
@@ -26,6 +33,7 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
       step: 0,
       email: '',
       firstname: '',
+      prefix: '',
       lastname: '',
       paymentType: '',
       shipmentType: '',
@@ -41,18 +49,17 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
     if (isLoggedIn()) {
 
       const user: User = getLoggedInuser()
-      console.log("hier");
       this.setState({
         ...this.state,
         firstname: user.firstName,
+        prefix: user.prefix ? user.prefix : '',
         lastname: user.lastName,
         email: user.email,
-        street: user.street,
-        buildingNumber: user.buildingNumber,
-        postalCode: user.postalCode,
-        area: user.area
+        street: user.street ? user.street : '',
+        buildingNumber: user.buildingNumber ? user.buildingNumber : '',
+        postalCode: user.postalCode ? user.postalCode : '',
+        area: user.area ? user.area : ''
       })
-      console.log(this.state.street)
     }
     this.recap();
   }
@@ -109,8 +116,35 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
     clearShoppingCart(this.props.cookies);
     this.incr();
   }
+  checkFirstPage() {
+    console.log('checking page 1')
+    if (this.state.firstname != '' && this.state.lastname != '' && this.state.email != '' && this.state.postalCode != '' && this.state.buildingNumber != '' && this.state.street != '' && this.state.area != '') {
+      this.incr()
+    } else {
+      this.setState({
+        ...this.state,
+        type: 'error',
+        error: 'Er zijn verplichte velden leeggelaten.'
+      })
+    }
+  }
+  checkSecondPage() {
+    console.log('checking page 2')
+    if (this.state.paymentType != '' && this.state.shipmentType != '') {
+      this.incr()
+    } else {
+      this.setState({
+        ...this.state,
+        type: 'error',
+        error: 'Er zijn verplichte velden leeggelaten.'
+      })
+    }
+  }
   incr() {
     this.setState({ ...this.state, step: this.state.step + 1 });
+  }
+  decr() {
+    this.setState({ ...this.state, step: this.state.step - 1 });
   }
   recap() {
     const shoppingCart: number[] = this.props.cookies.get('shopping-cart')
@@ -131,86 +165,240 @@ class OrderComponent extends React.Component<ReactCookieProps, State> {
   render() {
     const shoppingCart: number[] = this.props.cookies.get('shopping-cart')
     switch (this.state.step) {
+      default:
       case 0:
         return (
-          <div id="shipment-details">
-            <p>Gegevens</p>
-            <form>
-              {this.state.type == 'error' &&
-                this.state.error && <small>{this.state.error}</small>} <br />
-              <label>Email</label><br />
-              <input name="email" placeholder="Email address" value={this.state.email} onChange={this.handleChange} /><br />
-              <label>Voornaam</label><br />
-              <input name="firstname" placeholder="Voornaam" value={this.state.firstname} onChange={this.handleChange} /><br />
-              <label>Achternaam</label><br />
-              <input name="lastname" placeholder="Achternaam" value={this.state.lastname} onChange={this.handleChange} /><br />
-              <label>Straat</label><br />
-              <input name="street" placeholder="Straat" value={this.state.street} onChange={this.handleChange} /><br />
-              <label>Huisnummer</label><br />
-              <input name="buildingNumber" placeholder="Huisnummer" value={this.state.buildingNumber} onChange={this.handleChange} /><br />
-              <label>Postcode</label><br />
-              <input name="postalCode" placeholder="PostCode" value={this.state.postalCode} onChange={this.handleChange} /><br />
-              <label>Stad</label><br />
-              <input name="area" placeholder="Stad" value={this.state.area} onChange={this.handleChange} /><br />
-              <button onClick={(e) => this.handleOnSubmit(e)}>Submit</button>
-            </form>
-          </div>
+          <section className='order order-shipment-details container-fluid'>
+            <div className='order-inner order-shipment-details-inner row align-center-vh'>
+              <div className="shipment-details-form col-5">
+                <h2 className='h1'>Adresgegevens</h2>
+                {this.state.type == 'error' &&
+                  this.state.error && <small>{this.state.error}</small>}
+                <form>
+                  {isLoggedIn() ? <>
+                    <p className='logged-in-user-full-name'><FontAwesomeIcon icon={faUser} size='2x' className='first' />{`${this.state.firstname} ${this.state.prefix && `${this.state.prefix} `}${this.state.lastname}`}</p>
+                  </> : <>
+                      <p className='form-field'>
+                        <input name="email" type='text' placeholder="Email address" value={this.state.email} onChange={this.handleChange} />
+                      </p>
+                      <div className='form-field-row row'>
+                        <p className='form-field'>
+                          <input name="firstname" type='text' placeholder="Voornaam" value={this.state.firstname} onChange={this.handleChange} />
+                        </p>
+                        <p className='form-field'>
+                          <input name="prefix" type='text' placeholder="Tussenvoegsel" value={this.state.prefix} onChange={this.handleChange} />
+                        </p>
+                      </div>
+                      <p className='form-field'>
+                        <input name="lastname" type='text' placeholder="Achternaam" value={this.state.lastname} onChange={this.handleChange} />
+                      </p>
+                    </>}
+                  <div className='form-field-row row'>
+                    <p className='form-field col-8'>
+                      <input name="postalCode" type='text' placeholder="Postcode" value={this.state.postalCode} onChange={this.handleChange} />
+                    </p>
+                    <p className='form-field col-4'>
+                      <input name="buildingNumber" type='text' placeholder="Huisnr." value={this.state.buildingNumber} onChange={this.handleChange} />
+                    </p>
+                  </div>
+                  <p className='form-field'>
+                    <input name="street" type='text' placeholder="Straat" value={this.state.street} onChange={this.handleChange} />
+                  </p>
+                  <p className='form-field'>
+                    <input name="area" type='text' placeholder="Stad" value={this.state.area} onChange={this.handleChange} />
+                  </p>
+                  <p className='form-field form-field-submit right-align'>
+                    <button type='button' className='btn btn-sm btn-primary' onClick={(e) => this.checkFirstPage()}>Volgende <FontAwesomeIcon icon={faChevronRight} className='last' /></button>
+                  </p>
+                </form>
+              </div>
+              <SideBar type='blank' size={3}>
+                <ul className='list-group order-sidebar-list'>
+                  <li className='list-group-item order-sidebar-list-item current'>
+                    <h3><span className='number'>1</span>Adresgegevens</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>2</span>Verzend- en betaalmethodes</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>3</span>Overzicht</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>4</span>Bevestiging</h3>
+                  </li>
+                </ul>
+              </SideBar>
+            </div>
+          </section>
         )
       case 1:
         return (
-          <div id="payment-options">
-            <p>Betaal en bezorg-opties</p>
-            bezorgen<input type="radio" name="shipmentType" value="bezorgen" onChange={this.handleChange} /><br />
-            ophalen<input type="radio" name="shipmentType" value="ophalen" onChange={this.handleChange} /><br />
-            contant<input type="radio" name="paymentType" value="contant" onChange={this.handleChange} /><br />
-            paypal<input type="radio" name="paymentType" value="paypal" onChange={this.handleChange} /><br />
-            <button onClick={() => this.incr()}>Submit</button>
-          </div>)
+          <section className='order order-payment-shipment-options container-fluid'>
+            <div className='order-inner order-shipment-details-inner row align-center-vh'>
+              <div className="payment-shopment-options-forms col-5">
+                <h2 className='h1'>Verzendmethode</h2>
+                {this.state.type == 'error' &&
+                  this.state.error && <small>{this.state.error}</small>}
+                <form>
+                  <div className='row'>
+                    <p className='form-field col-6'>
+                      <CheckboxRadioElement type='radio' id='shipmentType1' name='shipmentType' value='Bezorgen' onChange={this.handleChange}>
+                        <FontAwesomeIcon icon={faTruck} className='first' />Bezorgen
+                      </CheckboxRadioElement>
+                    </p>
+                    <p className='form-field col-6'>
+                      <CheckboxRadioElement type='radio' id='shipmentType2' name='shipmentType' value='Ophalen' onChange={this.handleChange}>
+                        <FontAwesomeIcon icon={faCar} className='first' />Ophalen
+                      </CheckboxRadioElement>
+                    </p>
+                  </div>
+                </form>
+                <h2 className='h1'>Betaalmethode</h2>
+                <form>
+                  <div className='row'>
+                    <p className='form-field col'>
+                      <CheckboxRadioElement type='radio' id='paymentType1' value='Contant' name='paymentType' onChange={this.handleChange}>
+                        <FontAwesomeIcon icon={faMoneyBillAlt} className='first' />Contant
+                      </CheckboxRadioElement>
+                    </p>
+                    <p className='form-field col'>
+                      <CheckboxRadioElement type='radio' id='paymentType2' value='PayPal' name='paymentType' onChange={this.handleChange}>
+                        <FontAwesomeIcon icon={faPaypal} className='first' />Paypal
+                      </CheckboxRadioElement>
+                    </p>
+                  </div>
+                </form>
+                <div className='row'>
+                  <p className='form-field form-field-submit col-6'><button type='button' onClick={() => this.decr()} className='btn btn-sm btn-primary'>
+                    <FontAwesomeIcon icon={faChevronLeft} className='first' />Vorige
+                  </button></p>
+                  <p className='form-field form-field-submit right-align col-6'><button type='button' onClick={() => this.checkSecondPage()} className='btn btn-sm btn-primary'>Volgende<FontAwesomeIcon icon={faChevronRight} className='last' /></button></p>
+                </div>
+              </div>
+              <SideBar type='blank' size={3}>
+                <ul className='list-group order-sidebar-list'>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>1</span>Adresgegevens</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item current'>
+                    <h3><span className='number'>2</span>Verzend- en betaalmethodes</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>3</span>Overzicht</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>4</span>Bevestiging</h3>
+                  </li>
+                </ul>
+              </SideBar>
+            </div>
+          </section>)
       case 2:
         return (
-          <div>
-            <div id="confirmation">
-              {this.state.cartData.items
-                .filter(
-                  (product: Product) => shoppingCart.indexOf(product.id) != -1
-                )
-                .map((product: Product) => (
-                  <ShoppingCartItemComponent
-                    {...product}
-                    key={product.id}
-                    amount={
-                      shoppingCart.filter(value => value == product.id).length
-                    }
-                    allowEdits={false}
-                  />
-                ))}
-              <p>Bevestiging</p>
-              Uw informatie <br />
-              <label>Naam: {`${this.state.firstname} ${this.state.lastname}`}</label><br />
-              <label>Straat: {this.state.street}</label> <br />
-              <label>Huisnummer: {this.state.buildingNumber}</label> <br />
-              <label>PostCode: {this.state.postalCode}</label> <br />
-              <label>Stad: {this.state.area}</label> <br />
-              Betaalmethode: <br />
-              <label>{this.state.paymentType}</label> <br />
-              BezorgMethode: <br />
-              <label>{this.state.shipmentType}</label> <br />
-              {isLoggedIn() ?
-                <label>Gegevens opslaan<input type="checkbox" checked={this.state.saveUserDetails}
-                  onChange={() => this.setState({ ...this.state, saveUserDetails: !this.state.saveUserDetails })} /></label>
-                : ""
-              }
-              <button onClick={() => this.processing()}>Betalen</button>
-              <button onClick={() => this.setState({ ...this.state, step: 0 })}>Veranderen</button>
+          <section className='order order-recap container-fluid'>
+            <div className='order-inner order-recap-inner row align-center-vh'>
+              <div className="confirmation col-5">
+                <h2 className='h1'>Overzicht</h2>
+                {this.state.type == 'error' &&
+                  this.state.error && <small>{this.state.error}</small>}
+                <div className='personal-info row'>
+                  <div className='col-4'>
+                    <FontAwesomeIcon icon={faUser} size='3x' />
+                  </div>
+                  <div className='info col-8'>
+                    <p className='name'>{`${this.state.firstname} ${this.state.prefix && `${this.state.prefix} `}${this.state.lastname}`}</p>
+                    <p className='address'>{`${this.state.street} ${this.state.buildingNumber}`}</p>
+                    <p className='postal-code-city'>{`${this.state.postalCode} ${this.state.area}`}</p>
+                  </div>
+                </div>
+                <table className='recap-table'>
+                  <tr>
+                    <th className='product' colSpan={5}>Product</th>
+                    <th className='price'>Prijs</th>
+                    <th className='amount'>Aantal</th>
+                  </tr>
+                  {this.state.cartData.items
+                    .filter(
+                      (product: Product) => shoppingCart.indexOf(product.id) != -1
+                    )
+                    .map((product: Product) => (
+                      <ShoppingCartItemComponent
+                        {...product}
+                        key={product.id}
+                        amount={
+                          shoppingCart.filter(value => value == product.id).length
+                        }
+                        allowEdits={false}
+                        checkout={true}
+                      />
+                    ))}
+                </table>
+                <ShoppingCartRecap {...this.props} />
+                <h4>Betaalmethode</h4>
+                <p className='payment-type'>{this.state.paymentType == 'Contant' ? <FontAwesomeIcon icon={faMoneyBillAlt} className='first' /> : <FontAwesomeIcon icon={faPaypal} className='first' />}<span>{this.state.paymentType}</span></p>
+                <h4>Verzendmethode</h4>
+                <p className='shipment-type'>{this.state.shipmentType == 'Bezorgen' ? <FontAwesomeIcon icon={faTruck} className='first' /> : <FontAwesomeIcon icon={faCar} className='first' />}<span>{this.state.shipmentType}</span></p>
+                {isLoggedIn() ?
+                  <p className='form-field save'><label><input type="checkbox" checked={this.state.saveUserDetails}
+                    onChange={() => this.setState({ ...this.state, saveUserDetails: !this.state.saveUserDetails })} />Gegevens opslaan</label></p>
+                  : ""
+                }
+                <div className='row'>
+                  <p className='form-field form-field-submit col-6'><button type='button' onClick={() => this.processing()} className='btn btn-sm btn-primary'>
+                    <FontAwesomeIcon icon={faChevronLeft} className='first' />Vorige
+                  </button></p>
+                  <p className='form-field form-field-submit right-align col-6'><button type='button' onClick={() => this.processing()} className='btn btn-sm btn-primary'>Betalen</button></p>
+                </div>
+              </div>
+              <SideBar type='blank' size={3}>
+                <ul className='list-group order-sidebar-list'>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>1</span>Adresgegevens</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>2</span>Verzend- en betaalmethodes</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item current'>
+                    <h3><span className='number'>3</span>Overzicht</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>4</span>Bevestiging</h3>
+                  </li>
+                </ul>
+              </SideBar>
             </div>
-            <p>foto</p>
-          </div>
+          </section>
         )
-        case 3:
-        return <OrderCompleteComponent/>
-        default:
-
-        return <></>
+      case 3:
+        return (
+          <section className='order order-confirmation container-fluid'>
+            <div className='order-inner order-confirmation-inner row align-center-vh'>
+              <div className="ordered col-5">
+                <h2 className='h1'>Begrepen, wij gaan voor u aan het werk!</h2>
+                <p className='buttons'>
+                  <Link to='/account/history' className='btn btn-sm btn-outline-primary'>Naar bestellingen</Link>
+                  <Link to='/' className='btn btn-sm btn-primary'>Naar voorpagina</Link>
+                </p>
+              </div>
+              <SideBar type='blank' size={3}>
+                <ul className='list-group order-sidebar-list'>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>1</span>Adresgegevens</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>2</span>Verzend- en betaalmethodes</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item'>
+                    <h3><span className='number'>3</span>Overzicht</h3>
+                  </li>
+                  <li className='list-group-item order-sidebar-list-item current'>
+                    <h3><span className='number'>4</span>Bevestiging</h3>
+                  </li>
+                </ul>
+              </SideBar>
+            </div>
+          </section>
+        )
     }
   }
 }
